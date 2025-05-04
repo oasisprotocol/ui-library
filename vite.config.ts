@@ -2,10 +2,12 @@ import dts from "vite-plugin-dts";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { defineConfig, UserConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import pkg from './package.json' assert { type: 'json' }
 
 export default defineConfig({
   base: "./",
-  plugins: [tailwindcss(), dts({ rollupTypes: true })],
+  plugins: [tailwindcss(), react(), dts({ rollupTypes: true })],
   build: {
     sourcemap: true,
     lib: {
@@ -13,6 +15,18 @@ export default defineConfig({
       name: "@oasisprotocol/ui-library",
       formats: ["es"],
       fileName: (format) => `index.${format}.js`,
+    },
+    rollupOptions: {
+      external: [
+        ...Object.keys(pkg.dependencies), // don't bundle dependencies
+        /^node:.*/,
+      ],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
     },
   },
   resolve: {
