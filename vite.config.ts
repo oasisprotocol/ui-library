@@ -1,20 +1,20 @@
-import dts from "vite-plugin-dts";
-import tailwindcss from "@tailwindcss/vite";
-import path from "node:path";
-import { defineConfig, UserConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import dts from 'vite-plugin-dts'
+import tailwindcss from '@tailwindcss/vite'
+import path from 'node:path'
+import { defineConfig, UserConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import pkg from './package.json' assert { type: 'json' }
 
 export default defineConfig({
-  base: "./",
+  base: './',
   plugins: [tailwindcss(), react(), dts({ rollupTypes: true })],
   build: {
     sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "@oasisprotocol/ui-library",
-      formats: ["es"],
-      fileName: (format) => `index.${format}.js`,
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: '@oasisprotocol/ui-library',
+      formats: ['es'],
+      fileName: format => `index.${format}.js`,
     },
     rollupOptions: {
       external: [
@@ -23,15 +23,15 @@ export default defineConfig({
       ],
       output: {
         globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
-} satisfies UserConfig);
+} satisfies UserConfig)
