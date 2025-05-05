@@ -7,12 +7,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "prettier-check": "prettier --check . --ignore-path .gitignore",
+    "prettier": "prettier --write . --ignore-path .gitignore"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "prettier": "^3.5.3",
     "shadcn": "2.5.0",
     "typescript": "~5.7.2",
     "vite": "^6.3.1",
