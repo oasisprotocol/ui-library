@@ -27,3 +27,4 @@ dist-ssr
 .eslintcache
 
 *storybook.log
+storybook-static
