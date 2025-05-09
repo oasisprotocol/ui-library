@@ -7,11 +7,14 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-designs',
     '@storybook/addon-themes',
-    '@storybook/addon-docs'
+    '@storybook/addon-docs',
   ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
+  },
+  core: {
+    disableTelemetry: true,
   },
   typescript: {
     reactDocgen: 'react-docgen-typescript',
