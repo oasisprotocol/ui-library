@@ -6,6 +6,12 @@ const meta = {
   title: 'Components/Progress',
   component: Progress,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

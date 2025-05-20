@@ -8,6 +8,11 @@ const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a form input field or a component that looks like an input field.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

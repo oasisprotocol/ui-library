@@ -20,6 +20,12 @@ const meta = {
   title: 'Components/Form',
   component: Form,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'A structured collection of input fields, dropdowns, checkboxes, buttons, and other UI elements designed to collect and submit data from the user. Forms are built using various components within this project, allowing for customized and dynamic user input experiences.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

@@ -13,6 +13,11 @@ const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a list of options for the user to pick from—triggered by a button.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

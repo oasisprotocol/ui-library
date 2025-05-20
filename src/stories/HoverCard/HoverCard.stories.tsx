@@ -5,6 +5,11 @@ const meta = {
   title: 'Components/HoverCard',
   component: HoverCard,
   parameters: {
+    docs: {
+      description: {
+        component: 'For sighted users to preview content available behind a link.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

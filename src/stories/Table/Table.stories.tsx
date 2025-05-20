@@ -15,6 +15,11 @@ const meta: Meta<typeof Table> = {
   title: 'Components/Table',
   component: Table,
   parameters: {
+    docs: {
+      description: {
+        component: 'A responsive table component.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

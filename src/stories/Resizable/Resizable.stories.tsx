@@ -6,6 +6,11 @@ const meta: Meta<typeof ResizablePanelGroup> = {
   title: 'Components/Resizable',
   component: ResizablePanelGroup,
   parameters: {
+    docs: {
+      description: {
+        component: 'Accessible resizable panel groups and layouts with keyboard support.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

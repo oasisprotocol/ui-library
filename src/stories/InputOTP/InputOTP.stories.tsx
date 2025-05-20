@@ -5,6 +5,11 @@ const meta = {
   title: 'Components/InputOTP',
   component: InputOTP,
   parameters: {
+    docs: {
+      description: {
+        component: 'Accessible one-time password component with copy paste functionality.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

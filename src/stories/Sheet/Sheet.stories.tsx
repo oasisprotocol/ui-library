@@ -20,6 +20,12 @@ const meta: Meta<SheetStoryProps> = {
   title: 'Components/Sheet',
   component: Sheet,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Extends the Dialog component to display content that complements the main content of the screen.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

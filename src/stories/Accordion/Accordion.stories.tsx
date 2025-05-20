@@ -6,6 +6,11 @@ const meta = {
   title: 'Components/Accordion',
   component: Accordion,
   parameters: {
+    docs: {
+      description: {
+        component: 'A vertically stacked set of interactive headings that each reveal a section of content.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

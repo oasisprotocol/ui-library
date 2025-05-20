@@ -13,6 +13,11 @@ const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
   component: Carousel,
   parameters: {
+    docs: {
+      description: {
+        component: 'A carousel with motion and swipe built in.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

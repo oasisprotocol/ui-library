@@ -8,6 +8,11 @@ const meta = {
   title: 'Components/Popover',
   component: Popover,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays rich content in a portal, triggered by a button.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

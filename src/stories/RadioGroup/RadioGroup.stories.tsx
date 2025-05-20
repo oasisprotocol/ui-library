@@ -7,6 +7,12 @@ const meta = {
   title: 'Components/RadioGroup',
   component: RadioGroup,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

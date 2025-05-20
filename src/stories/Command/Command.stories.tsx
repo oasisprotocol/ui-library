@@ -15,6 +15,11 @@ const meta = {
   title: 'Components/Command',
   component: Command,
   parameters: {
+    docs: {
+      description: {
+        component: 'Fast, composable, unstyled command menu for React.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

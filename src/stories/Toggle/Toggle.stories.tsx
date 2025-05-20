@@ -7,6 +7,11 @@ const meta: Meta<typeof Toggle> = {
   title: 'Components/Toggle',
   component: Toggle,
   parameters: {
+    docs: {
+      description: {
+        component: 'A two-state button that can be either on or off.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

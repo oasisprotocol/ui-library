@@ -27,6 +27,11 @@ const meta: Meta<SidebarStoryProps> = {
   title: 'Components/Sidebar',
   component: SidebarProvider,
   parameters: {
+    docs: {
+      description: {
+        component: 'A composable, themeable and customizable sidebar component.',
+      },
+    },
     layout: 'fullscreen',
     design: {
       type: 'figma',

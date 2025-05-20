@@ -15,6 +15,11 @@ const meta: Meta<typeof Card> = {
   title: 'Components/Card',
   component: Card,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a card with header, content, and footer.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

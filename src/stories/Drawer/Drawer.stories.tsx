@@ -16,6 +16,11 @@ const meta = {
   title: 'Components/Drawer',
   component: Drawer,
   parameters: {
+    docs: {
+      description: {
+        component: 'A drawer component for React.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

@@ -6,6 +6,12 @@ const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

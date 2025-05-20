@@ -14,6 +14,11 @@ const meta = {
   title: 'Components/Pagination',
   component: Pagination,
   parameters: {
+    docs: {
+      description: {
+        component: 'Pagination with page navigation, next and previous links.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

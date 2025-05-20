@@ -17,6 +17,12 @@ const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
   component: Dialog,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

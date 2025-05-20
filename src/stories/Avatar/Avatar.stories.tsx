@@ -6,6 +6,11 @@ const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
   component: Avatar,
   parameters: {
+    docs: {
+      description: {
+        component: 'An image element with a fallback for representing the user.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

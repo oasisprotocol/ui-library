@@ -7,6 +7,11 @@ const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
   component: Switch,
   parameters: {
+    docs: {
+      description: {
+        component: 'A control that allows the user to toggle between checked and not checked.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

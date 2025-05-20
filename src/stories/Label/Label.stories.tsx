@@ -7,6 +7,11 @@ const meta: Meta<typeof Label> = {
   title: 'Components/Label',
   component: Label,
   parameters: {
+    docs: {
+      description: {
+        component: 'Renders an accessible label associated with controls.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

@@ -22,6 +22,12 @@ const meta: Meta<typeof DropdownMenu> = {
   title: 'Components/DropdownMenu',
   component: DropdownMenu,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Displays a menu to the user — such as a set of actions or functions — triggered by a button.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

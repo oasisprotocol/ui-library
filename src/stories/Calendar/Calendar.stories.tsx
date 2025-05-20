@@ -8,6 +8,11 @@ const meta = {
   title: 'Components/Calendar',
   component: Calendar,
   parameters: {
+    docs: {
+      description: {
+        component: 'A date field component that allows users to enter and edit date.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

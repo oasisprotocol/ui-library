@@ -8,6 +8,11 @@ const meta: Meta<typeof Toaster> = {
   title: 'Components/Toast',
   component: Toaster,
   parameters: {
+    docs: {
+      description: {
+        component: 'An opinionated toast component for React.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

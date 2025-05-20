@@ -7,6 +7,11 @@ const meta = {
   title: 'Components/ToggleGroup',
   component: ToggleGroup,
   parameters: {
+    docs: {
+      description: {
+        component: 'A set of two-state buttons that can be toggled on or off.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

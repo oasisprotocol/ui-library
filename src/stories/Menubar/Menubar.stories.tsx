@@ -14,6 +14,12 @@ const meta: Meta<typeof Menubar> = {
   title: 'Components/Menubar',
   component: Menubar,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

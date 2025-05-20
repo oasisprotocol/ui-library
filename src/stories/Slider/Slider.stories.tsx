@@ -6,6 +6,11 @@ const meta: Meta<typeof Slider> = {
   title: 'Components/Slider',
   component: Slider,
   parameters: {
+    docs: {
+      description: {
+        component: 'An input where the user selects a value from within a given range.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

@@ -16,6 +16,12 @@ const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',
   component: ContextMenu,
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Displays a menu to the user — such as a set of actions or functions — triggered by a button.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

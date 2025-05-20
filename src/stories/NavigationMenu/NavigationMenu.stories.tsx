@@ -11,6 +11,11 @@ const meta = {
   title: 'Components/NavigationMenu',
   component: NavigationMenu,
   parameters: {
+    docs: {
+      description: {
+        component: 'A collection of links for navigating websites.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

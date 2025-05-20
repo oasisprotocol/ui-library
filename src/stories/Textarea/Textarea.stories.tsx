@@ -6,6 +6,11 @@ const meta: Meta<typeof Textarea> = {
   title: 'Components/Textarea',
   component: Textarea,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a form textarea or a component that looks like a textarea.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

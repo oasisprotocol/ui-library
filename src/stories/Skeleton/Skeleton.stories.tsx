@@ -6,6 +6,11 @@ const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
   component: Skeleton,
   parameters: {
+    docs: {
+      description: {
+        component: 'Use to show a placeholder while content is loading.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

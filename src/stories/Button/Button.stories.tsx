@@ -7,6 +7,11 @@ const meta = {
   title: 'Components/Button',
   component: Button,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a button or a component that looks like a button.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

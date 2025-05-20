@@ -6,6 +6,11 @@ const meta = {
   title: 'Components/ScrollArea',
   component: ScrollArea,
   parameters: {
+    docs: {
+      description: {
+        component: 'Augments native scroll functionality for custom, cross-browser styling.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

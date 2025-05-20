@@ -5,6 +5,11 @@ const meta: Meta<typeof AspectRatio> = {
   title: 'Components/AspectRatio',
   component: AspectRatio,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays content within a desired ratio.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',
