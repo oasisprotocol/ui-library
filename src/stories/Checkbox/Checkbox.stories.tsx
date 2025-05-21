@@ -7,6 +7,11 @@ const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
   parameters: {
+    docs: {
+      description: {
+        component: 'A control that allows the user to toggle between checked and not checked.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

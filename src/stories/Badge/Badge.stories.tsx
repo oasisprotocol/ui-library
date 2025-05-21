@@ -7,6 +7,11 @@ const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
   component: Badge,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a badge or a component that looks like a badge.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

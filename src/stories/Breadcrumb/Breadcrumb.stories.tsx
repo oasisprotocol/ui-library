@@ -14,6 +14,11 @@ const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
   component: Breadcrumb,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays the path to the current resource using a hierarchy of links.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

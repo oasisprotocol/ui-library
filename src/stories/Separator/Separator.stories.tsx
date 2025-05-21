@@ -6,6 +6,11 @@ const meta: Meta<typeof Separator> = {
   title: 'Components/Separator',
   component: Separator,
   parameters: {
+    docs: {
+      description: {
+        component: 'Visually or semantically separates content.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

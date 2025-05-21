@@ -7,6 +7,11 @@ const meta: Meta<typeof Alert> = {
   title: 'Components/Alert',
   component: Alert,
   parameters: {
+    docs: {
+      description: {
+        component: 'Displays a callout for user attention.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',

@@ -9,6 +9,11 @@ const meta: Meta<typeof Collapsible> = {
   title: 'Components/Collapsible',
   component: Collapsible,
   parameters: {
+    docs: {
+      description: {
+        component: 'An interactive component which expands/collapses a panel.',
+      },
+    },
     layout: 'centered',
     design: {
       type: 'figma',
