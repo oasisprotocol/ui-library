@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group.tsx'
+import { ToggleGroup, ToggleGroupItem } from '../../components/ui/toggle-group.tsx'
 import { BoldIcon, ItalicIcon, UnderlineIcon } from 'lucide-react'
 import { expect, within } from 'storybook/test'
 

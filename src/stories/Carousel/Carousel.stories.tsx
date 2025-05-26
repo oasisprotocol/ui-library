@@ -5,8 +5,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel.tsx'
-import { Card, CardContent } from '@/components/ui/card.tsx'
+} from '../../components/ui/carousel.tsx'
+import { Card, CardContent } from '../../components/ui/card.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Carousel> = {

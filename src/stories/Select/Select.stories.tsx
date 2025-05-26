@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select.tsx'
+} from '../../components/ui/select.tsx'
 import { expect, within, userEvent } from 'storybook/test'
 
 const meta: Meta<typeof Select> = {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Toaster } from '@/components/ui/sonner.tsx'
-import { Button } from '@/components/ui/button.tsx'
+import { Toaster } from '../../components/ui/sonner.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { toast } from 'sonner'
 import { expect, within, userEvent } from 'storybook/test'
 

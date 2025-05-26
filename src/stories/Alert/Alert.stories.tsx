@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx'
+import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert.tsx'
 import { InfoIcon } from 'lucide-react'
 import { expect, within } from 'storybook/test'
 

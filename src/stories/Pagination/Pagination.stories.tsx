@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from '@/components/ui/pagination.tsx'
+} from '../../components/ui/pagination.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta = {

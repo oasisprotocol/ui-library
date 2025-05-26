@@ -9,8 +9,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog.tsx'
-import { Button } from '@/components/ui/button.tsx'
+} from '../../components/ui/alert-dialog.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { expect, userEvent, within } from 'storybook/test'
 
 const meta: Meta<typeof AlertDialog> = {

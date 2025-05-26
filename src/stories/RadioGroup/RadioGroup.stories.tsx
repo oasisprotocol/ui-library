@@ -1,6 +1,6 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.tsx'
-import { Label } from '@/components/ui/label.tsx'
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group.tsx'
+import { Label } from '../../components/ui/label.tsx'
 import { expect, within, userEvent } from 'storybook/test'
 
 const meta = {
