@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Checkbox } from '@/components/ui/checkbox.tsx'
-import { Label } from '@/components/ui/label.tsx'
+import { Checkbox } from '../../components/ui/checkbox.tsx'
+import { Label } from '../../components/ui/label.tsx'
 import { expect, userEvent, within } from 'storybook/test'
 
 const meta: Meta<typeof Checkbox> = {

@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog.tsx'
-import { Button } from '@/components/ui/button.tsx'
+} from '../../components/ui/dialog.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { expect, userEvent, within } from 'storybook/test'
 import { useState } from 'react'
 

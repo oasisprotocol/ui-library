@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible.tsx'
-import { Button } from '@/components/ui/button.tsx'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../components/ui/collapsible.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { ChevronsUpDown } from 'lucide-react'
 import { expect, userEvent, within } from 'storybook/test'
 import { useState } from 'react'

@@ -5,7 +5,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu.tsx'
+} from '../../components/ui/navigation-menu.tsx'
 
 const meta = {
   title: 'Components/NavigationMenu',

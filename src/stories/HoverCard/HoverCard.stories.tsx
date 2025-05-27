@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card.tsx'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '../../components/ui/hover-card.tsx'
 
 const meta = {
   title: 'Components/HoverCard',

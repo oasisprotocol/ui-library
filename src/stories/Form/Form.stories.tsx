@@ -7,10 +7,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form.tsx'
-import { Input } from '@/components/ui/input.tsx'
-import { Button } from '@/components/ui/button.tsx'
-import { Checkbox } from '@/components/ui/checkbox.tsx'
+} from '../../components/ui/form.tsx'
+import { Input } from '../../components/ui/input.tsx'
+import { Button } from '../../components/ui/button.tsx'
+import { Checkbox } from '../../components/ui/checkbox.tsx'
 import { expect, within, userEvent } from 'storybook/test'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'

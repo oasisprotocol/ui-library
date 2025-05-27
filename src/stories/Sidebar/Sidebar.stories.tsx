@@ -13,7 +13,7 @@ import {
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
-} from '@/components/ui/sidebar.tsx'
+} from '../../components/ui/sidebar.tsx'
 import { HomeIcon, SettingsIcon, UsersIcon, FileIcon } from 'lucide-react'
 import { expect, within } from 'storybook/test'
 

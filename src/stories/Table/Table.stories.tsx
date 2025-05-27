@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table.tsx'
+} from '../../components/ui/table.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Table> = {

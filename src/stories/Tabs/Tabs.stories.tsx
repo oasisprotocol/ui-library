@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Tabs> = {

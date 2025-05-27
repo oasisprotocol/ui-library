@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.tsx'
-import { Button } from '@/components/ui/button.tsx'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../components/ui/tooltip.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Tooltip> = {

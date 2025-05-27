@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Badge } from '@/components/ui/badge.tsx'
+import { Badge } from '../../components/ui/badge.tsx'
 import { CircleCheckIcon } from 'lucide-react'
 import { expect, within } from 'storybook/test'
 

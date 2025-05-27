@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { Progress } from '@/components/ui/progress.tsx'
+import { Progress } from '../../components/ui/progress.tsx'
 import { expect, within } from 'storybook/test'
 
 const meta = {

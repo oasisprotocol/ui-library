@@ -10,7 +10,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from '@/components/ui/context-menu.tsx'
+} from '../../components/ui/context-menu.tsx'
 
 const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',

@@ -8,7 +8,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@/components/ui/command.tsx'
+} from '../../components/ui/command.tsx'
 import { CalendarIcon, FileIcon, FolderIcon, SettingsIcon, UsersIcon } from 'lucide-react'
 
 const meta = {
