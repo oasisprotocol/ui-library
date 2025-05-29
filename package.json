@@ -15,9 +15,7 @@
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook"
   },
-  "engines": {
-    "yarn": "^1.22.22"
-  },
+  "packageManager": "yarn@1.22.22",
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@storybook/addon-a11y": "^9.0.0-rc.2",
