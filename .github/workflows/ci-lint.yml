@@ -53,3 +53,7 @@ jobs:
         run: yarn lint --max-warnings 0
         # Always run this step so that all linting errors can be seen at once.
         if: always()
+      - name: Validate TypeScript
+        run: yarn checkTs
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
