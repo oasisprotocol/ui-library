@@ -18,6 +18,7 @@
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook"
   },
+  "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "devDependencies": {
     "@eslint/js": "^9.26.0",
