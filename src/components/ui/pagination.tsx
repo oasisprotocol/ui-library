@@ -30,14 +30,23 @@ function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
   return <li data-slot="pagination-item" {...props} />
 }
 
-type PaginationLinkProps = {
+type PaginationLinkProps<C extends React.ElementType = 'a'> = {
   isActive?: boolean
+  linkComponent?: C
 } & Pick<React.ComponentProps<typeof Button>, 'size'> &
-  React.ComponentProps<'a'>
+  Omit<React.ComponentProps<C>, 'ref'>
 
-function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
+function PaginationLink<C extends React.ElementType = 'a'>({
+  className,
+  isActive,
+  size = 'icon',
+  linkComponent,
+  ...props
+}: PaginationLinkProps<C>) {
+  const Component = linkComponent || 'a'
+
   return (
-    <a
+    <Component
       aria-current={isActive ? 'page' : undefined}
       data-slot="pagination-link"
       data-active={isActive}
@@ -53,12 +62,17 @@ function PaginationLink({ className, isActive, size = 'icon', ...props }: Pagina
   )
 }
 
-function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationPrevious({
+  className,
+  linkComponent,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) {
   return (
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
       className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
+      linkComponent={linkComponent}
       {...props}
     >
       <ChevronLeftIcon />
@@ -67,12 +81,13 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
   )
 }
 
-function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationNext({ className, linkComponent, ...props }: React.ComponentProps<typeof PaginationLink>) {
   return (
     <PaginationLink
       aria-label="Go to next page"
       size="default"
       className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
+      linkComponent={linkComponent}
       {...props}
     >
       <span className="hidden sm:block">Next</span>
