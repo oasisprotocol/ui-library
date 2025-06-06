@@ -27,6 +27,13 @@ const meta = {
       description: 'Whether total_count is clipped for performance reasons.',
       control: 'number',
     },
+    onPageChange: {
+      description: 'Optional callback function that is called when a page is selected.',
+    },
+    renderItem: {
+      description:
+        'Custom render function for pagination items. Used for router integration and translations.',
+    },
   },
   tags: ['autodocs'],
 }
