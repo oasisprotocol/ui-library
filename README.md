@@ -9,7 +9,7 @@ These components are based on [shadcn/ui](https://ui.shadcn.com/).
 
 You can check out the gallery of available components using Storybook:
 
-``` bash
+```bash
 yarn install
 yarn run storybook
 ```
@@ -20,10 +20,10 @@ To use the Oasis UI Library in your project, follow these steps:
 
 - Add it as a dependency
 - Set up Tailwind CSS for your project, as documented
-[in the Tailwind docs](https://tailwindcss.com/docs/installation/using-vite).  
+  [in the Tailwind docs](https://tailwindcss.com/docs/installation/using-vite).
 - Insert this to your main CSS file:
 
-``` CSS
+```CSS
 @import '@oasisprotocol/ui-library/src/styles/global.css';
 @source "../node_modules/@oasisprotocol/ui-library";
 ```
