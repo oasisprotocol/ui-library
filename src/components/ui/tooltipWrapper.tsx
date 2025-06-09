@@ -16,10 +16,11 @@ function TooltipWrapper({
   sideOffset = 8,
   hidden,
   align,
+  delayDuration = 500,
   ...props
 }: TooltipWrapperProps) {
   return (
-    <Tooltip {...props}>
+    <Tooltip delayDuration={delayDuration} {...props}>
       <TooltipTrigger>{children}</TooltipTrigger>
       <TooltipContent
         side={side}
