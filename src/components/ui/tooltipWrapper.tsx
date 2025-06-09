@@ -26,7 +26,7 @@ function TooltipWrapper({
         sideOffset={sideOffset}
         hidden={hidden}
         align={align}
-        className="text-pretty border bg-popover text-popover-foreground shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.10),0px_2px_4px_-1px_rgba(0,0,0,0.06)]"
+        className="max-w-[400px] text-pretty border bg-popover text-popover-foreground shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.10),0px_2px_4px_-1px_rgba(0,0,0,0.06)]"
       >
         {title}
       </TooltipContent>
