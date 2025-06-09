@@ -9,11 +9,25 @@ type TooltipWrapperProps = React.ComponentProps<typeof Tooltip> & {
   align?: 'start' | 'center' | 'end'
 }
 
-function TooltipWrapper({ title, children, side, sideOffset, hidden, align, ...props }: TooltipWrapperProps) {
+function TooltipWrapper({
+  title,
+  children,
+  side,
+  sideOffset = 8,
+  hidden,
+  align,
+  ...props
+}: TooltipWrapperProps) {
   return (
     <Tooltip {...props}>
       <TooltipTrigger>{children}</TooltipTrigger>
-      <TooltipContent side={side} sideOffset={sideOffset} hidden={hidden} align={align}>
+      <TooltipContent
+        side={side}
+        sideOffset={sideOffset}
+        hidden={hidden}
+        align={align}
+        className="text-pretty border bg-popover text-popover-foreground shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.10),0px_2px_4px_-1px_rgba(0,0,0,0.06)]"
+      >
         {title}
       </TooltipContent>
     </Tooltip>
