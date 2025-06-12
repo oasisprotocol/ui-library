@@ -2,6 +2,8 @@ import { FC } from 'react'
 import { InputFieldControls } from './useInputField'
 import { BooleanInput } from './BooleanInput'
 import { BooleanFieldControls } from './useBoolField'
+import { LabelControls } from './useLabel.ts'
+import { LabelOutput } from './LabelOutput.tsx'
 
 export const InputField: FC<{
   controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
@@ -15,8 +17,8 @@ export const InputField: FC<{
       return <BooleanInput {...(controls as BooleanFieldControls)} />
     // case 'oneOf':
     //   return <SelectInput {...(controls as OneOfFieldControls<any>)} />
-    // case 'label':
-    //   return <Label {...(controls as unknown as LabelControls<any>)} />
+    case 'label':
+      return <LabelOutput {...(controls as unknown as LabelControls<any>)} />
     // case 'date':
     //   return <DateInput {...(controls as DateFieldControls)} />
     // case 'action':
