@@ -7,7 +7,7 @@ import pkg from './package.json' assert { type: 'json' }
 
 export default defineConfig({
   base: './',
-  plugins: [tailwindcss(), react(), dts({ rollupTypes: true })],
+  plugins: [tailwindcss(), react(), dts()],
   build: {
     sourcemap: true,
     lib: {
