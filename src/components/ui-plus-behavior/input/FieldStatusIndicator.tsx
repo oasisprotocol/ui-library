@@ -39,8 +39,7 @@ export const FieldStatusIndicators: FC<
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <LoaderCircle width={24} height={24} />
-              {/*TODO: should spin*/}
+              <LoaderCircle size={'1em'} className={'rotating'} />
             </MotionDiv>
           )}
           {showSuccess && (
