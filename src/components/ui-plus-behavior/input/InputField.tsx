@@ -4,6 +4,8 @@ import { BooleanInput } from './BooleanInput'
 import { BooleanFieldControls } from './useBoolField'
 import { LabelControls } from './useLabel.ts'
 import { LabelOutput } from './LabelOutput.tsx'
+import { ActionButton } from './ActionButton.tsx'
+import { ActionControls } from './useAction.ts'
 
 export const InputField: FC<{
   controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
@@ -21,8 +23,8 @@ export const InputField: FC<{
       return <LabelOutput {...(controls as unknown as LabelControls<any>)} />
     // case 'date':
     //   return <DateInput {...(controls as DateFieldControls)} />
-    // case 'action':
-    //   return <ActionButton {...(controls as ActionControls<any>)} />
+    case 'action':
+      return <ActionButton {...(controls as ActionControls<any>)} />
     default:
       console.log("Don't know how to edit field type", controls.type)
       return (

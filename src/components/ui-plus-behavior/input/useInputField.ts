@@ -33,12 +33,12 @@ export type InputFieldProps<DataType> = {
   /**
    * Optional description of this field.
    */
-  description?: string
+  description?: MarkdownCode
 
   /**
    * Optional label to use for this field.
    */
-  label?: string
+  label?: MarkdownCode
 
   /**
    * Do we normally want to have the label on the same line as the value?

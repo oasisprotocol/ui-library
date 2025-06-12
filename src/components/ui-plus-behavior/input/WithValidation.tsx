@@ -5,6 +5,7 @@ import { checkMessagesForProblems, FieldMessage } from './util'
 import { FieldAndValidationMessage } from './FieldAndValidationMessage'
 import { FieldStatusIndicators } from './FieldStatusIndicator'
 import { cn } from '../../../lib'
+import { MarkdownBlock } from '../../ui/markdown.tsx'
 
 export const WithValidation: FC<
   PropsWithChildren<{
@@ -34,8 +35,12 @@ export const WithValidation: FC<
         hasError ? classes.fieldWithError : hasWarning ? classes.fieldWithWarning : ''
       )}
     >
-      <div key="field-and-status" className="flex item-center space-x-2">
-        {compact && <div className={classes.fieldLabel}>{label}</div>}
+      <div key="field-and-status" className="flex items-center space-x-2">
+        {compact && (
+          <div className={classes.fieldLabel}>
+            <MarkdownBlock code={label} />
+          </div>
+        )}
         {children}
         <FieldStatusIndicators key={'status'} {...field} messages={messages} />
         {extraWidget}

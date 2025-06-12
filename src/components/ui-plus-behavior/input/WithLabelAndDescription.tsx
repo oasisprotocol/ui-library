@@ -23,7 +23,9 @@ export const WithLabelAndDescription: FC<
   } else {
     return !!label || !!description ? (
       <label className={classes.fieldLabelTag}>
-        <div className={classes.fieldLabel}>{label}</div>
+        <div className={classes.fieldLabel}>
+          <MarkdownBlock code={label} />
+        </div>
         <div className={classes.fieldDescription}>
           <MarkdownBlock code={description} />
         </div>
