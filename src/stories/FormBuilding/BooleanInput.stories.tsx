@@ -44,7 +44,7 @@ export const Default: Story = {
       label: 'Test input',
 
       // Applying the configuration from above
-      description: hasDescription.value ? 'Just some stuff we want to check' : undefined,
+      description: hasDescription.value ? 'Just some **stuff** we want to check' : undefined,
       visible: visible.value,
       enabled: enabled.value ? true : deny('Currently disabled, see checkbox above'),
     })
