@@ -6,13 +6,15 @@ import { LabelControls } from './useLabel.ts'
 import { LabelOutput } from './LabelOutput.tsx'
 import { ActionButton } from './ActionButton.tsx'
 import { ActionControls } from './useAction.ts'
+import { TextInput } from './TextInput.tsx'
+import { TextFieldControls } from './useTextField.ts'
 
 export const InputField: FC<{
   controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
 }> = ({ controls }) => {
   switch (controls.type) {
-    // case 'text':
-    //   return <TextInput {...(controls as TextFieldControls)} />
+    case 'text':
+      return <TextInput {...(controls as TextFieldControls)} />
     // case 'text-array':
     //   return <TextArrayInput {...(controls as TextArrayControls)} />
     case 'boolean':

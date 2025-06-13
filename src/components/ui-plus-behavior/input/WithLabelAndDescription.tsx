@@ -2,6 +2,7 @@ import { FC, PropsWithChildren } from 'react'
 import { InputFieldControls } from './useInputField.ts'
 import classes from './index.module.css'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
+import { Label } from '../../ui/label.tsx'
 
 export const WithLabelAndDescription: FC<
   PropsWithChildren<{ field: Pick<InputFieldControls<any>, 'label' | 'description' | 'compact'> }>
@@ -22,15 +23,15 @@ export const WithLabelAndDescription: FC<
     )
   } else {
     return !!label || !!description ? (
-      <label className={classes.fieldLabelTag}>
-        <div className={classes.fieldLabel}>
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label>
           <MarkdownBlock code={label} />
-        </div>
+        </Label>
         <div className={classes.fieldDescription}>
           <MarkdownBlock code={description} />
         </div>
         {children}
-      </label>
+      </div>
     ) : (
       children
     )
