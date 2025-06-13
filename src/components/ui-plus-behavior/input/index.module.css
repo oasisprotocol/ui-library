@@ -150,11 +150,6 @@
 }
 
 .fieldWithError {
-  input {
-    border: 1px solid red !important;
-    background: #fff0fd !important;
-  }
-
   select {
     border: 1px solid red !important;
     background: #fff0fd !important;
@@ -164,7 +159,6 @@
 .fieldWithWarning {
   input {
     border: 1px solid chocolate !important;
-    background: #ffe8c0 !important;
   }
 
   select {
