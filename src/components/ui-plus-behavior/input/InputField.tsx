@@ -8,6 +8,8 @@ import { ActionButton } from './ActionButton.tsx'
 import { ActionControls } from './useAction.ts'
 import { TextInput } from './TextInput.tsx'
 import { TextFieldControls } from './useTextField.ts'
+import { SelectInput } from './SelectInput.tsx'
+import { OneOfFieldControls } from './useOneOfField.ts'
 
 export const InputField: FC<{
   controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
@@ -19,8 +21,8 @@ export const InputField: FC<{
     //   return <TextArrayInput {...(controls as TextArrayControls)} />
     case 'boolean':
       return <BooleanInput {...(controls as BooleanFieldControls)} />
-    // case 'oneOf':
-    //   return <SelectInput {...(controls as OneOfFieldControls<any>)} />
+    case 'oneOf':
+      return <SelectInput {...(controls as OneOfFieldControls<any>)} />
     case 'label':
       return <LabelOutput {...(controls as unknown as LabelControls<any>)} />
     // case 'date':
