@@ -17,3 +17,6 @@ export const atLeastXItems = (amount: number): string => {
     throw new Error(`What do you mean by 'at least ${amount} items??'`)
   }
 }
+
+export const capitalizeFirstLetter = (input: string) =>
+  input.length > 0 && /[a-zA-Z]/.test(input[0]) ? input[0].toUpperCase() + input.slice(1) : input
