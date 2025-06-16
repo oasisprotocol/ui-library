@@ -37,18 +37,20 @@ export type TagName = keyof IntrinsicElements
 type MarkdownBlockProps = {
   code: MarkdownCode | undefined
   mainTag?: TagName
+  className?: string
 }
 
 /**
  * A component to render markdown
  */
-export const MarkdownBlock: FC<MarkdownBlockProps> = ({ code, mainTag }) => {
+export const MarkdownBlock: FC<MarkdownBlockProps> = ({ code, mainTag, className }) => {
   if (!code) return undefined
-  return (
+  const text = (
     <Markdown components={{ ...renderComponents, ...(mainTag ? { p: mainTag } : {}) }}>
       {code as string}
     </Markdown>
   )
+  return className ? <span className={className}>{text}</span> : text
 }
 
 export const renderMarkdown = (markdown: MarkdownCode | undefined, tagName: TagName = 'span') => (
