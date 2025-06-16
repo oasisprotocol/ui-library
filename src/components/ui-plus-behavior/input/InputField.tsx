@@ -10,6 +10,8 @@ import { TextInput } from './TextInput.tsx'
 import { TextFieldControls } from './useTextField.ts'
 import { SelectInput } from './SelectInput.tsx'
 import { OneOfFieldControls } from './useOneOfField.ts'
+import { DateInput } from './DateInput.tsx'
+import { DateFieldControls } from './useDateField.ts'
 
 export const InputField: FC<{
   controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
@@ -25,8 +27,8 @@ export const InputField: FC<{
       return <SelectInput {...(controls as OneOfFieldControls<any>)} />
     case 'label':
       return <LabelOutput {...(controls as unknown as LabelControls<any>)} />
-    // case 'date':
-    //   return <DateInput {...(controls as DateFieldControls)} />
+    case 'date':
+      return <DateInput {...(controls as DateFieldControls)} />
     case 'action':
       return <ActionButton {...(controls as ActionControls<any>)} />
     default:
