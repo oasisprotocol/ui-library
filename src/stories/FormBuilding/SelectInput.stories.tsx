@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, within } from 'storybook/test'
 import { SelectInput, useOneOfField, deny } from '../../components/ui-plus-behavior/input'
+import { Button } from '../../components'
 
 const meta: Meta<typeof SelectInput> = {
   title: 'ui-plus-behavior/useOneOfField() and <SelectInput>',
@@ -38,7 +39,7 @@ export const Default: Story = {
           value: 'three',
           label: 'Third option',
         },
-      ],
+      ] as const,
     })
 
     return (
@@ -255,6 +256,53 @@ export const WithWarning: Story = {
     )
   },
 
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
+    await expect(button).toBeInTheDocument()
+  },
+}
+
+export const WithPlaceholder: Story = {
+  render: () => {
+    const selection = useOneOfField({
+      name: 'testSelect',
+      label: 'Test **select**',
+      placeholder: 'Which one do you want?',
+      // canSelectPlaceholder: false,
+      choices: [
+        {
+          value: 'one',
+          label: '**First** option',
+        },
+        {
+          value: 'two',
+          label: '_Second_ option',
+        },
+        {
+          value: 'three',
+          label: 'Third option',
+        },
+      ] as const,
+      required: true,
+      validateOnChange: true,
+    })
+
+    // selection.setValue(undefined)
+    // if (selection.value === undefined) {
+    // }
+
+    return (
+      <div className={'w-[400px]'}>
+        <SelectInput {...selection} /> {/* This is our component */}
+        Value: {selection.value === undefined ? 'undefined' : `"${selection.value}"`}
+        <br />
+        <Button onClick={() => selection.setValue(undefined)}>Unselect</Button>
+        <br />
+        isEmpty? {selection.isEmpty.toString()}
+      </div>
+    )
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     const button = canvas.getAllByRole('label', { name: 'Test label' })[0]

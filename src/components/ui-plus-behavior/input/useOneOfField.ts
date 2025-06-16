@@ -1,6 +1,16 @@
-import { calculateEnabled, InputFieldControls, InputFieldProps, useInputField } from './useInputField'
-import { andDecisions, capitalizeFirstLetter, Decision, deny, getVerdict } from './util'
+import {
+  calculateEnabled,
+  DataTypeTools,
+  InputFieldControls,
+  InputFieldProps,
+  useInputField,
+} from './useInputField'
+import { andDecisions, capitalizeFirstLetter, Decision, deny, expandCoupledData, getVerdict } from './util'
 import { MarkdownCode } from '../../ui/markdown.tsx'
+
+interface HasToString {
+  toString: () => string
+}
 
 export type Choice<DataType = string> = {
   value: DataType
@@ -8,21 +18,17 @@ export type Choice<DataType = string> = {
   description?: string
   enabled?: Decision
   hidden?: boolean
+  className?: string
 }
 
 type OneOfFieldProps<DataType = string> = Omit<
   InputFieldProps<DataType>,
-  'initialValue' | 'required' | 'placeholder'
+  'initialValue' | 'placeholder' | 'cleanUp' | 'validateEmptyOnChange'
 > & {
   initialValue?: DataType
   readonly choices: readonly (Choice<DataType> | DataType)[]
-  requiredMessage?: string
   hideDisabledChoices?: boolean
   disableIfOnlyOneVisibleChoice?: boolean
-}
-
-interface HasToString {
-  toString: () => string
 }
 
 function expandChoice<DataType extends HasToString>(choice: DataType | Choice<DataType>): Choice<DataType> {
@@ -41,27 +47,36 @@ function expandChoice<DataType extends HasToString>(choice: DataType | Choice<Da
 }
 
 export type OneOfFieldControls<DataType> = InputFieldControls<DataType> & {
-  choices: readonly Choice<DataType>[]
+  choices: readonly Choice<any>[]
+  renderValue?: string
 }
 
-export function useOneOfField<DataType extends HasToString>(
-  props: OneOfFieldProps<DataType>
+const simpleTypeTools: DataTypeTools<any> = {
+  isEmpty: () => false,
+  isEqual: (a, b) => a === b,
+}
+
+/**
+ * Hook for defining a nun-nullable OneOf field
+ */
+function useNonNullableOneOfField<DataType extends HasToString>(
+  props: OneOfFieldProps<DataType>,
+  typeTools: DataTypeTools<DataType> = simpleTypeTools
 ): OneOfFieldControls<DataType> {
-  const {
-    choices,
-    requiredMessage = 'Please select an option!',
-    hideDisabledChoices,
-    disableIfOnlyOneVisibleChoice,
-  } = props
+  const { choices, hideDisabledChoices, disableIfOnlyOneVisibleChoice } = props
   const visibleChoices = choices
     .map(expandChoice)
     .filter(choice => !choice.hidden && (!hideDisabledChoices || getVerdict(choice.enabled, true)))
-  const enabledChoices = visibleChoices.filter(choice => getVerdict(choice.enabled, true))
-  const initialValue = props.initialValue ?? (enabledChoices[0] ?? visibleChoices[0]).value
+  const availableChoices = visibleChoices.filter(
+    choice => choice.value.toString() === PLEASE_SELECT || getVerdict(choice.enabled, true)
+  )
+  const initialValue = props.initialValue ?? (availableChoices[0] ?? visibleChoices[0]).value
 
   const originallyEnabled = calculateEnabled(props)
   const canSeeAlternatives =
-    disableIfOnlyOneVisibleChoice && visibleChoices.length <= 1
+    disableIfOnlyOneVisibleChoice &&
+    visibleChoices.length <= 1 &&
+    visibleChoices[0]?.value.toString() !== PLEASE_SELECT
       ? deny('Currently no other choice is available.')
       : true
 
@@ -72,17 +87,108 @@ export function useOneOfField<DataType extends HasToString>(
       enabled: andDecisions(originallyEnabled, canSeeAlternatives),
       disabled: undefined,
       initialValue,
-      required: [true, requiredMessage],
+      // required: [true, requiredMessage],
+      validateEmptyOnChange: true,
       cleanUp: v => v,
     },
-    {
-      isEmpty: () => false,
-      isEqual: (a, b) => a === b,
-    }
+    typeTools
   )
 
   return {
     ...controls,
     choices: visibleChoices,
   }
+}
+
+type NullableType<DataType extends HasToString> = DataType | undefined
+
+type NullableOneOfFieldProps<DataType extends HasToString> = OneOfFieldProps<NullableType<DataType>> & {
+  placeholder: string | boolean
+  required?: boolean
+  canSelectPlaceholder?: boolean
+}
+
+const PLEASE_SELECT = '__PLEASE_SELECT__'
+
+type InternalDataType<DataType> = DataType | typeof PLEASE_SELECT
+
+/**
+ * Hook for defining a nullable OneOf field
+ */
+function useNullableOneOfField<DataType extends HasToString>(
+  props: NullableOneOfFieldProps<DataType>,
+  typeTools: DataTypeTools<DataType> = simpleTypeTools
+): OneOfFieldControls<NullableType<DataType>> {
+  const {
+    placeholder,
+    canSelectPlaceholder = true,
+    validators,
+    validatorsGenerator,
+    onValueChange,
+    choices: realChoices,
+    ...rest
+  } = props
+
+  const toInternal = (value: NullableType<DataType>): InternalDataType<DataType> =>
+    value === undefined ? PLEASE_SELECT : value
+  const toExternal = (value: InternalDataType<DataType>): NullableType<DataType> =>
+    value === PLEASE_SELECT ? undefined : value
+
+  const choices: Choice<InternalDataType<DataType>>[] = [
+    {
+      value: PLEASE_SELECT,
+      label: placeholder === true ? 'Please select!' : (placeholder as MarkdownCode),
+      enabled: canSelectPlaceholder,
+      className: 'text-muted-foreground',
+    },
+    ...(realChoices as Choice<InternalDataType<DataType>>[]),
+  ]
+
+  const { isEmpty, isEqual } = typeTools
+
+  const controls = useNonNullableOneOfField<InternalDataType<DataType>>(
+    {
+      ...rest,
+      choices,
+      onValueChange: (value, isStillFresh) => {
+        if (onValueChange) {
+          onValueChange(toExternal(value), isStillFresh)
+        }
+      },
+      required: expandCoupledData(props.required, [false, 'Please select an option!']),
+      validators: validators as any,
+      validatorsGenerator: validatorsGenerator as any,
+    },
+    {
+      isEmpty: v => v === PLEASE_SELECT || isEmpty(v as DataType),
+      isEqual: isEqual as any,
+    }
+  )
+
+  return {
+    ...controls,
+    renderValue: controls.value.toString(),
+    value: toExternal(controls.value),
+    cleanValue: toExternal(controls.cleanValue),
+    setValue: (value: NullableType<DataType>) => controls.setValue(toInternal(value)),
+  }
+}
+
+// Signature for the nullable use case
+export function useOneOfField<DataType extends HasToString>(
+  props: NullableOneOfFieldProps<DataType>
+): OneOfFieldControls<NullableType<DataType>>
+
+// Signature for the non-nullable use case
+export function useOneOfField<DataType extends HasToString>(
+  props: OneOfFieldProps<DataType>
+): OneOfFieldControls<DataType>
+
+// Common implementation
+export function useOneOfField<DataType extends HasToString>(
+  props: OneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType>
+): OneOfFieldControls<any> {
+  return (props as any).placeholder
+    ? useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
+    : useNonNullableOneOfField(props as OneOfFieldProps<DataType>)
 }

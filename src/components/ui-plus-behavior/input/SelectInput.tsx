@@ -17,7 +17,7 @@ import { MarkdownBlock } from '../../ui/markdown.tsx'
 import { Info } from 'lucide-react'
 
 export const SelectInput: FC<OneOfFieldControls<any>> = props => {
-  const { choices, allMessages, value, setValue, enabled, whyDisabled } = props
+  const { choices, allMessages, renderValue, value, setValue, enabled, whyDisabled } = props
   const [isOpen, setIsOpen] = useState(false)
 
   const { hasError } = checkMessagesForProblems(allMessages.root)
@@ -27,9 +27,14 @@ export const SelectInput: FC<OneOfFieldControls<any>> = props => {
       <WithLabelAndDescription field={props}>
         <WithValidation field={props} messages={allMessages.root}>
           <MaybeWithTooltip overlay={whyDisabled}>
-            <Select disabled={!enabled} value={value} onValueChange={setValue} onOpenChange={setIsOpen}>
+            <Select
+              disabled={!enabled}
+              value={renderValue ?? value}
+              onValueChange={setValue}
+              onOpenChange={setIsOpen}
+            >
               <SelectTrigger className="w-full" aria-invalid={hasError}>
-                <SelectValue placeholder="Please select" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -43,7 +48,7 @@ export const SelectInput: FC<OneOfFieldControls<any>> = props => {
                           side={'left'}
                         >
                           <SelectItem value={choice.value} disabled={disabled} className={'w-full'}>
-                            <MarkdownBlock code={choice.label} />
+                            <MarkdownBlock code={choice.label} className={choice.className} />
                             {isOpen && (disabled || choice.description) ? <Info size={'1em'} /> : ''}
                           </SelectItem>
                         </MaybeWithTooltip>
