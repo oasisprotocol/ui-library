@@ -131,6 +131,13 @@ export type InputFieldProps<DataType> = {
   validateOnChange?: boolean
 
   /**
+   * Should field be validated value on change even if it is empty?
+   *
+   * Default is false
+   */
+  validateEmptyOnChange?: boolean
+
+  /**
    * Should we indicate when validation is running?
    *
    * Default is true.
@@ -173,6 +180,7 @@ export type InputFieldControls<DataType> = Pick<
   expandHorizontally: boolean
   value: DataType
   cleanValue: DataType
+  isEmpty: boolean
   setValue: (value: DataType) => void
   reset: () => void
   allMessages: AllMessages
@@ -203,7 +211,7 @@ export type InputFieldControlsInternal<DataType> = InputFieldControls<DataType> 
   addMessage: (message: MessageAtLocation) => void
 }
 
-type DataTypeTools<DataType> = {
+export type DataTypeTools<DataType> = {
   isEmpty: (data: DataType) => boolean
   isEqual: (data1: DataType, data2: DataType) => boolean
 }
@@ -281,7 +289,8 @@ export function useInputFieldInternal<DataType>(
     validatorsGenerator,
     containerClassName,
     expandHorizontally = true,
-    validateOnChange,
+    validateOnChange = false,
+    validateEmptyOnChange = false,
     showValidationPending = true,
     showValidationSuccess = false,
     onValueChange,
@@ -322,7 +331,7 @@ export function useInputFieldInternal<DataType>(
   const [lastValidatedData, setLastValidatedData] = useState<DataType | undefined>()
   const [validationPending, setValidationPending] = useState(false)
 
-  const { isEmpty, isEqual } = dataTypeControl
+  const { isEmpty: isValueEmpty, isEqual: isValueEqual } = dataTypeControl
 
   const visible = calculateVisible(props)
   const enabled = calculateEnabled(props)
@@ -339,6 +348,8 @@ export function useInputFieldInternal<DataType>(
     },
   }
 
+  const isEmpty = isValueEmpty(cleanValue)
+
   const validate = async (params: ValidationParams): Promise<boolean> => {
     if (!visible) {
       // We don't care about hidden fields
@@ -353,7 +364,7 @@ export function useInputFieldInternal<DataType>(
     setValidatorProgress(undefined)
 
     // Clean up the value
-    const different = !isEqual(cleanValue, value)
+    const different = !isValueEqual(cleanValue, value)
     if (different && reason !== 'change') {
       setValue(cleanValue)
     }
@@ -363,7 +374,7 @@ export function useInputFieldInternal<DataType>(
     let hasError = false
 
     // If it's required but empty, that's already an error
-    if (required && isEmpty(cleanValue) && reason !== 'change') {
+    if (required && isEmpty && (reason !== 'change' || validateEmptyOnChange)) {
       currentMessages.push(wrapValidatorOutput(requiredMessage, 'root', 'error')!)
       hasError = true
     }
@@ -434,7 +445,7 @@ export function useInputFieldInternal<DataType>(
       onValueChange(value, () => fresh)
     }
     if (visible) {
-      if (validateOnChange && !isEmpty(cleanValue)) {
+      if (validateOnChange && (!isEmpty || validateEmptyOnChange)) {
         void validate({ reason: 'change', isStillFresh: () => fresh })
       } else {
         clearAllMessages()
@@ -445,7 +456,7 @@ export function useInputFieldInternal<DataType>(
       fresh = false
       return
     }
-  }, [visible, JSON.stringify(cleanValue), validateOnChange])
+  }, [visible, JSON.stringify(cleanValue), validateOnChange, validateEmptyOnChange, isEmpty])
 
   const reset = () => setValue(initialValue)
 
@@ -458,6 +469,7 @@ export function useInputFieldInternal<DataType>(
     placeholder,
     value,
     cleanValue,
+    isEmpty,
     setValue,
     reset,
     allMessages: allMessages,
