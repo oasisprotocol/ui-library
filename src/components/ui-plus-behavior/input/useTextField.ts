@@ -1,6 +1,7 @@
 import { InputFieldControls, InputFieldProps, useInputField } from './useInputField'
 import { CoupledData, expandCoupledData, getAsArray, getNumberMessage, NumberMessageTemplate } from './util'
 import { useCallback } from 'react'
+import { MarkdownCode } from '../../ui/markdown.tsx'
 
 type TextFieldProps = Omit<InputFieldProps<string>, 'initialValue'> & {
   initialValue?: string
@@ -46,8 +47,15 @@ export type TextFieldControls = InputFieldControls<string> & {
   onEnter: (() => void) | undefined
 }
 
-export function useTextField(rawProps: TextFieldProps | string): TextFieldControls {
-  const props = (typeof rawProps === 'string' ? { name: rawProps } : rawProps) as TextFieldProps
+export function useTextField<DataType>(props: TextFieldProps): TextFieldControls
+
+export function useTextField(name: string, description?: MarkdownCode): TextFieldControls
+
+export function useTextField(
+  rawProps: TextFieldProps | string,
+  description?: MarkdownCode
+): TextFieldControls {
+  const props = (typeof rawProps === 'string' ? { name: rawProps, description } : rawProps) as TextFieldProps
   const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter, hideInput } = props
 
   const [minLength, tooShortMessage] = expandCoupledData(props.minLength, [
