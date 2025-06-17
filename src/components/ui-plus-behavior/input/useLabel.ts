@@ -58,6 +58,7 @@ export function useLabel<DataType = MarkdownCode>(props: LabelProps<DataType>): 
     classnames = [],
     // formatter,
     tagName = 'span',
+    label = '',
     value,
   } = props
   const { renderer = (value, tagName: TagName) => renderMarkdown(value as any, tagName) } = props
@@ -67,6 +68,7 @@ export function useLabel<DataType = MarkdownCode>(props: LabelProps<DataType>): 
     {
       ...props,
       initialValue: value,
+      label,
     },
     {
       isEmpty: value => !value,

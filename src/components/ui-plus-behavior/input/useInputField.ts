@@ -14,6 +14,7 @@ import {
   ValidatorFunction,
   wrapValidatorOutput,
   checkMessagesForProblems,
+  capitalizeFirstLetter,
 } from './util'
 import { MarkdownCode } from '../../ui/markdown'
 
@@ -464,7 +465,7 @@ export function useInputFieldInternal<DataType>(
     type,
     name,
     description,
-    label,
+    label: label ?? capitalizeFirstLetter(name),
     compact,
     placeholder,
     value,
