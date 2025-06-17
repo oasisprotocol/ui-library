@@ -115,6 +115,33 @@ export const Default: Story = {
   },
 }
 
+export const MinimalForm: Story = {
+  render: function Example() {
+    const form = [
+      useLabel('Please tell us about your preferences!'),
+      [
+        // We can place the fields side by side
+        // if we wrap them in an array
+        useTextField('Animal', 'What is your favorite animal?'),
+        useTextField('Color', 'What is your favorite color?'),
+      ],
+      useBooleanField('coder', 'I know TypeScript'),
+      useOneOfField('sex', ['male', 'female'] as const),
+    ]
+
+    return (
+      <div className={'w-[400px]'}>
+        <InputFieldGroup fields={form} />
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getAllByRole('button', { name: 'Test button' })[0]
+    await expect(button).toBeInTheDocument()
+  },
+}
+
 export const TypeSafeForm: Story = {
   render: function Example() {
     const [values, setValues] = useState<Record<string, unknown>>()
@@ -122,7 +149,7 @@ export const TypeSafeForm: Story = {
 
     const form = {
       label: useLabel('Please tell us about your preferences!'),
-      animal: useTextField('Animal', 'What is your favorite animal?'),
+      animal: useTextField('Animal', 'What is your favorite animal?', true),
       color: useTextField('Color', 'What is your favorite color?'),
       coder: useBooleanField('coder', 'I know TypeScript'),
       sex: useOneOfField('sex', ['male', 'female'] as const),
@@ -130,14 +157,15 @@ export const TypeSafeForm: Story = {
 
     const apply = useAction({
       name: 'apply',
-      action: () => {
+      action: async () => {
+        if (await validateFields(form)) return
         const values = getFormMapValues(form)
         switch (values.sex) {
           case 'male':
-            console.log("It's a boy")
+            // console.log("It's a boy")
             break
           case 'female':
-            console.log("It's a girl")
+            // console.log("It's a girl")
             break
           // case 'other':
           //   console.log("It's complicated")

@@ -2,9 +2,11 @@ import { InputFieldControls, ValidationReason } from './useInputField'
 import { AsyncValidatorFunction, getAsArray, SingleOrArray, sleep } from './util'
 import { LabelProps } from './useLabel'
 
-export type FieldLike<DataType> = Pick<
-  InputFieldControls<DataType>,
-  'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
+export type FieldLike<DataType> = Readonly<
+  Pick<
+    Readonly<InputFieldControls<DataType>>,
+    'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
+  >
 >
 
 export type FieldArrayConfiguration = SingleOrArray<FieldLike<unknown>>[]
@@ -22,14 +24,14 @@ export type FieldMapConfiguration = { [name: string]: FieldLike<unknown> }
  * Returns true if there was an error.
  */
 export const validateFields = async (
-  fields: FieldArrayConfiguration,
+  fields: FieldArrayConfiguration | FieldMapConfiguration,
   /**
    * Why are we doing this?
    *
    * Behavior will be different depending on the reason.
    * For example, we will clean values on form submission, but not when validating on change.
    */
-  reason: ValidationReason,
+  reason: ValidationReason = 'submit',
 
   /**
    * Tester for value freshness.
@@ -39,7 +41,9 @@ export const validateFields = async (
   isStillFresh?: () => boolean
 ): Promise<boolean> => {
   // Get a flattened list of fields
-  const allFields = fields.flatMap(config => getAsArray(config))
+  const allFields = Array.isArray(fields)
+    ? fields.flatMap(config => getAsArray(config))
+    : Object.values(fields)
   let hasError = false
   for (const field of allFields) {
     const isFieldProblematic = await field.validate({ reason, isStillFresh })

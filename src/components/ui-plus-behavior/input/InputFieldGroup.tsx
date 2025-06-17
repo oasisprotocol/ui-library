@@ -10,7 +10,7 @@ type InputFieldGroupProps = {
   /**
    * The fields to display
    */
-  fields: FieldArrayConfiguration | FieldMapConfiguration
+  fields: Readonly<FieldArrayConfiguration> | Readonly<FieldMapConfiguration>
 
   /**
    * Should stuff be aligned to the right?
