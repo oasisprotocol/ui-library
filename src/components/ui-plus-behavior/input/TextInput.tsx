@@ -9,7 +9,18 @@ import { Input } from '../../ui/input'
 import { checkMessagesForProblems } from './util'
 
 export const TextInput: FC<TextFieldControls> = props => {
-  const { name, value, placeholder, setValue, allMessages, enabled, whyDisabled, autoFocus, onEnter } = props
+  const {
+    name,
+    value,
+    placeholder,
+    setValue,
+    allMessages,
+    enabled,
+    whyDisabled,
+    autoFocus,
+    onEnter,
+    inputType,
+  } = props
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value),
     [setValue]
@@ -43,6 +54,7 @@ export const TextInput: FC<TextFieldControls> = props => {
               name={name}
               placeholder={placeholder}
               value={value}
+              type={inputType}
               onChange={handleChange}
               // className={classes.textValue}
               disabled={!enabled}
