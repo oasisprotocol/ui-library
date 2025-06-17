@@ -203,7 +203,7 @@ export type InputFieldControls<DataType> = Pick<
   indicateValidationSuccess: boolean
   clearErrorMessage: (id: string) => void
   clearMessagesAt: (location: string) => void
-  clearAllMessages: () => void
+  clearAllMessages: (reason: string) => void
 }
 
 export type InputFieldControlsInternal<DataType> = InputFieldControls<DataType> & {
@@ -309,10 +309,10 @@ export function useInputFieldInternal<DataType>(
   const cleanValue = cleanUp ? cleanUp(value) : value
   const [messages, setMessages] = useState<MessageAtLocation[]>([])
 
-  const addMessage = useCallback(
-    (message: MessageAtLocation) => setMessages(messages => [...messages, message]),
-    []
-  )
+  const addMessage = useCallback((message: MessageAtLocation) => {
+    // console.log('Updating messages in addMessage')
+    setMessages(messages => [...messages, message])
+  }, [])
 
   const allMessages = useMemo(() => {
     const messageTree: AllMessages = {}
@@ -330,7 +330,8 @@ export function useInputFieldInternal<DataType>(
     key => checkMessagesForProblems(allMessages[key]).hasError
   )
   const [isValidated, setIsValidated] = useState(false)
-  const [lastValidatedData, setLastValidatedData] = useState<DataType | undefined>()
+  const [lastValidatedValue, setLastValidatedValue] = useState<DataType>()
+  const [lastSeenValue, setLastSeenValue] = useState<DataType>()
   const [validationPending, setValidationPending] = useState(false)
 
   const { isEmpty: isValueEmpty, isEqual: isValueEqual } = dataTypeControl
@@ -346,16 +347,19 @@ export function useInputFieldInternal<DataType>(
   const isEmpty = isValueEmpty(cleanValue)
 
   const clearErrorMessage = useCallback((message: string) => {
+    // console.log(`Updating messages in clearErrorMessage('${message}')`)
     setMessages(messages => messages.filter(p => p.text !== message || p.type === 'info'))
     setIsValidated(false)
   }, [])
 
   const clearMessagesAt = useCallback((location: string) => {
+    // console.log(`Updating messages in clearMessagesAt('${location}')`)
     setMessages(messages => messages.filter(p => p.location !== location))
     setIsValidated(false)
   }, [])
 
-  const clearAllMessages = useCallback(() => {
+  const clearAllMessages = useCallback((_reason: string) => {
+    // console.log('Updating messages in clearAllMessages()', reason)
     setMessages([])
     setIsValidated(false)
   }, [])
@@ -409,7 +413,7 @@ export function useInputFieldInternal<DataType>(
           const validatorReport =
             hasError ||
             (isStillFresh && !isStillFresh()) ||
-            (!forceChange && wasOK && lastValidatedData === cleanValue)
+            (!forceChange && wasOK && lastValidatedValue === cleanValue)
               ? [] // If we already have an error, don't even bother with any more validators
               : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
 
@@ -430,10 +434,11 @@ export function useInputFieldInternal<DataType>(
       }
 
       if (!isStillFresh || isStillFresh()) {
+        // console.log('Updating messages in validate()')
         setMessages(currentMessages)
         setValidationPending(false)
         setIsValidated(true)
-        setLastValidatedData(cleanValue)
+        setLastValidatedValue(cleanValue)
 
         // Do we have any actual errors?
         return currentMessages.some(message => message.type === 'error')
@@ -447,7 +452,7 @@ export function useInputFieldInternal<DataType>(
       isEmpty,
       isValidated,
       isValueEqual,
-      lastValidatedData,
+      lastValidatedValue,
       required,
       requiredMessage,
       validateEmptyOnChange,
@@ -460,16 +465,22 @@ export function useInputFieldInternal<DataType>(
 
   const cleanValueString = JSON.stringify(cleanValue)
 
+  // Sometimes, when the value changes, we are supposed to validate
   useEffect(() => {
+    if (value === lastSeenValue) return
     let fresh = true
+    setLastSeenValue(value)
     if (onValueChange) {
       onValueChange(value, () => fresh)
     }
     if (visible) {
       if (validateOnChange && (!isEmpty || validateEmptyOnChange)) {
+        // Yes, we are supposed to validate
         void validate({ reason: 'change', isStillFresh: () => fresh })
       } else {
-        clearAllMessages()
+        // No need to validate, but we still want to clear out any error messages,
+        // because they are no longer relevant to the new value
+        clearAllMessages('value change effect')
         setIsValidated(false)
       }
     }
@@ -486,6 +497,7 @@ export function useInputFieldInternal<DataType>(
     clearAllMessages,
     onValueChange,
     validate,
+    lastSeenValue,
     value,
   ])
 
@@ -503,7 +515,7 @@ export function useInputFieldInternal<DataType>(
     isEmpty,
     setValue,
     reset,
-    allMessages: allMessages,
+    allMessages,
     hasProblems,
     isValidated,
     clearErrorMessage,

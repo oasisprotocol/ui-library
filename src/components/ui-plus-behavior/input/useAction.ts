@@ -114,7 +114,7 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
         }),
     }
     try {
-      controls.clearAllMessages()
+      controls.clearAllMessages('Execute action')
       return await action(context)
     } catch (error: unknown) {
       context.error(error)
