@@ -9,6 +9,7 @@ import { Checkbox } from '../../ui/checkbox'
 import { Label } from '../../ui/label'
 import { Info } from 'lucide-react'
 import { Switch } from '../../ui/switch.tsx'
+import { MarkdownBlock } from '../../ui/markdown.tsx'
 
 export const BooleanInput: FC<BooleanFieldControls> = props => {
   const { name, description, label, value, setValue, allMessages, enabled, whyDisabled, preferredWidget } =
@@ -16,7 +17,7 @@ export const BooleanInput: FC<BooleanFieldControls> = props => {
 
   const renderedLabel = (
     <Label htmlFor={name} className={enabled ? undefined : 'text-muted-foreground'}>
-      {label}
+      <MarkdownBlock code={label} />
       {(description || !enabled) && <Info size="1em" />}
     </Label>
   )
