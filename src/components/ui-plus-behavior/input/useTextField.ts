@@ -46,7 +46,8 @@ export type TextFieldControls = InputFieldControls<string> & {
   onEnter: (() => void) | undefined
 }
 
-export function useTextField(props: TextFieldProps): TextFieldControls {
+export function useTextField(rawProps: TextFieldProps | string): TextFieldControls {
+  const props = (typeof rawProps === 'string' ? { name: rawProps } : rawProps) as TextFieldProps
   const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter, hideInput } = props
 
   const [minLength, tooShortMessage] = expandCoupledData(props.minLength, [
