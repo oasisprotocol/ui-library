@@ -69,7 +69,7 @@ export type AllMessages = Record<string, FieldMessage[]>
  * Interface for long-running validator functions
  */
 export type ValidatorControls = {
-  isStillFresh: () => boolean
+  isStillFresh?: () => boolean
   updateStatus: (status: { message?: MarkdownCode; progress?: number }) => void
 }
 

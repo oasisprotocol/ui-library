@@ -163,7 +163,7 @@ export type ValidationParams = {
   forceChange?: boolean
   reason: ValidationReason
   // A way to check if this validation request is still valid, or is it now stale (because of changed value)
-  isStillFresh: () => boolean
+  isStillFresh?: () => boolean
 }
 
 /**
@@ -390,7 +390,9 @@ export function useInputFieldInternal<DataType>(
       // Do we have anything to worry about from this validator?
       try {
         const validatorReport =
-          hasError || !isStillFresh() || (!forceChange && wasOK && lastValidatedData === cleanValue)
+          hasError ||
+          (isStillFresh && !isStillFresh()) ||
+          (!forceChange && wasOK && lastValidatedData === cleanValue)
             ? [] // If we already have an error, don't even bother with any more validators
             : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
 
@@ -408,7 +410,7 @@ export function useInputFieldInternal<DataType>(
       }
     }
 
-    if (isStillFresh()) {
+    if (!isStillFresh || isStillFresh()) {
       setMessages(currentMessages)
       setValidationPending(false)
       setIsValidated(true)
