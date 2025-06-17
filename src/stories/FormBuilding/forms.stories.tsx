@@ -1,17 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, within } from 'storybook/test'
 import {
+  ActionButton,
   deny,
+  getTypeDescription,
   InputFieldGroup,
   sleep,
   useAction,
+  useBooleanField,
   useLabel,
   useOneOfField,
   useTextField,
 } from '../../components/ui-plus-behavior/input'
 import { validateFields } from '../../components/ui-plus-behavior/input/validation.ts'
 import { useState } from 'react'
-import { getFieldValues } from '../../components/ui-plus-behavior/input/fieldValues.ts'
+import { getFormMapValues } from '../../components/ui-plus-behavior/input/fieldValues.ts'
 
 const meta: Meta<typeof InputFieldGroup> = {
   title: 'ui-plus-behavior/validate() and <InputFieldGroup>',
@@ -112,58 +115,53 @@ export const Default: Story = {
   },
 }
 
-export const MinimalForm: Story = {
-  render: function Example() {
-    const [values, setValues] = useState<Record<string, unknown>>()
-
-    const form = [
-      useLabel('Please tell us about your preferences!'),
-      useTextField('Animal'),
-      useTextField('Color'),
-    ] as const
-    const apply = useAction({
-      name: 'apply',
-      action: () => setValues(getFieldValues(form)),
-    })
-    return (
-      <div className={'w-[400px]'}>
-        <InputFieldGroup fields={[...form, apply]} />
-        {values && <pre>{JSON.stringify(values, null, '  ')}</pre>}
-      </div>
-    )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('button', { name: 'Test button' })[0]
-    await expect(button).toBeInTheDocument()
-  },
-}
-
 export const TypeSafeForm: Story = {
   render: function Example() {
     const [values, setValues] = useState<Record<string, unknown>>()
+    const [types, setTypes] = useState<Record<string, any>>()
 
-    const label = useLabel('Please tell us about your preferences!')
-    const animal = useTextField('Animal')
-    const color = useTextField('Color')
+    const form = {
+      label: useLabel('Please tell us about your preferences!'),
+      animal: useTextField('Animal', 'What is your favorite animal?'),
+      color: useTextField('Color', 'What is your favorite color?'),
+      coder: useBooleanField('coder', 'I know TypeScript'),
+      sex: useOneOfField('sex', ['male', 'female'] as const),
+    } as const
 
-    const form = [label, animal, color] as const
     const apply = useAction({
       name: 'apply',
       action: () => {
-        const newValues = {
-          animal: animal.value,
-          color: color.value,
+        const values = getFormMapValues(form)
+        switch (values.sex) {
+          case 'male':
+            console.log("It's a boy")
+            break
+          case 'female':
+            console.log("It's a girl")
+            break
+          // case 'other':
+          //   console.log("It's complicated")
+          // break
         }
-        // Here, we have a type-safe data
-        setValues(newValues)
+        setValues(values)
+        setTypes(getTypeDescription(values))
       },
     })
 
     return (
       <div className={'w-[400px]'}>
-        <InputFieldGroup fields={[...form, apply]} />
-        {values && <pre>{JSON.stringify(values, null, '  ')}</pre>}
+        <InputFieldGroup fields={form} />
+        <ActionButton {...apply} />
+        {values && (
+          <>
+            <b>Values:</b> <pre>{JSON.stringify(values, null, '  ')}</pre>
+          </>
+        )}
+        {types && (
+          <>
+            <b>Types:</b> <pre>{JSON.stringify(types, null, '  ')}</pre>
+          </>
+        )}
       </div>
     )
   },

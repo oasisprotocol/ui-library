@@ -1,4 +1,5 @@
 export * from './arrays'
+export * from './types'
 export * from './coupledData'
 export * from './decisions'
 export * from './english'
