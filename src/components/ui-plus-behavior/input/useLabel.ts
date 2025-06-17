@@ -54,6 +54,12 @@ export type LabelControls<DataType> = Omit<
   renderedContent: ReactNode
 }
 
+export function useLabel<MarkdownCode>(text: MarkdownCode): LabelControls<MarkdownCode>
+
+export function useLabel<DataType extends HasToString = MarkdownCode>(
+  props: LabelProps<DataType>
+): LabelControls<DataType>
+
 export function useLabel<DataType extends HasToString = MarkdownCode>(
   rawProps: LabelProps<DataType> | string
 ): LabelControls<DataType> {
