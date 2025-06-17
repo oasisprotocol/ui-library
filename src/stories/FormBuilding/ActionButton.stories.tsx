@@ -285,10 +285,10 @@ export const WithError: Story = {
       name: 'longAction',
       label: 'Calculate the answer',
       pendingLabel: 'Calculating',
-      action: async context => {
-        await sleep(2000)
-        context.error("I don't know the answer.")
+      action: async () => {
         setCounter(c => c + 1)
+        await sleep(2000)
+        throw new Error("I don't know the answer.")
       },
     })
 
