@@ -2,12 +2,19 @@ import { InputFieldControls, ValidationReason } from './useInputField'
 import { AsyncValidatorFunction, getAsArray, SingleOrArray, sleep } from './util'
 import { LabelProps } from './useLabel'
 
-export type FieldLike = Pick<
-  InputFieldControls<unknown>,
+export type FieldLike<DataType> = Pick<
+  InputFieldControls<DataType>,
   'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
 >
 
-export type FieldConfiguration = SingleOrArray<FieldLike>[]
+export type FieldArrayConfiguration = SingleOrArray<FieldLike<unknown>>[]
+
+// export interface TypeAndValue<DataType> {
+//   type: string
+//   value: DataType
+// }
+
+export type FieldMapConfiguration = { [name: string]: FieldLike<unknown> }
 
 /**
  * Go through a group of fields, and do full validation.
@@ -15,7 +22,7 @@ export type FieldConfiguration = SingleOrArray<FieldLike>[]
  * Returns true if there was an error.
  */
 export const validateFields = async (
-  fields: FieldConfiguration,
+  fields: FieldArrayConfiguration,
   /**
    * Why are we doing this?
    *
@@ -44,7 +51,7 @@ export const validateFields = async (
 /**
  * Check whether any of these fields has an error
  */
-export const doFieldsHaveAnError = (fields: FieldConfiguration): boolean =>
+export const doFieldsHaveAnError = (fields: FieldArrayConfiguration): boolean =>
   fields
     .flatMap(config => getAsArray(config))
     .filter(field => field.visible)

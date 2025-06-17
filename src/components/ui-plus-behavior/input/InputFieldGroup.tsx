@@ -1,4 +1,4 @@
-import { FieldConfiguration } from './validation'
+import { FieldArrayConfiguration, FieldMapConfiguration } from './validation'
 import { FC } from 'react'
 import { InputField } from './InputField'
 import { InputFieldControls } from './useInputField'
@@ -10,7 +10,7 @@ type InputFieldGroupProps = {
   /**
    * The fields to display
    */
-  fields: FieldConfiguration
+  fields: FieldArrayConfiguration | FieldMapConfiguration
 
   /**
    * Should stuff be aligned to the right?
@@ -35,8 +35,9 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
   alignRight,
   expandHorizontally = true,
   className,
-}) =>
-  fields.some(row => (Array.isArray(row) ? row.some(col => col.visible) : row.visible)) ? (
+}) => {
+  const realFields = Array.isArray(fields) ? fields : Object.values(fields)
+  return realFields.some(row => (Array.isArray(row) ? row.some(col => col.visible) : row.visible)) ? (
     <div
       className={cn(
         classes.fieldGroup,
@@ -44,7 +45,7 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
         className
       )}
     >
-      {fields.map((row, index) =>
+      {realFields.map((row, index) =>
         Array.isArray(row) ? (
           <WithVisibility
             key={`field-${index}`}
@@ -69,3 +70,4 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
       )}
     </div>
   ) : undefined
+}

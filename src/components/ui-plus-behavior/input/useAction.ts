@@ -35,7 +35,7 @@ export type ActionProps<ReturnData = void> = Omit<
     action: (context: ExecutionContext) => ReturnData
   }
 
-export type ActionControls<ReturnData> = FieldLike &
+export type ActionControls<ReturnData> = FieldLike<void> &
   Omit<
     InputFieldControls<void>,
     'value' | 'setValue' | 'reset' | 'hasProblems' | 'validate' | 'validatorProgress'
