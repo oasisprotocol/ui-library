@@ -33,6 +33,8 @@ type OneOfFieldProps<DataType = string> = Omit<
   disableIfOnlyOneVisibleChoice?: boolean
 }
 
+type NonNullableOneOfFieldProps<DataType> = OneOfFieldProps<DataType> & {}
+
 function expandChoice<DataType extends HasToString>(choice: DataType | Choice<DataType>): Choice<DataType> {
   if (typeof choice === 'object') {
     const fullChoice = choice as Choice<DataType>
@@ -62,8 +64,8 @@ const simpleTypeTools: DataTypeTools<unknown> = {
 /**
  * Hook for defining a nun-nullable OneOf field
  */
-function useNonNullableOneOfField<DataType extends HasToString>(
-  props: OneOfFieldProps<DataType>,
+export function useNonNullableOneOfField<DataType extends HasToString>(
+  props: NonNullableOneOfFieldProps<DataType>,
   typeTools: DataTypeTools<DataType> = simpleTypeTools
 ): OneOfFieldControls<DataType> {
   const { choices, hideDisabledChoices, disableIfOnlyOneVisibleChoice } = props
@@ -105,9 +107,7 @@ function useNonNullableOneOfField<DataType extends HasToString>(
   }
 }
 
-type NullableType<DataType extends HasToString> = DataType | undefined
-
-type NullableOneOfFieldProps<DataType extends HasToString> = OneOfFieldProps<NullableType<DataType>> & {
+type NullableOneOfFieldProps<DataType extends HasToString> = OneOfFieldProps<DataType | undefined> & {
   placeholder: string | boolean
   required?: boolean
   canSelectPlaceholder?: boolean
@@ -123,7 +123,7 @@ type InternalDataType<DataType> = DataType | typeof PLEASE_SELECT
 function useNullableOneOfField<DataType extends HasToString>(
   props: NullableOneOfFieldProps<DataType>,
   typeTools: DataTypeTools<DataType> = simpleTypeTools
-): OneOfFieldControls<NullableType<DataType>> {
+): OneOfFieldControls<DataType | undefined> {
   const {
     placeholder,
     canSelectPlaceholder = true,
@@ -134,9 +134,9 @@ function useNullableOneOfField<DataType extends HasToString>(
     ...rest
   } = props
 
-  const toInternal = (value: NullableType<DataType>): InternalDataType<DataType> =>
+  const toInternal = (value: DataType | undefined): InternalDataType<DataType> =>
     value === undefined ? PLEASE_SELECT : value
-  const toExternal = (value: InternalDataType<DataType>): NullableType<DataType> =>
+  const toExternal = (value: InternalDataType<DataType>): DataType | undefined =>
     value === PLEASE_SELECT ? undefined : value
 
   const choices: Choice<InternalDataType<DataType>>[] = [
@@ -177,27 +177,27 @@ function useNullableOneOfField<DataType extends HasToString>(
     renderValue: controls.value.toString(),
     value: toExternal(controls.value),
     cleanValue: toExternal(controls.cleanValue),
-    setValue: (value: NullableType<DataType>) => controls.setValue(toInternal(value)),
+    setValue: (value: DataType | undefined) => controls.setValue(toInternal(value)),
   }
 }
+
+// Signature for the non-nullable use case
+export function useOneOfField<DataType extends HasToString>(
+  props: NonNullableOneOfFieldProps<DataType>
+): OneOfFieldControls<DataType>
 
 // Signature for the nullable use case
 export function useOneOfField<DataType extends HasToString>(
   props: NullableOneOfFieldProps<DataType>
-): OneOfFieldControls<NullableType<DataType>>
-
-// Signature for the non-nullable use case
-export function useOneOfField<DataType extends HasToString>(
-  props: OneOfFieldProps<DataType>
-): OneOfFieldControls<DataType>
+): OneOfFieldControls<DataType | undefined>
 
 // Common implementation
 export function useOneOfField<DataType extends HasToString>(
-  props: OneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType>
+  props: NonNullableOneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType>
 ) {
   return 'placeholder' in props
     ? // eslint-disable-next-line react-hooks/rules-of-hooks
       useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
     : // eslint-disable-next-line react-hooks/rules-of-hooks
-      useNonNullableOneOfField(props as OneOfFieldProps<DataType>)
+      useNonNullableOneOfField(props as NonNullableOneOfFieldProps<DataType>)
 }
