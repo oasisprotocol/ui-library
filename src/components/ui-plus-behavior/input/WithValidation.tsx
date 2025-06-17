@@ -10,7 +10,7 @@ import { MarkdownBlock } from '../../ui/markdown.tsx'
 export const WithValidation: FC<
   PropsWithChildren<{
     field: Pick<
-      InputFieldControls<any>,
+      InputFieldControls<unknown>,
       | 'indicateValidationPending'
       | 'indicateValidationSuccess'
       | 'validationPending'

@@ -10,7 +10,7 @@ export const getFieldValues = (fields: Readonly<FieldConfiguration>) => {
   // Get a flattened list of fields
   const allFields = fields.flatMap(config => getAsArray(config))
 
-  const results: Record<string, any> = {}
+  const results: Record<string, unknown> = {}
 
   for (const field of allFields) {
     if (field.type === 'label') continue

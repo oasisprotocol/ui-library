@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '../../ui/dialog.tsx'
 
-export const ActionButton: FC<ActionControls<any>> = props => {
+export const ActionButton: FC<ActionControls<unknown>> = props => {
   const {
     name,
     allMessages,

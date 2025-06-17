@@ -8,7 +8,7 @@ import { capitalizeFirstLetter } from './util'
 
 type FullConfirmationRequest = {
   title: MarkdownCode
-  description: MarkdownCode
+  description: MarkdownCode | undefined
   okLabel: MarkdownCode
   cancelLabel: MarkdownCode
 } & Partial<Pick<Parameters<typeof Button>[0], 'variant'>>
@@ -62,7 +62,7 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
   const [isConfirming, setIsConfirming] = useState(false)
   const [pendingExecution, setPendingExecution] = useState<{
     resolve: (value: ReturnType | PromiseLike<ReturnType>) => void
-    reject: (reason?: any) => void
+    reject: (reason?: unknown) => void
   }>()
 
   const getFullConfirmationRequest = (): FullConfirmationRequest | undefined => {
@@ -94,21 +94,21 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
       setStatus: message => {
         setStatusMessage(message)
       },
-      log: (message, optionalParams) =>
+      log: (message, ...optionalParams) =>
         controls.addMessage({
-          text: [message, ...(optionalParams || [])].join(' '),
+          text: [message, ...optionalParams].join(' '),
           type: 'info',
           location: 'root',
         }),
-      warn: (message, optionalParams) =>
+      warn: (message, ...optionalParams) =>
         controls.addMessage({
-          text: [message, ...(optionalParams || [])].join(' '),
+          text: [message, ...optionalParams].join(' '),
           type: 'warning',
           location: 'root',
         }),
-      error: (message, optionalParams) =>
+      error: (message, ...optionalParams) =>
         controls.addMessage({
-          text: [message, ...(optionalParams || [])].join(' '),
+          text: [message, ...optionalParams].join(' '),
           type: 'error',
           location: 'root',
         }),
@@ -116,7 +116,7 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
     try {
       controls.clearAllMessages()
       return await action(context)
-    } catch (error: any) {
+    } catch (error: unknown) {
       context.error(error)
       throw error
     } finally {

@@ -4,8 +4,6 @@ import type { Components } from 'react-markdown'
 import { JSX } from 'react/jsx-runtime'
 import IntrinsicElements = JSX.IntrinsicElements
 
-const md = Symbol('md')
-
 /**
  * Markdown text
  *
@@ -17,7 +15,7 @@ const md = Symbol('md')
  * So use this type to mark strings that can hold Markdown.
  * Just use "as string" if you need the actual value.
  */
-export type MarkdownCode = string | typeof md
+export type MarkdownCode = string | symbol
 
 const renderComponents: Components = {
   // Always set up links so that they open on a new tab

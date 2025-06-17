@@ -21,7 +21,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: () => {
+  render: function Example() {
     const field = useLabel({
       name: 'testLabel',
       value: 'Test label (with **formatted** content)',
@@ -41,7 +41,7 @@ export const Default: Story = {
 }
 
 export const WithDescription: Story = {
-  render: () => {
+  render: function Example() {
     const field = useLabel({
       name: 'testLabel',
       value: 'Test label (which can be _formatted_)',
@@ -62,7 +62,7 @@ export const WithDescription: Story = {
 }
 
 export const WithError: Story = {
-  render: () => {
+  render: function Example() {
     const field = useLabel({
       name: 'testLabel',
       value: 'Test label (which can be _formatted_)',
@@ -85,7 +85,7 @@ export const WithError: Story = {
 }
 
 export const WithWarning: Story = {
-  render: () => {
+  render: function Example() {
     const field = useLabel({
       name: 'testLabel',
       value: 'Test label (which can be _formatted_)',

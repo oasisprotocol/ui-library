@@ -5,7 +5,7 @@ import { MarkdownBlock } from '../../ui/markdown.tsx'
 import { Label } from '../../ui/label.tsx'
 
 export const WithLabelAndDescription: FC<
-  PropsWithChildren<{ field: Pick<InputFieldControls<any>, 'label' | 'description' | 'compact'> }>
+  PropsWithChildren<{ field: Pick<InputFieldControls<unknown>, 'label' | 'description' | 'compact'> }>
 > = props => {
   const { field, children } = props
   const { label, description, compact } = field
