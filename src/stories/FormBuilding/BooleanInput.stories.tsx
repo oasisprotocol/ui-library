@@ -24,12 +24,10 @@ export const Default: Story = {
     // Configuration for the tested component
     const visible = useBooleanField({
       name: 'visible',
-      label: 'Visible',
       initialValue: true,
     })
     const enabled = useBooleanField({
       name: 'enabled',
-      label: 'Enabled',
       initialValue: true,
     })
     const hasDescription = useBooleanField({
@@ -40,8 +38,7 @@ export const Default: Story = {
 
     // Model for the boolean input
     const field = useBooleanField({
-      name: 'testBoolInput',
-      label: 'Test input',
+      name: 'test bool input',
 
       // Applying the configuration from above
       description: hasDescription.value ? 'Just some **stuff** we want to check' : undefined,
@@ -72,25 +69,21 @@ export const SwitchWidget: Story = {
     // Configuration for the tested component
     const visible = useBooleanField({
       name: 'visible',
-      label: 'Visible',
       initialValue: true,
     })
     const enabled = useBooleanField({
       name: 'enabled',
-      label: 'Enabled',
       initialValue: true,
     })
 
     const hasDescription = useBooleanField({
-      name: 'hasDescription',
-      label: 'Has description',
+      name: 'has description',
       initialValue: false,
     })
 
     // Model for the boolean input
     const field = useBooleanField({
-      name: 'testBoolInput',
-      label: 'Test input',
+      name: 'test bool input',
 
       // Applying the configuration from above
       preferredWidget: 'switch',

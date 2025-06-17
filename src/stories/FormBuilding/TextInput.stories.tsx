@@ -22,8 +22,8 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: () => {
     const input = useTextField({
-      name: 'testInput',
-      label: 'Test **input**',
+      name: 'test input',
+      // label: 'Test **input**',
       // description: 'What do we have _here_?',
       placeholder: 'Type whatever',
     })
@@ -179,7 +179,7 @@ export const WithMaximumLength: Story = {
   render: () => {
     const input = useTextField({
       name: 'testInput',
-      label: 'Test **input**',
+      // label: 'Test **input**',
       validateOnChange: true,
       maxLength: 10,
     })

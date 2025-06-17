@@ -24,8 +24,7 @@ export const Default: Story = {
   render: () => {
     const [counter, setCounter] = useState(0)
     const action = useAction({
-      name: 'testAction',
-      label: 'Test **Action**',
+      name: 'test action',
       action: () => setCounter(c => c + 1),
     })
 
