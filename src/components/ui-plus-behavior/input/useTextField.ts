@@ -49,13 +49,20 @@ export type TextFieldControls = InputFieldControls<string> & {
 
 export function useTextField<DataType>(props: TextFieldProps): TextFieldControls
 
-export function useTextField(name: string, description?: MarkdownCode): TextFieldControls
+export function useTextField(
+  name: string,
+  description?: MarkdownCode | undefined,
+  required?: boolean
+): TextFieldControls
 
 export function useTextField(
   rawProps: TextFieldProps | string,
-  description?: MarkdownCode
+  description?: MarkdownCode | undefined,
+  required?: boolean
 ): TextFieldControls {
-  const props = (typeof rawProps === 'string' ? { name: rawProps, description } : rawProps) as TextFieldProps
+  const props = (
+    typeof rawProps === 'string' ? { name: rawProps, description, required } : rawProps
+  ) as TextFieldProps
   const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter, hideInput } = props
 
   const [minLength, tooShortMessage] = expandCoupledData(props.minLength, [
