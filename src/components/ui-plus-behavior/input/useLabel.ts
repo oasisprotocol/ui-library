@@ -1,6 +1,6 @@
 import { InputFieldControls, InputFieldProps, useInputField } from './useInputField.ts'
 import { getAsArray, SingleOrArray } from './util'
-import { ReactNode } from 'react'
+import { ReactNode, useId } from 'react'
 import { renderMarkdown, TagName, MarkdownCode } from '../../ui/markdown.tsx'
 
 export type RendererFunction<DataType> = (value: DataType, tagName: string) => ReactNode
@@ -53,7 +53,12 @@ export type LabelControls<DataType> = Omit<
   renderedContent: ReactNode
 }
 
-export function useLabel<DataType = MarkdownCode>(props: LabelProps<DataType>): LabelControls<DataType> {
+export function useLabel<DataType = MarkdownCode>(
+  rawProps: LabelProps<DataType> | string
+): LabelControls<DataType> {
+  const props = (
+    typeof rawProps === 'string' ? { name: useId(), value: rawProps } : rawProps
+  ) as LabelProps<DataType>
   const {
     classnames = [],
     // formatter,
