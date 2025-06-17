@@ -1,18 +1,14 @@
 import { InputFieldControls, InputFieldProps, useInputField } from './useInputField.ts'
 
-type BoolFieldProps = Omit<InputFieldProps<boolean>, 'initialValue' | 'placeholder' | 'label' | 'compact'> & {
+type BoolFieldProps = Omit<InputFieldProps<boolean>, 'initialValue' | 'placeholder' | 'compact'> & {
   initialValue?: boolean
-  label: string
   preferredWidget?: 'checkbox' | 'switch'
 }
 
-export type BooleanFieldControls = InputFieldControls<boolean> &
-  Pick<BoolFieldProps, 'preferredWidget'> & {
-    label: string
-  }
+export type BooleanFieldControls = InputFieldControls<boolean> & Pick<BoolFieldProps, 'preferredWidget'> & {}
 
 export function useBooleanField(props: BoolFieldProps): BooleanFieldControls {
-  const { label, initialValue = false, preferredWidget = 'checkbox' } = props
+  const { initialValue = false, preferredWidget = 'checkbox' } = props
 
   const controls = useInputField<boolean>(
     'boolean',
@@ -28,7 +24,6 @@ export function useBooleanField(props: BoolFieldProps): BooleanFieldControls {
 
   return {
     ...controls,
-    label,
     preferredWidget,
   }
 }
