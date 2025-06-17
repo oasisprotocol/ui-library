@@ -37,15 +37,17 @@ type TextFieldProps = Omit<InputFieldProps<string>, 'initialValue'> & {
 
   autoFocus?: boolean
   onEnter?: (value: string) => void
+  hideInput?: boolean
 }
 
 export type TextFieldControls = InputFieldControls<string> & {
   autoFocus: boolean
+  inputType: string
   onEnter: (() => void) | undefined
 }
 
 export function useTextField(props: TextFieldProps): TextFieldControls {
-  const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter } = props
+  const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter, hideInput } = props
 
   const [minLength, tooShortMessage] = expandCoupledData(props.minLength, [
     1,
@@ -97,6 +99,7 @@ export function useTextField(props: TextFieldProps): TextFieldControls {
 
   return {
     ...controls,
+    inputType: hideInput ? 'password' : 'text',
     autoFocus,
     onEnter: enterHandler,
   }
