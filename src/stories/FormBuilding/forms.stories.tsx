@@ -11,8 +11,7 @@ import {
 } from '../../components/ui-plus-behavior/input'
 import { validateFields } from '../../components/ui-plus-behavior/input/validation.ts'
 import { useState } from 'react'
-// import { useState } from 'react'
-// import { useInputField } from '../../components/ui-plus-behavior/input/useInputField.ts'
+import { getFieldValues } from '../../components/ui-plus-behavior/input/fieldValues.ts'
 
 const meta: Meta<typeof InputFieldGroup> = {
   title: 'ui-plus-behavior/validate() and <InputFieldGroup>',
@@ -55,13 +54,15 @@ export const Default: Story = {
       visible: !currentUser,
       hideInput: true,
       required: true,
+      onEnter: () => login.execute(),
     })
 
     const mode = useOneOfField({
       name: 'mode',
-      placeholder: 'Please select mode',
-      required: true,
-      choices: ['easy', 'normal', 'hard'],
+      visible: !currentUser,
+      // placeholder: 'Please select mode',
+      // required: true,
+      choices: ['easy', 'normal', 'hard'] as const,
     })
 
     const loginFormFields = [username, password, mode, userLabel]
@@ -71,18 +72,13 @@ export const Default: Story = {
       visible: !currentUser,
       action: async context => {
         const hasFieldErrors = await validateFields(loginFormFields, 'submit')
-        if (hasFieldErrors) {
-          // context.error("Can't submit until all errors are resolved")
-        } else {
+        if (!hasFieldErrors) {
           context.setStatus('Searching for user...')
           await sleep(1000)
           context.setStatus('Checking password...')
           await sleep(1000)
-          if (password.value.length > 3) {
-            setCurrentUser(username.value)
-          } else {
-            context.error('Uh-uh. Invalid login credentials')
-          }
+          if (password.value.length < 3) throw new Error('Invalid credentials')
+          setCurrentUser(username.value)
         }
       },
     })
@@ -106,6 +102,67 @@ export const Default: Story = {
       <div className={'w-[400px]'}>
         <InputFieldGroup fields={loginFormFields} />
         <InputFieldGroup fields={[actions]} />
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getAllByRole('button', { name: 'Test button' })[0]
+    await expect(button).toBeInTheDocument()
+  },
+}
+
+export const MinimalForm: Story = {
+  render: () => {
+    const [values, setValues] = useState<Record<string, any>>()
+
+    const form = [
+      useLabel('Please tell us about your preferences!'),
+      useTextField('Animal'),
+      useTextField('Color'),
+    ] as const
+    const apply = useAction({
+      name: 'apply',
+      action: () => setValues(getFieldValues(form)),
+    })
+    return (
+      <div className={'w-[400px]'}>
+        <InputFieldGroup fields={[...form, apply]} />
+        {values && <pre>{JSON.stringify(values, null, '  ')}</pre>}
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getAllByRole('button', { name: 'Test button' })[0]
+    await expect(button).toBeInTheDocument()
+  },
+}
+
+export const TypeSafeForm: Story = {
+  render: () => {
+    const [values, setValues] = useState<Record<string, any>>()
+
+    const label = useLabel('Please tell us about your preferences!')
+    const animal = useTextField('Animal')
+    const color = useTextField('Color')
+
+    const form = [label, animal, color] as const
+    const apply = useAction({
+      name: 'apply',
+      action: () => {
+        const newValues = {
+          animal: animal.value,
+          color: color.value,
+        }
+        // Here, we have a type-safe data
+        setValues(newValues)
+      },
+    })
+    return (
+      <div className={'w-[400px]'}>
+        <InputFieldGroup fields={[...form, apply]} />
+        {values && <pre>{JSON.stringify(values, null, '  ')}</pre>}
       </div>
     )
   },
