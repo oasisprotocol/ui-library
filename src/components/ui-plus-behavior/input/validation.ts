@@ -4,7 +4,7 @@ import { LabelProps } from './useLabel'
 
 export type FieldLike = Pick<
   InputFieldControls<any>,
-  'name' | 'type' | 'visible' | 'validate' | 'hasProblems'
+  'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
 >
 
 export type FieldConfiguration = SingleOrArray<FieldLike>[]

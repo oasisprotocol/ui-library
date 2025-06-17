@@ -20,3 +20,6 @@ export const atLeastXItems = (amount: number): string => {
 
 export const capitalizeFirstLetter = (input: string) =>
   input.length > 0 && /[a-zA-Z]/.test(input[0]) ? input[0].toUpperCase() + input.slice(1) : input
+
+export const decapitalizeFirstLetter = (input: string) =>
+  input.length > 0 && /[a-zA-Z]/.test(input[0]) ? input[0].toLowerCase() + input.slice(1) : input
