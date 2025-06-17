@@ -14,7 +14,7 @@ import { DateInput } from './DateInput.tsx'
 import { DateFieldControls } from './useDateField.ts'
 
 export const InputField: FC<{
-  controls: Pick<InputFieldControls<any>, 'type' | 'name' | 'expandHorizontally'>
+  controls: Pick<InputFieldControls<unknown>, 'type' | 'name' | 'expandHorizontally'>
 }> = ({ controls }) => {
   switch (controls.type) {
     case 'text':
@@ -24,13 +24,13 @@ export const InputField: FC<{
     case 'boolean':
       return <BooleanInput {...(controls as BooleanFieldControls)} />
     case 'oneOf':
-      return <SelectInput {...(controls as OneOfFieldControls<any>)} />
+      return <SelectInput {...(controls as OneOfFieldControls)} />
     case 'label':
-      return <LabelOutput {...(controls as unknown as LabelControls<any>)} />
+      return <LabelOutput {...(controls as unknown as LabelControls<unknown>)} />
     case 'date':
       return <DateInput {...(controls as DateFieldControls)} />
     case 'action':
-      return <ActionButton {...(controls as ActionControls<any>)} />
+      return <ActionButton {...(controls as ActionControls<unknown>)} />
     default:
       console.log("Don't know how to edit field type", controls.type)
       return (

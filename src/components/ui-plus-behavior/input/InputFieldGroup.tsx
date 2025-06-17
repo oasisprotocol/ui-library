@@ -60,11 +60,11 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
             padding={false}
           >
             {row.map(field => (
-              <InputField key={field.name} controls={{ ...(field as any), expandHorizontally }} />
+              <InputField key={field.name} controls={{ ...field, expandHorizontally }} />
             ))}
           </WithVisibility>
         ) : (
-          <InputField key={row.name} controls={row as InputFieldControls<any>} />
+          <InputField key={row.name} controls={row as InputFieldControls<unknown>} />
         )
       )}
     </div>

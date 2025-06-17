@@ -7,7 +7,7 @@ import { cn } from '../../../lib'
 
 export const WithVisibility: FC<
   PropsWithChildren<{
-    field: Pick<InputFieldControls<any>, 'visible' | 'containerClassName' | 'expandHorizontally' | 'name'>
+    field: Pick<InputFieldControls<unknown>, 'visible' | 'containerClassName' | 'expandHorizontally' | 'name'>
     padding?: boolean
   }>
 > = props => {

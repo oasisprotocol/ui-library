@@ -20,7 +20,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'test input',
       // label: 'Test **input**',
@@ -42,7 +42,7 @@ export const Default: Story = {
 }
 
 export const WithAutoFocusAndOnEnter: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Default **input**',
@@ -64,7 +64,7 @@ export const WithAutoFocusAndOnEnter: Story = {
 }
 
 export const WithDescription: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
@@ -86,7 +86,7 @@ export const WithDescription: Story = {
 }
 
 export const WithError: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
@@ -109,7 +109,7 @@ export const WithError: Story = {
 }
 
 export const WithWarning: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
@@ -132,7 +132,7 @@ export const WithWarning: Story = {
 }
 
 export const WithMinimumLength: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
@@ -154,7 +154,7 @@ export const WithMinimumLength: Story = {
 }
 
 export const WithMinimumLengthWithCustomizedMessage: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
@@ -176,7 +176,7 @@ export const WithMinimumLengthWithCustomizedMessage: Story = {
 }
 
 export const WithMaximumLength: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       // label: 'Test **input**',
@@ -198,7 +198,7 @@ export const WithMaximumLength: Story = {
 }
 
 export const WithCustomValidators: Story = {
-  render: () => {
+  render: function Example() {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',

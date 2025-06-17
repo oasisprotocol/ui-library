@@ -16,8 +16,8 @@ import {
 import { MarkdownBlock } from '../../ui/markdown.tsx'
 import { Info } from 'lucide-react'
 
-export const SelectInput: FC<OneOfFieldControls<any>> = props => {
-  const { choices, allMessages, renderValue, value, setValue, enabled, whyDisabled } = props
+export const SelectInput: FC<Omit<OneOfFieldControls, 'value' | 'cleanValue' | 'setValue'>> = props => {
+  const { choices, allMessages, renderValue, setRenderValue, enabled, whyDisabled } = props
   const [isOpen, setIsOpen] = useState(false)
 
   const { hasError } = checkMessagesForProblems(allMessages.root)
@@ -29,8 +29,8 @@ export const SelectInput: FC<OneOfFieldControls<any>> = props => {
           <MaybeWithTooltip overlay={whyDisabled}>
             <Select
               disabled={!enabled}
-              value={renderValue ?? value}
-              onValueChange={setValue}
+              value={renderValue}
+              onValueChange={setRenderValue}
               onOpenChange={setIsOpen}
             >
               <SelectTrigger className="w-full" aria-invalid={hasError}>

@@ -4,9 +4,9 @@ export type Timeout = ReturnType<typeof setTimeout>
 
 export type ExecutionContext = {
   setStatus: (message: MarkdownCode | undefined) => void
-  log: (message: MarkdownCode, ...optionalParams: any[]) => void
-  warn: (message: MarkdownCode, ...optionalParams: any[]) => void
-  error: (message: MarkdownCode, ...optionalParams: any[]) => void
+  log: (message: MarkdownCode | unknown, ...optionalParams: unknown[]) => void
+  warn: (message: MarkdownCode | unknown, ...optionalParams: unknown[]) => void
+  error: (message: MarkdownCode | unknown, ...optionalParams: unknown[]) => void
 }
 
 export const basicExecutionContext: ExecutionContext = {

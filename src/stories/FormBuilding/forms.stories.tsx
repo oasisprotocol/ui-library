@@ -31,7 +31,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: () => {
+  render: function Example() {
     const [currentUser, setCurrentUser] = useState<string>()
 
     const userLabel = useLabel({
@@ -113,8 +113,8 @@ export const Default: Story = {
 }
 
 export const MinimalForm: Story = {
-  render: () => {
-    const [values, setValues] = useState<Record<string, any>>()
+  render: function Example() {
+    const [values, setValues] = useState<Record<string, unknown>>()
 
     const form = [
       useLabel('Please tell us about your preferences!'),
@@ -140,8 +140,8 @@ export const MinimalForm: Story = {
 }
 
 export const TypeSafeForm: Story = {
-  render: () => {
-    const [values, setValues] = useState<Record<string, any>>()
+  render: function Example() {
+    const [values, setValues] = useState<Record<string, unknown>>()
 
     const label = useLabel('Please tell us about your preferences!')
     const animal = useTextField('Animal')
@@ -159,6 +159,7 @@ export const TypeSafeForm: Story = {
         setValues(newValues)
       },
     })
+
     return (
       <div className={'w-[400px]'}>
         <InputFieldGroup fields={[...form, apply]} />

@@ -3,12 +3,14 @@ import {
   DataTypeTools,
   InputFieldControls,
   InputFieldProps,
+  IsEqualFunction,
   useInputField,
+  ValidatorBundle,
 } from './useInputField'
 import { andDecisions, capitalizeFirstLetter, Decision, deny, expandCoupledData, getVerdict } from './util'
 import { MarkdownCode } from '../../ui/markdown.tsx'
 
-interface HasToString {
+export interface HasToString {
   toString: () => string
 }
 
@@ -46,12 +48,13 @@ function expandChoice<DataType extends HasToString>(choice: DataType | Choice<Da
   }
 }
 
-export type OneOfFieldControls<DataType> = InputFieldControls<DataType> & {
-  choices: readonly Choice<any>[]
-  renderValue?: string
+export type OneOfFieldControls<DataType = string> = InputFieldControls<DataType> & {
+  choices: readonly Choice[]
+  renderValue: string
+  setRenderValue: (value: string) => void
 }
 
-const simpleTypeTools: DataTypeTools<any> = {
+const simpleTypeTools: DataTypeTools<unknown> = {
   isEmpty: () => false,
   isEqual: (a, b) => a === b,
 }
@@ -96,7 +99,9 @@ function useNonNullableOneOfField<DataType extends HasToString>(
 
   return {
     ...controls,
-    choices: visibleChoices,
+    renderValue: controls.value.toString(),
+    setRenderValue: value => controls.setValue(value as unknown as DataType),
+    choices: visibleChoices as unknown as Choice[],
   }
 }
 
@@ -156,12 +161,14 @@ function useNullableOneOfField<DataType extends HasToString>(
         }
       },
       required: expandCoupledData(props.required, [false, 'Please select an option!']),
-      validators: validators as any,
-      validatorsGenerator: validatorsGenerator as any,
+      validators: validators as ValidatorBundle<InternalDataType<DataType>>,
+      validatorsGenerator: validatorsGenerator as (
+        values: InternalDataType<DataType>
+      ) => ValidatorBundle<InternalDataType<DataType>>,
     },
     {
       isEmpty: v => v === PLEASE_SELECT || isEmpty(v as DataType),
-      isEqual: isEqual as any,
+      isEqual: isEqual as IsEqualFunction<InternalDataType<DataType>>,
     }
   )
 
@@ -187,8 +194,10 @@ export function useOneOfField<DataType extends HasToString>(
 // Common implementation
 export function useOneOfField<DataType extends HasToString>(
   props: OneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType>
-): OneOfFieldControls<any> {
-  return (props as any).placeholder
-    ? useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
-    : useNonNullableOneOfField(props as OneOfFieldProps<DataType>)
+) {
+  return 'placeholder' in props
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
+    : // eslint-disable-next-line react-hooks/rules-of-hooks
+      useNonNullableOneOfField(props as OneOfFieldProps<DataType>)
 }

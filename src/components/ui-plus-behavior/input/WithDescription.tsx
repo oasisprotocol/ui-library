@@ -4,7 +4,7 @@ import classes from './index.module.css'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
 
 export const WithDescription: FC<
-  PropsWithChildren<{ field: Pick<InputFieldControls<any>, 'description'> }>
+  PropsWithChildren<{ field: Pick<InputFieldControls<unknown>, 'description'> }>
 > = props => {
   const { field, children } = props
   const { description } = field

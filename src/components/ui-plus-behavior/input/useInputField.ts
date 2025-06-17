@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AllMessages,
   ValidatorControls,
@@ -15,10 +15,11 @@ import {
   wrapValidatorOutput,
   checkMessagesForProblems,
   capitalizeFirstLetter,
+  MessageMaybeAtLocation,
 } from './util'
 import { MarkdownCode } from '../../ui/markdown'
 
-type ValidatorBundle<DataType> = SingleOrArray<undefined | ValidatorFunction<DataType>>
+export type ValidatorBundle<DataType> = SingleOrArray<undefined | ValidatorFunction<DataType>>
 
 /**
  * Data type for describing a field
@@ -212,9 +213,10 @@ export type InputFieldControlsInternal<DataType> = InputFieldControls<DataType> 
   addMessage: (message: MessageAtLocation) => void
 }
 
+export type IsEqualFunction<DataType> = (data1: DataType, data2: DataType) => boolean
 export type DataTypeTools<DataType> = {
   isEmpty: (data: DataType) => boolean
-  isEqual: (data1: DataType, data2: DataType) => boolean
+  isEqual: IsEqualFunction<DataType>
 }
 
 export const noType: DataTypeTools<void> = {
@@ -222,7 +224,9 @@ export const noType: DataTypeTools<void> = {
   isEqual: () => true,
 }
 
-const calculateVisible = (controls: Pick<InputFieldProps<any>, 'name' | 'hidden' | 'visible'>): boolean => {
+const calculateVisible = (
+  controls: Pick<InputFieldProps<unknown>, 'name' | 'hidden' | 'visible'>
+): boolean => {
   const { name, hidden, visible } = controls
   if (visible === undefined) {
     if (hidden === undefined) {
@@ -246,7 +250,7 @@ const calculateVisible = (controls: Pick<InputFieldProps<any>, 'name' | 'hidden'
 }
 
 export const calculateEnabled = (
-  controls: Pick<InputFieldProps<any>, 'name' | 'enabled' | 'disabled'>
+  controls: Pick<InputFieldProps<unknown>, 'name' | 'enabled' | 'disabled'>
 ): Decision => {
   const { name, enabled, disabled } = controls
   if (enabled === undefined) {
@@ -273,6 +277,8 @@ export const calculateEnabled = (
   }
 }
 
+const noValidators: ValidatorBundle<unknown> = []
+
 export function useInputFieldInternal<DataType>(
   type: string,
   props: InputFieldProps<DataType>,
@@ -286,7 +292,7 @@ export function useInputFieldInternal<DataType>(
     description,
     initialValue,
     cleanUp,
-    validators = [],
+    validators = noValidators,
     validatorsGenerator,
     containerClassName,
     expandHorizontally = true,
@@ -303,15 +309,10 @@ export function useInputFieldInternal<DataType>(
   const cleanValue = cleanUp ? cleanUp(value) : value
   const [messages, setMessages] = useState<MessageAtLocation[]>([])
 
-  let latestMessages: MessageAtLocation[] = [...messages]
-  const addMessage = (message: MessageAtLocation) => {
-    // We need to use a local variable to handle situations when addMessage is called multiple times
-    // within a rendering cycle, i.e. before the state is updated.
-    // If we didn't do this, we would always tty to add to the original array of messages,
-    // thus constantly losing all previous additions within the cycle.
-    latestMessages.push(message)
-    setMessages([...latestMessages])
-  }
+  const addMessage = useCallback(
+    (message: MessageAtLocation) => setMessages(messages => [...messages, message]),
+    []
+  )
 
   const allMessages = useMemo(() => {
     const messageTree: AllMessages = {}
@@ -319,8 +320,8 @@ export function useInputFieldInternal<DataType>(
       const { location } = message
       let bucket = messageTree[location]
       if (!bucket) bucket = messageTree[location] = []
-      const localMessage: MessageAtLocation = { ...message }
-      delete (localMessage as any).location
+      const localMessage: MessageMaybeAtLocation = { ...message }
+      delete localMessage.location
       bucket.push(localMessage)
     })
     return messageTree
@@ -342,105 +343,122 @@ export function useInputFieldInternal<DataType>(
   const [validatorProgress, setValidatorProgress] = useState<number>()
   const [validationStatusMessage, setValidationStatusMessage] = useState<MarkdownCode | undefined>()
 
-  const validatorControls: Pick<ValidatorControls, 'updateStatus'> = {
-    updateStatus: ({ progress, message }) => {
-      if (progress) setValidatorProgress(progress)
-      if (message) setValidationStatusMessage(message)
-    },
-  }
-
   const isEmpty = isValueEmpty(cleanValue)
 
-  const validate = async (params: ValidationParams): Promise<boolean> => {
-    if (!visible) {
-      // We don't care about hidden fields
-      return false
-    }
-    const { forceChange = false, reason, isStillFresh } = params
-    const wasOK = isValidated && !hasProblems
-
-    setValidationPending(true)
+  const clearErrorMessage = useCallback((message: string) => {
+    setMessages(messages => messages.filter(p => p.text !== message || p.type === 'info'))
     setIsValidated(false)
-    setValidationStatusMessage(undefined)
-    setValidatorProgress(undefined)
+  }, [])
 
-    // Clean up the value
-    const different = !isValueEqual(cleanValue, value)
-    if (different && reason !== 'change') {
-      setValue(cleanValue)
-    }
-
-    // Let's start to collect the new messages
-    const currentMessages: MessageAtLocation[] = []
-    let hasError = false
-
-    // If it's required but empty, that's already an error
-    if (required && isEmpty && (reason !== 'change' || validateEmptyOnChange)) {
-      currentMessages.push(wrapValidatorOutput(requiredMessage, 'root', 'error')!)
-      hasError = true
-    }
-
-    // Identify the user-configured validators to use
-    const realValidators = getAsArray(
-      validatorsGenerator ? validatorsGenerator(cleanValue) : validators
-    ).filter((v): v is ValidatorFunction<DataType> => !!v)
-
-    // Go through all the validators
-    for (const validator of realValidators) {
-      // Do we have anything to worry about from this validator?
-      try {
-        const validatorReport =
-          hasError ||
-          (isStillFresh && !isStillFresh()) ||
-          (!forceChange && wasOK && lastValidatedData === cleanValue)
-            ? [] // If we already have an error, don't even bother with any more validators
-            : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
-
-        getAsArray(validatorReport) // Maybe we have a single report, maybe an array. Receive it as an array.
-          .map(report => wrapValidatorOutput(report, 'root', 'error')) // Wrap single strings to proper reports
-          .forEach(message => {
-            // Go through all the reports
-            if (!message) return
-            if (message.type === 'error') hasError = true
-            currentMessages.push(message)
-          })
-      } catch (validatorError) {
-        console.log('Error while running validator', validatorError)
-        currentMessages.push(wrapValidatorOutput(`Error while checking: ${validatorError}`, 'root', 'error')!)
-      }
-    }
-
-    if (!isStillFresh || isStillFresh()) {
-      setMessages(currentMessages)
-      setValidationPending(false)
-      setIsValidated(true)
-      setLastValidatedData(cleanValue)
-
-      // Do we have any actual errors?
-      return currentMessages.some(message => message.type === 'error')
-    } else {
-      return false
-    }
-  }
-
-  const clearErrorMessage = (message: string) => {
-    const oldLength = latestMessages.length
-    latestMessages = latestMessages.filter(p => p.text !== message || p.type === 'info')
-    setMessages(latestMessages)
-    if (messages.length !== oldLength) setIsValidated(false)
-  }
-
-  const clearMessagesAt = (location: string): void => {
-    latestMessages = latestMessages.filter(p => p.location !== location)
-    setMessages(latestMessages)
+  const clearMessagesAt = useCallback((location: string) => {
+    setMessages(messages => messages.filter(p => p.location !== location))
     setIsValidated(false)
-  }
+  }, [])
 
-  const clearAllMessages = () => {
-    latestMessages = []
+  const clearAllMessages = useCallback(() => {
     setMessages([])
     setIsValidated(false)
-  }
+  }, [])
+
+  const validate = useCallback(
+    async (params: ValidationParams): Promise<boolean> => {
+      if (!visible) {
+        // We don't care about hidden fields
+        return false
+      }
+      const { forceChange = false, reason, isStillFresh } = params
+      const wasOK = isValidated && !hasProblems
+
+      setValidationPending(true)
+      setIsValidated(false)
+      setValidationStatusMessage(undefined)
+      setValidatorProgress(undefined)
+
+      // Clean up the value
+      const different = !isValueEqual(cleanValue, value)
+      if (different && reason !== 'change') {
+        setValue(cleanValue)
+      }
+
+      // Let's start to collect the new messages
+      const currentMessages: MessageAtLocation[] = []
+      let hasError = false
+
+      // If it's required but empty, that's already an error
+      if (required && isEmpty && (reason !== 'change' || validateEmptyOnChange)) {
+        currentMessages.push(wrapValidatorOutput(requiredMessage, 'root', 'error')!)
+        hasError = true
+      }
+
+      const validatorControls: Pick<ValidatorControls, 'updateStatus'> = {
+        updateStatus: ({ progress, message }) => {
+          if (progress) setValidatorProgress(progress)
+          if (message) setValidationStatusMessage(message)
+        },
+      }
+
+      // Identify the user-configured validators to use
+      const realValidators = getAsArray(
+        validatorsGenerator ? validatorsGenerator(cleanValue) : validators
+      ).filter((v): v is ValidatorFunction<DataType> => !!v)
+
+      // Go through all the validators
+      for (const validator of realValidators) {
+        // Do we have anything to worry about from this validator?
+        try {
+          const validatorReport =
+            hasError ||
+            (isStillFresh && !isStillFresh()) ||
+            (!forceChange && wasOK && lastValidatedData === cleanValue)
+              ? [] // If we already have an error, don't even bother with any more validators
+              : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
+
+          getAsArray(validatorReport) // Maybe we have a single report, maybe an array. Receive it as an array.
+            .map(report => wrapValidatorOutput(report, 'root', 'error')) // Wrap single strings to proper reports
+            .forEach(message => {
+              // Go through all the reports
+              if (!message) return
+              if (message.type === 'error') hasError = true
+              currentMessages.push(message)
+            })
+        } catch (validatorError) {
+          console.log('Error while running validator', validatorError)
+          currentMessages.push(
+            wrapValidatorOutput(`Error while checking: ${validatorError}`, 'root', 'error')!
+          )
+        }
+      }
+
+      if (!isStillFresh || isStillFresh()) {
+        setMessages(currentMessages)
+        setValidationPending(false)
+        setIsValidated(true)
+        setLastValidatedData(cleanValue)
+
+        // Do we have any actual errors?
+        return currentMessages.some(message => message.type === 'error')
+      } else {
+        return false
+      }
+    },
+    [
+      cleanValue,
+      hasProblems,
+      isEmpty,
+      isValidated,
+      isValueEqual,
+      lastValidatedData,
+      required,
+      requiredMessage,
+      validateEmptyOnChange,
+      validators,
+      validatorsGenerator,
+      value,
+      visible,
+    ]
+  )
+
+  const cleanValueString = JSON.stringify(cleanValue)
 
   useEffect(() => {
     let fresh = true
@@ -459,7 +477,17 @@ export function useInputFieldInternal<DataType>(
       fresh = false
       return
     }
-  }, [visible, JSON.stringify(cleanValue), validateOnChange, validateEmptyOnChange, isEmpty])
+  }, [
+    visible,
+    cleanValueString,
+    validateOnChange,
+    validateEmptyOnChange,
+    isEmpty,
+    clearAllMessages,
+    onValueChange,
+    validate,
+    value,
+  ])
 
   const reset = () => setValue(initialValue)
 

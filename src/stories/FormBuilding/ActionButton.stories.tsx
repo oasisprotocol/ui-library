@@ -21,7 +21,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: () => {
+  render: function DefaultExample() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'test action',
@@ -43,7 +43,7 @@ export const Default: Story = {
 }
 
 export const Customized: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
 
     const action = useAction({
@@ -69,7 +69,7 @@ export const Customized: Story = {
 }
 
 export const WithDescription: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'descriptionAction',
@@ -93,7 +93,7 @@ export const WithDescription: Story = {
 }
 
 export const WithBooleanConfirmation: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'confirmedAction',
@@ -117,7 +117,7 @@ export const WithBooleanConfirmation: Story = {
 }
 
 export const WithStringConfirmation: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'confirmedAction',
@@ -141,7 +141,7 @@ export const WithStringConfirmation: Story = {
 }
 
 export const WithCustomizedConfirmation: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'confirmedAction',
@@ -170,7 +170,7 @@ export const WithCustomizedConfirmation: Story = {
 }
 
 export const Disabled: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'disabledAction',
@@ -194,7 +194,7 @@ export const Disabled: Story = {
 }
 
 export const LongAction: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'longAction',
@@ -221,7 +221,7 @@ export const LongAction: Story = {
 }
 
 export const ActionWithExecutionStatus: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'longAction',
@@ -251,7 +251,7 @@ export const ActionWithExecutionStatus: Story = {
 }
 
 export const WithWarning: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'longAction',
@@ -279,7 +279,7 @@ export const WithWarning: Story = {
 }
 
 export const WithError: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'longAction',
@@ -307,7 +307,7 @@ export const WithError: Story = {
 }
 
 export const WithLogMessages: Story = {
-  render: () => {
+  render: function Example() {
     const [counter, setCounter] = useState(0)
     const action = useAction({
       name: 'longAction',
@@ -316,6 +316,9 @@ export const WithLogMessages: Story = {
       action: async context => {
         await sleep(2000)
         context.log('Output from the action.')
+        await sleep(2000)
+        context.log('More output from the action.')
+        await sleep(2000)
         setCounter(c => c + 1)
       },
     })

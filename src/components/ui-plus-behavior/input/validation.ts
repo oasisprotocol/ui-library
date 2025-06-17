@@ -3,7 +3,7 @@ import { AsyncValidatorFunction, getAsArray, SingleOrArray, sleep } from './util
 import { LabelProps } from './useLabel'
 
 export type FieldLike = Pick<
-  InputFieldControls<any>,
+  InputFieldControls<unknown>,
   'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
 >
 
@@ -50,7 +50,7 @@ export const doFieldsHaveAnError = (fields: FieldConfiguration): boolean =>
     .filter(field => field.visible)
     .some(field => field.hasProblems)
 
-const mockValidator: AsyncValidatorFunction<any> = async (_value, controls) => {
+const mockValidator: AsyncValidatorFunction<unknown> = async (_value, controls) => {
   const { isStillFresh } = controls
   if (isStillFresh && !isStillFresh()) return undefined
   await sleep(500)

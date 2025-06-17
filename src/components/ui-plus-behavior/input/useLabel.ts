@@ -2,6 +2,7 @@ import { InputFieldControls, InputFieldProps, useInputField } from './useInputFi
 import { getAsArray, SingleOrArray } from './util'
 import { ReactNode, useId } from 'react'
 import { renderMarkdown, TagName, MarkdownCode } from '../../ui/markdown.tsx'
+import { HasToString } from './useOneOfField.ts'
 
 export type RendererFunction<DataType> = (value: DataType, tagName: string) => ReactNode
 
@@ -53,11 +54,12 @@ export type LabelControls<DataType> = Omit<
   renderedContent: ReactNode
 }
 
-export function useLabel<DataType = MarkdownCode>(
+export function useLabel<DataType extends HasToString = MarkdownCode>(
   rawProps: LabelProps<DataType> | string
 ): LabelControls<DataType> {
+  const autoId = useId()
   const props = (
-    typeof rawProps === 'string' ? { name: useId(), value: rawProps } : rawProps
+    typeof rawProps === 'string' ? { name: autoId, value: rawProps } : rawProps
   ) as LabelProps<DataType>
   const {
     classnames = [],
@@ -66,7 +68,7 @@ export function useLabel<DataType = MarkdownCode>(
     label = '',
     value,
   } = props
-  const { renderer = (value, tagName: TagName) => renderMarkdown(value as any, tagName) } = props
+  const { renderer = (value, tagName: TagName) => renderMarkdown(value.toString(), tagName) } = props
 
   const controls = useInputField(
     'label',
@@ -82,8 +84,9 @@ export function useLabel<DataType = MarkdownCode>(
   )
 
   const renderedContent = renderer(value, tagName)
-  const visible = controls.visible && value !== ''
+  const visible = controls.visible && value.toString() !== ''
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { placeholder, enabled, whyDisabled, setValue, reset, ...otherControls } = controls
 
   return {

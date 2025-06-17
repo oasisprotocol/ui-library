@@ -7,7 +7,7 @@ import { CircleAlert, CircleCheck, LoaderCircle } from 'lucide-react'
 
 export const FieldStatusIndicators: FC<
   Pick<
-    InputFieldControls<any>,
+    InputFieldControls<unknown>,
     'indicateValidationPending' | 'indicateValidationSuccess' | 'validationPending' | 'isValidated'
   > & { messages: FieldMessage[] }
 > = props => {

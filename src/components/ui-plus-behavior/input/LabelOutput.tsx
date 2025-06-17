@@ -6,7 +6,7 @@ import { WithVisibility } from './WithVisibility.tsx'
 import { WithLabelAndDescription } from './WithLabelAndDescription.tsx'
 import { WithValidation } from './WithValidation.tsx'
 
-export const LabelOutput: FC<LabelControls<any>> = props => {
+export const LabelOutput: FC<LabelControls<unknown>> = props => {
   const { allMessages, classnames, renderedContent } = props
 
   return (

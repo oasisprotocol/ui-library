@@ -20,7 +20,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: () => {
+  render: function Example() {
     // Configuration for the tested component
     const visible = useBooleanField({
       name: 'visible',
@@ -65,7 +65,7 @@ export const Default: Story = {
 }
 
 export const SwitchWidget: Story = {
-  render: () => {
+  render: function Example() {
     // Configuration for the tested component
     const visible = useBooleanField({
       name: 'visible',

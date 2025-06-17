@@ -7,7 +7,7 @@ import { MotionDiv } from '../Animations'
 import { MarkdownBlock } from '../../ui/markdown'
 
 export const FieldAndValidationMessage: FC<
-  Pick<InputFieldControls<any>, 'validationPending' | 'validationStatusMessage' | 'clearErrorMessage'> & {
+  Pick<InputFieldControls<unknown>, 'validationPending' | 'validationStatusMessage' | 'clearErrorMessage'> & {
     messages: FieldMessage[]
   }
 > = props => {
