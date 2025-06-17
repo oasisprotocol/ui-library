@@ -191,13 +191,33 @@ export function useOneOfField<DataType extends HasToString>(
   props: NullableOneOfFieldProps<DataType>
 ): OneOfFieldControls<DataType | undefined>
 
+export function useOneOfField<DataType extends HasToString>(
+  name: string,
+  choices: readonly (Choice<DataType> | DataType)[]
+): OneOfFieldControls<DataType>
+
+export function useOneOfField<DataType extends HasToString>(
+  name: string,
+  choices: readonly (Choice<DataType> | DataType)[],
+  placeholder: string
+): OneOfFieldControls<DataType | undefined>
+
 // Common implementation
 export function useOneOfField<DataType extends HasToString>(
-  props: NonNullableOneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType>
+  props: NonNullableOneOfFieldProps<DataType> | NullableOneOfFieldProps<DataType> | string,
+  choices?: readonly (Choice<DataType> | DataType)[],
+  placeholder?: string
 ) {
-  return 'placeholder' in props
-    ? // eslint-disable-next-line react-hooks/rules-of-hooks
-      useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
-    : // eslint-disable-next-line react-hooks/rules-of-hooks
-      useNonNullableOneOfField(props as NonNullableOneOfFieldProps<DataType>)
+  return typeof props === 'string'
+    ? placeholder
+      ? useNullableOneOfField({ name: props, choices: choices!, placeholder })
+      : useNonNullableOneOfField({
+          name: props,
+          choices: choices!,
+        })
+    : 'placeholder' in props
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useNullableOneOfField(props as NullableOneOfFieldProps<DataType>)
+      : // eslint-disable-next-line react-hooks/rules-of-hooks
+        useNonNullableOneOfField(props as NonNullableOneOfFieldProps<DataType>)
 }
