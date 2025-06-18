@@ -280,13 +280,7 @@ export const WithPlaceholder: Story = {
           label: 'Third option',
         },
       ] as const,
-      required: true,
-      validateOnChange: true,
     })
-
-    // selection.setValue(undefined)
-    // if (selection.value === undefined) {
-    // }
 
     return (
       <div className={'w-[400px]'}>
