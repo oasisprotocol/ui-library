@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   AllMessages,
   ValidatorControls,
@@ -18,6 +18,8 @@ import {
   MessageMaybeAtLocation,
 } from './util'
 import { MarkdownCode } from '../../ui/markdown'
+
+const VALIDATION_DEBUG_MODE = false
 
 export type ValidatorBundle<DataType> = SingleOrArray<undefined | ValidatorFunction<DataType>>
 
@@ -302,6 +304,14 @@ export function useInputFieldInternal<DataType>(
     showValidationSuccess = false,
     onValueChange,
   } = props
+  const debugId = useId()
+  const debugLog = useCallback(
+    (message: unknown, ...more: unknown[]) => {
+      if (!VALIDATION_DEBUG_MODE) return
+      console.log(`[${debugId}] "${name}"`, message, ...more)
+    },
+    [debugId, name]
+  )
 
   const [required, requiredMessage] = expandCoupledData(props.required, [false, 'This field is required'])
 
@@ -309,10 +319,13 @@ export function useInputFieldInternal<DataType>(
   const cleanValue = cleanUp ? cleanUp(value) : value
   const [messages, setMessages] = useState<MessageAtLocation[]>([])
 
-  const addMessage = useCallback((message: MessageAtLocation) => {
-    // console.log('Updating messages in addMessage')
-    setMessages(messages => [...messages, message])
-  }, [])
+  const addMessage = useCallback(
+    (message: MessageAtLocation) => {
+      debugLog('Updating messages in addMessage')
+      setMessages(messages => [...messages, message])
+    },
+    [debugLog]
+  )
 
   const allMessages = useMemo(() => {
     const messageTree: AllMessages = {}
@@ -329,12 +342,21 @@ export function useInputFieldInternal<DataType>(
   const hasProblems = Object.keys(allMessages).some(
     key => checkMessagesForProblems(allMessages[key]).hasError
   )
+  const validationCounterRef = useRef<number>(0)
+  const isValidatedRef = useRef(false)
   const [isValidated, setIsValidated] = useState(false)
-  const [lastValidatedValue, setLastValidatedValue] = useState<DataType>()
-  const [lastSeenValue, setLastSeenValue] = useState<DataType>()
+  const lastValidatedValueRef = useRef<DataType | undefined>(undefined)
+  const lastSeenValueRef = useRef<DataType>(undefined)
+  const validationPendingRef = useRef<number>()
   const [validationPending, setValidationPending] = useState(false)
 
-  const { isEmpty: isValueEmpty, isEqual: isValueEqual } = dataTypeControl
+  const { isEmpty: isValueEmpty, isEqual: isEqualRaw } = dataTypeControl
+
+  const isValueEqual: IsEqualFunction<DataType | undefined> = useCallback(
+    (a, b) =>
+      (a === undefined && b === undefined) || (a !== undefined && b !== undefined && isEqualRaw(a, b)),
+    [isEqualRaw]
+  )
 
   const visible = calculateVisible(props)
   const enabled = calculateEnabled(props)
@@ -346,40 +368,63 @@ export function useInputFieldInternal<DataType>(
 
   const isEmpty = isValueEmpty(cleanValue)
 
-  const clearErrorMessage = useCallback((message: string) => {
-    // console.log(`Updating messages in clearErrorMessage('${message}')`)
-    setMessages(messages => messages.filter(p => p.text !== message || p.type === 'info'))
-    setIsValidated(false)
-  }, [])
+  const clearErrorMessage = useCallback(
+    (message: string) => {
+      debugLog(`Updating messages in clearErrorMessage('${message}')`)
+      setMessages(messages => messages.filter(p => p.text !== message || p.type === 'info'))
+      isValidatedRef.current = false
+      setIsValidated(false)
+    },
+    [debugLog]
+  )
 
-  const clearMessagesAt = useCallback((location: string) => {
-    // console.log(`Updating messages in clearMessagesAt('${location}')`)
-    setMessages(messages => messages.filter(p => p.location !== location))
-    setIsValidated(false)
-  }, [])
+  const clearMessagesAt = useCallback(
+    (location: string) => {
+      debugLog(`Updating messages in clearMessagesAt('${location}')`)
+      setMessages(messages => messages.filter(p => p.location !== location))
+      isValidatedRef.current = false
+      setIsValidated(false)
+    },
+    [debugLog]
+  )
 
-  const clearAllMessages = useCallback((_reason: string) => {
-    // console.log('Updating messages in clearAllMessages()', reason)
-    setMessages([])
-    setIsValidated(false)
-  }, [])
+  const clearAllMessages = useCallback(
+    (reason: string) => {
+      debugLog('Updating messages in clearAllMessages()', reason)
+      setMessages([])
+      isValidatedRef.current = false
+      setIsValidated(false)
+    },
+    [debugLog]
+  )
 
   const validate = useCallback(
-    async (params: ValidationParams): Promise<boolean> => {
+    async (valueToValidate: DataType, params: ValidationParams): Promise<boolean> => {
       if (!visible) {
         // We don't care about hidden fields
         return false
       }
-      const { forceChange = false, reason, isStillFresh } = params
-      const wasOK = isValidated && !hasProblems
+      const { forceChange = false, reason, isStillFresh: clientStillInterested } = params
+      const wasOK = isValidatedRef.current && !hasProblems
 
+      const validationSessionId = ++validationCounterRef.current
+      debugLog('Validating', valueToValidate, 'because', reason, `==> validation #${validationSessionId}`)
+
+      const isStillFresh = () =>
+        (!clientStillInterested || clientStillInterested()) &&
+        validationPendingRef.current === validationSessionId
+
+      const cleanValue = cleanUp ? cleanUp(valueToValidate) : valueToValidate
+      const isEmpty = isValueEmpty(cleanValue)
+      validationPendingRef.current = validationSessionId
       setValidationPending(true)
+      isValidatedRef.current = false
       setIsValidated(false)
       setValidationStatusMessage(undefined)
       setValidatorProgress(undefined)
 
       // Clean up the value
-      const different = !isValueEqual(cleanValue, value)
+      const different = !isValueEqual(cleanValue, valueToValidate)
       if (different && reason !== 'change') {
         setValue(cleanValue)
       }
@@ -395,9 +440,19 @@ export function useInputFieldInternal<DataType>(
       }
 
       const validatorControls: Pick<ValidatorControls, 'updateStatus'> = {
-        updateStatus: ({ progress, message }) => {
-          if (progress) setValidatorProgress(progress)
-          if (message) setValidationStatusMessage(message)
+        updateStatus: props => {
+          if (isStillFresh && !isStillFresh()) {
+            // This session is obsolete, ignore any output
+            // debugLog('Ignoring status update from obsolete session')
+            return
+          }
+          if (typeof props === 'string') {
+            setValidationStatusMessage(props)
+          } else {
+            const { progress, message } = props
+            if (progress) setValidatorProgress(progress)
+            if (message) setValidationStatusMessage(message)
+          }
         },
       }
 
@@ -413,7 +468,7 @@ export function useInputFieldInternal<DataType>(
           const validatorReport =
             hasError ||
             (isStillFresh && !isStillFresh()) ||
-            (!forceChange && wasOK && lastValidatedValue === cleanValue)
+            (!forceChange && wasOK && isValueEqual(lastValidatedValueRef.current, cleanValue))
               ? [] // If we already have an error, don't even bother with any more validators
               : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
 
@@ -434,31 +489,33 @@ export function useInputFieldInternal<DataType>(
       }
 
       if (!isStillFresh || isStillFresh()) {
-        // console.log('Updating messages in validate()')
+        debugLog(`Updating messages after finished validation #${validationSessionId}`, currentMessages)
+        debugLog('isStillFresh', isStillFresh)
         setMessages(currentMessages)
+        validationPendingRef.current = undefined
         setValidationPending(false)
+        isValidatedRef.current = true
         setIsValidated(true)
-        setLastValidatedValue(cleanValue)
+        lastValidatedValueRef.current = cleanValue
 
         // Do we have any actual errors?
         return currentMessages.some(message => message.type === 'error')
       } else {
+        debugLog(`Validation #${validationSessionId} cancelled`)
         return false
       }
     },
     [
-      cleanValue,
+      debugLog,
       hasProblems,
-      isEmpty,
-      isValidated,
+      cleanUp,
+      isValueEmpty,
       isValueEqual,
-      lastValidatedValue,
       required,
       requiredMessage,
       validateEmptyOnChange,
       validators,
       validatorsGenerator,
-      value,
       visible,
     ]
   )
@@ -467,26 +524,26 @@ export function useInputFieldInternal<DataType>(
 
   // Sometimes, when the value changes, we are supposed to validate
   useEffect(() => {
-    if (value === lastSeenValue) return
-    let fresh = true
-    setLastSeenValue(value)
+    if (isValueEqual(value, lastSeenValueRef.current)) return
+    debugLog('Change', lastSeenValueRef.current, '=>', value)
+    lastSeenValueRef.current = value
+    const isStillFresh = () => isValueEqual(lastSeenValueRef.current, value)
     if (onValueChange) {
-      onValueChange(value, () => fresh)
+      onValueChange(value, isStillFresh)
     }
     if (visible) {
       if (validateOnChange && (!isEmpty || validateEmptyOnChange)) {
         // Yes, we are supposed to validate
-        void validate({ reason: 'change', isStillFresh: () => fresh })
+        void validate(value, { reason: 'change', isStillFresh })
       } else {
         // No need to validate, but we still want to clear out any error messages,
         // because they are no longer relevant to the new value
         clearAllMessages('value change effect')
+        isValidatedRef.current = false
+        setValidationPending(false)
+        validationPendingRef.current = undefined
         setIsValidated(false)
       }
-    }
-    return () => {
-      fresh = false
-      return
     }
   }, [
     visible,
@@ -494,11 +551,12 @@ export function useInputFieldInternal<DataType>(
     validateOnChange,
     validateEmptyOnChange,
     isEmpty,
+    isValueEqual,
     clearAllMessages,
     onValueChange,
     validate,
-    lastSeenValue,
     value,
+    debugLog,
   ])
 
   const reset = () => setValue(initialValue)
@@ -523,7 +581,7 @@ export function useInputFieldInternal<DataType>(
     clearAllMessages,
     indicateValidationSuccess: showValidationSuccess,
     indicateValidationPending: showValidationPending,
-    validate,
+    validate: params => validate(value, params),
     validationPending: showValidationPending && validationPending,
     validationStatusMessage,
     validatorProgress,

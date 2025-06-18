@@ -47,7 +47,7 @@ export type TextFieldControls = InputFieldControls<string> & {
   onEnter: (() => void) | undefined
 }
 
-export function useTextField<DataType>(props: TextFieldProps): TextFieldControls
+export function useTextField(props: TextFieldProps): TextFieldControls
 
 export function useTextField(
   name: string,

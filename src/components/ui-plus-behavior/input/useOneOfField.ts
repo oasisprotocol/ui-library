@@ -210,8 +210,10 @@ export function useOneOfField<DataType extends HasToString>(
 ) {
   return typeof props === 'string'
     ? placeholder
-      ? useNullableOneOfField({ name: props, choices: choices!, placeholder })
-      : useNonNullableOneOfField({
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useNullableOneOfField({ name: props, choices: choices!, placeholder })
+      : // eslint-disable-next-line react-hooks/rules-of-hooks
+        useNonNullableOneOfField({
           name: props,
           choices: choices!,
         })
