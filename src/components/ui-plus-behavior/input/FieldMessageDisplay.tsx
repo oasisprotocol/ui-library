@@ -1,15 +1,14 @@
 import { FC, ForwardedRef, forwardRef } from 'react'
 import { FieldMessage, FieldMessageType } from './util'
-import classes from './index.module.css'
 import { AnimatePresence } from 'framer-motion'
 import { MotionDiv } from '../Animations'
 import { MarkdownBlock } from '../../ui/markdown'
 import { cn } from '../../../lib'
 
 const messageClass: Record<FieldMessageType, string> = {
-  error: cn(classes.fieldError, 'text-destructive'),
-  warning: cn(classes.fieldWarning, 'text-warning'),
-  info: classes.fieldInfo,
+  error: cn('pt-1', 'text-destructive'),
+  warning: cn('pt-1', 'text-warning'),
+  info: cn('pt-1'),
 }
 
 type Remover = (id: string) => void

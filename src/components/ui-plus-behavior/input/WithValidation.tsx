@@ -6,6 +6,7 @@ import { FieldAndValidationMessage } from './FieldAndValidationMessage'
 import { FieldStatusIndicators } from './FieldStatusIndicator'
 import { cn } from '../../../lib'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
+import { Label } from '../../ui/label.tsx'
 
 export const WithValidation: FC<
   PropsWithChildren<{
@@ -37,9 +38,9 @@ export const WithValidation: FC<
     >
       <div key="field-and-status" className="flex items-center space-x-2">
         {compact && (
-          <div className={classes.fieldLabel}>
-            <MarkdownBlock code={label} />
-          </div>
+          <Label>
+            <MarkdownBlock code={label} className={'text-nowrap'} />
+          </Label>
         )}
         {children}
         <FieldStatusIndicators key={'status'} {...field} messages={messages} />

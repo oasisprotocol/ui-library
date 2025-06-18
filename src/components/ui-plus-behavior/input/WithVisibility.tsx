@@ -1,7 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { InputFieldControls } from './useInputField.ts'
-import classes from './index.module.css'
 import { MotionDiv } from '../Animations'
 import { cn } from '../../../lib'
 
@@ -21,11 +20,7 @@ export const WithVisibility: FC<
           reason={'conditionalField'}
           layout
           key={field.name}
-          className={cn(
-            classes.fieldContainer,
-            expandHorizontally ? classes.fieldContainerExpand : undefined,
-            containerClassName
-          )}
+          className={cn('overflow-x-hidden', expandHorizontally ? 'w-full' : undefined, containerClassName)}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
@@ -35,7 +30,7 @@ export const WithVisibility: FC<
           }}
         >
           {children}
-          {padding && <div key="padding" className={classes.fieldPadding} />}
+          {padding && <div key="padding" className={'h-[1em]'} />}
         </MotionDiv>
       )}
     </AnimatePresence>

@@ -24,8 +24,29 @@ export const Default: Story = {
     const input = useTextField({
       name: 'test input',
       // label: 'Test **input**',
-      // description: 'What do we have _here_?',
+      description: 'What do we have _here_?',
       placeholder: 'Type whatever',
+    })
+
+    return (
+      <div className={'w-[400px]'}>
+        <TextInput {...input} /> {/* This is our component */}
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
+    await expect(button).toBeInTheDocument()
+  },
+}
+
+export const CompactMode: Story = {
+  render: function Example() {
+    const input = useTextField({
+      name: 'input',
+      placeholder: 'Type whatever',
+      compact: true,
     })
 
     return (
@@ -85,29 +106,6 @@ export const WithDescription: Story = {
   },
 }
 
-export const WithError: Story = {
-  render: function Example() {
-    const input = useTextField({
-      name: 'testInput',
-      label: 'Test **input**',
-      initialValue: 'oops',
-      validateOnChange: true,
-      validators: () => 'This is _so_ wrong.',
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <TextInput {...input} /> {/* This is our component */}
-      </div>
-    )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
-  },
-}
-
 export const WithWarning: Story = {
   render: function Example() {
     const input = useTextField({
@@ -138,6 +136,7 @@ export const WithMinimumLength: Story = {
       label: 'Test **input**',
       validateOnChange: true,
       minLength: 5,
+      initialValue: 'foo',
     })
 
     return (
@@ -160,6 +159,7 @@ export const WithMinimumLengthWithCustomizedMessage: Story = {
       label: 'Test **input**',
       validateOnChange: true,
       minLength: [5, min => `too short, need at least ${min}`],
+      initialValue: 'bar',
     })
 
     return (
@@ -179,9 +179,9 @@ export const WithMaximumLength: Story = {
   render: function Example() {
     const input = useTextField({
       name: 'testInput',
-      // label: 'Test **input**',
       validateOnChange: true,
       maxLength: 10,
+      initialValue: 'too long text',
     })
 
     return (
@@ -202,7 +202,7 @@ export const WithCustomValidators: Story = {
     const input = useTextField({
       name: 'testInput',
       label: 'Test **input**',
-      description: 'Try writing something that has spaces or commas',
+      description: 'Try words separated by spaces or commas',
       validateOnChange: true,
       validators: [
         value => (value.includes(' ') ? 'No spaces, please' : undefined),
