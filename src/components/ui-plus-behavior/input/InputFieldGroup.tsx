@@ -48,9 +48,9 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
               name: `group-${index}`,
               containerClassName: cn(
                 alignRight ? classes.fieldRowRight : classes.fieldRow,
-                expandHorizontally ? classes.fieldRowExpand : classes.fieldRowCompact
+                expandHorizontally ? 'w-full' : classes.fieldRowCompact
               ),
-              expandHorizontally: expandHorizontally,
+              expandHorizontally,
             }}
             padding={false}
           >

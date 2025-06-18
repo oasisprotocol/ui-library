@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../../ui/dialog.tsx'
+import { cn } from '../../../lib'
 
 export const ActionButton: FC<ActionControls<unknown>> = props => {
   const {
@@ -32,6 +33,8 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
     confirmationNeeded,
     onConfirmationProvided,
     onConfirmationDenied,
+    className,
+    expandHorizontally,
   } = props
   const handleClick: MouseEventHandler = event => {
     event.stopPropagation()
@@ -54,8 +57,13 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
     <>
       <WithVisibility field={props}>
         <WithValidation field={props} messages={allMessages.root}>
-          <MaybeWithTooltip overlay={whyDisabled ?? description} side={'top'}>
+          <MaybeWithTooltip
+            overlay={whyDisabled ?? description}
+            side={'top'}
+            className={expandHorizontally ? 'w-full' : undefined}
+          >
             <Button
+              className={cn(className, expandHorizontally ? 'w-full' : undefined)}
               variant={variant}
               size={size}
               color={color}

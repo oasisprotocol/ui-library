@@ -17,13 +17,6 @@
   flex-direction: row-reverse;
 }
 
-.fieldRowExpand {
-  width: 100%;
-  button {
-    width: 100%;
-  }
-}
-
 .fieldRowCompact {
   justify-content: center;
 }

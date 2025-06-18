@@ -30,6 +30,7 @@ export type ActionProps<ReturnData = void> = Omit<
   | 'onValueChange'
 > &
   Partial<Pick<Parameters<typeof Button>[0], 'variant' | 'size' | 'color'>> & {
+    className?: string
     pendingLabel?: MarkdownCode
     confirmationNeeded?: ConfirmationRequest
     action: (context: ExecutionContext) => ReturnData
@@ -40,7 +41,7 @@ export type ActionControls<ReturnData> = FieldLike<void> &
     InputFieldControls<void>,
     'value' | 'setValue' | 'reset' | 'hasProblems' | 'validate' | 'validatorProgress'
   > &
-  Pick<ActionProps, 'color' | 'variant' | 'size'> & {
+  Pick<ActionProps, 'color' | 'variant' | 'size' | 'className'> & {
     isPending: boolean
     confirmationNeeded: FullConfirmationRequest | undefined
     onConfirmationProvided: () => void
