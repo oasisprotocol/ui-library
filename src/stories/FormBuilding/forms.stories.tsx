@@ -145,7 +145,7 @@ export const MinimalForm: Story = {
 export const TypeSafeForm: Story = {
   render: function Example() {
     const [values, setValues] = useState<Record<string, unknown>>()
-    const [types, setTypes] = useState<Record<string, any>>()
+    const [types, setTypes] = useState<Record<string, string>>()
 
     const form = {
       label: useLabel('Please tell us about your preferences!'),
