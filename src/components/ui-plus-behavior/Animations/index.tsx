@@ -33,7 +33,10 @@ type AnimationPolicy =
   | { id: 'allow'; allow: string[] }
   | { id: 'deny'; deny: string[] }
 
-let policy: AnimationPolicy = { id: 'denyAll' }
+let policy: AnimationPolicy = {
+  // id: 'denyAll',
+  id: 'allowAll',
+}
 export const setAnimationPolicy = (newPolicy: AnimationPolicy) => (policy = newPolicy)
 
 export const shouldAnimate = (reason: string | undefined): boolean => {
