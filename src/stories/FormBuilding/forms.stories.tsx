@@ -152,7 +152,7 @@ export const TypeSafeForm: Story = {
       animal: useTextField('Animal', 'What is your favorite animal?', true),
       color: useTextField('Color', 'What is your favorite color?'),
       coder: useBooleanField('coder', 'I know TypeScript'),
-      sex: useOneOfField('sex', ['male', 'female'] as const),
+      sex: useOneOfField({ name: 'sex', choices: ['male', 'female'] as const, compact: true }),
     } as const
 
     const apply = useAction({
