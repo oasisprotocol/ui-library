@@ -48,16 +48,16 @@ Currently, the following data types are supported:
   which is also channeled to the UI.
 - Clashing and stale validation attempts are handled automatically
 
-## Text input
+## [Text input](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-usetextfield-and-textinput--docs)
 
 - Built-in validators for min and max length
 - Support for hidden (password) input
 
-## Boolean input
+## [Boolean input](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-usebooleanfield-and-booleaninput--docs)
 
 - Supports rendering as both checkbox and switch
 
-## OneOf (a.k.a. Select)
+## [OneOf (a.k.a. Select)](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-useoneoffield-and-selectinput--docs)
 
 - You need to provide a list of choices
 - All choice can have a value, and label and description, can be dynamically hidden or disabled,
@@ -67,18 +67,18 @@ Currently, the following data types are supported:
 - When configured accordingly, a strict enum type will be generated for `value`.
 - Optional placeholder element (for no selection)
 
-## Date
+## [Date](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-usedatefield-and-dateinput--docs)
 
 - Uses React's calendar, fow now
 - Built-in validator for min and max date
 
-## Labels
+## [Labels](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-uselabel-and-labeloutput--docs)
 
 - These are useful for rendering some data or message as part of a form
 - it accepts optional render functions for rendering arbitrary widgets based on the data.
   (i.e. status indicators, links, etc.)
 
-## Action
+## [Action](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-useaction-and-actionbutton--docs)
 
 - Actions can be defined by providing a name and a function
 - They are rendered as buttons.
@@ -93,7 +93,7 @@ Currently, the following data types are supported:
 - Actions may require confirmation before execution. This well be handled using dialogs.
 - The control interface returned by the hook also provides a `isPending` flag and an `execute()` call.
 
-## Working with groups of fields
+## [Working with groups of fields](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-validate-and-inputfieldgroup--docs)
 
 There are multiple ways for building form layouts:
 
