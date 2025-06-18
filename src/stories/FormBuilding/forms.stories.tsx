@@ -125,12 +125,15 @@ export const MinimalForm: Story = {
         useTextField('Animal', 'What is your favorite animal?'),
         useTextField('Color', 'What is your favorite color?'),
       ],
-      useBooleanField('coder', 'I know TypeScript'),
-      useOneOfField('sex', ['male', 'female'] as const),
+      [
+        // This will be in a row, too
+        useOneOfField({ name: 'sex', choices: ['male', 'female'] as const, compact: true }),
+        useBooleanField({ name: 'coder', description: 'I know TypeScript', preferredWidget: 'switch' }),
+      ],
     ]
 
     return (
-      <div className={'w-[400px]'}>
+      <div className={'w-[600px]'}>
         <InputFieldGroup fields={form} />
       </div>
     )
@@ -152,7 +155,11 @@ export const TypeSafeForm: Story = {
       animal: useTextField('Animal', 'What is your favorite animal?', true),
       color: useTextField('Color', 'What is your favorite color?'),
       coder: useBooleanField('coder', 'I know TypeScript'),
-      sex: useOneOfField({ name: 'sex', choices: ['male', 'female'] as const, compact: true }),
+      sex: useOneOfField({
+        name: 'sex',
+        choices: ['male', 'female'] as const,
+        compact: true,
+      }),
     } as const
 
     const apply = useAction({

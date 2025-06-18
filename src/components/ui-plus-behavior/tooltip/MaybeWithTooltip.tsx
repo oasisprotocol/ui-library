@@ -8,16 +8,17 @@ type TooltipProps = Pick<Parameters<typeof TooltipContent>[0], 'side'> &
   Pick<Parameters<typeof Tooltip>[0], 'open' | 'delayDuration'> & {
     overlay: MarkdownCode | undefined
     children: Content
+    className?: string
   }
 
 export const MaybeWithTooltip: FC<TooltipProps> = props => {
-  const { overlay } = props
+  const { overlay, className } = props
   const { open, delayDuration } = props // props for Tooltip
   const { side } = props /// Props for TooltipContent
 
   return overlay ? (
     <Tooltip open={open} delayDuration={delayDuration}>
-      <TooltipTrigger>{props.children}</TooltipTrigger>
+      <TooltipTrigger className={className}>{props.children}</TooltipTrigger>
       <TooltipContent side={side}>
         <MarkdownBlock code={overlay} />
       </TooltipContent>
