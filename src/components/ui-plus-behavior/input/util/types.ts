@@ -1,8 +1,8 @@
-export const getTypeDescription = (data: any) =>
+export const getTypeDescription = (data: Record<string, unknown>) =>
   Object.keys(data).reduce(
     (acc, key) => {
       acc[key] = typeof data[key]
       return acc
     },
-    {} as Record<string, any>
+    {} as Record<string, string>
   )

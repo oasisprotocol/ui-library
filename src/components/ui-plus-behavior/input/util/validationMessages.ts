@@ -70,7 +70,7 @@ export type AllMessages = Record<string, FieldMessage[]>
  */
 export type ValidatorControls = {
   isStillFresh?: () => boolean
-  updateStatus: (status: { message?: MarkdownCode; progress?: number }) => void
+  updateStatus: (status: { message?: MarkdownCode; progress?: number } | string) => void
 }
 
 type NumberStringFunction = (amount: number) => string
