@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from 'react'
 import { InputFieldControls } from './useInputField.ts'
-import classes from './index.module.css'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
 
 export const WithDescription: FC<
@@ -10,9 +9,7 @@ export const WithDescription: FC<
   const { description } = field
   return description ? (
     <label>
-      <div className={classes.fieldDescription}>
-        <MarkdownBlock code={description} />
-      </div>
+      <MarkdownBlock code={description} className={'text-sm text-muted-foreground'} />
       {children}
     </label>
   ) : (

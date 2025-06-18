@@ -1,39 +1,30 @@
 import { FC, PropsWithChildren } from 'react'
-import { InputFieldControls } from './useInputField.ts'
+import { InputFieldControls } from './useInputField'
 import classes from './index.module.css'
-import { MarkdownBlock } from '../../ui/markdown.tsx'
-import { Label } from '../../ui/label.tsx'
+import { MarkdownBlock } from '../../ui/markdown'
+import { Label } from '../../ui/label'
+import { cn } from '../../../lib'
 
 export const WithLabelAndDescription: FC<
   PropsWithChildren<{ field: Pick<InputFieldControls<unknown>, 'label' | 'description' | 'compact'> }>
-> = props => {
-  const { field, children } = props
-  const { label, description, compact } = field
-
-  if (compact) {
-    return description ? (
-      <label className={classes.fieldLabelTag}>
-        <div className={classes.fieldDescription}>
-          <MarkdownBlock code={description} />
-        </div>
+> = ({ field: { label, description, compact }, children }) =>
+  compact ? (
+    description ? (
+      <Label className={cn('w-full', classes.fieldLabelTag)}>
+        <MarkdownBlock code={description} className={'text-muted-foreground text-sm'} />
         {children}
-      </label>
+      </Label>
     ) : (
       children
     )
-  } else {
-    return !!label || !!description ? (
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label>
-          <MarkdownBlock code={label} />
-        </Label>
-        <div className={classes.fieldDescription}>
-          <MarkdownBlock code={description} />
-        </div>
-        {children}
-      </div>
-    ) : (
-      children
-    )
-  }
-}
+  ) : !!label || !!description ? (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label>
+        <MarkdownBlock code={label} />
+      </Label>
+      <MarkdownBlock code={description} className={'text-muted-foreground text-sm'} />
+      {children}
+    </div>
+  ) : (
+    children
+  )

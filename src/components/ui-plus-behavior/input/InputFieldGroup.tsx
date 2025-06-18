@@ -38,13 +38,7 @@ export const InputFieldGroup: FC<InputFieldGroupProps> = ({
 }) => {
   const realFields = Array.isArray(fields) ? fields : Object.values(fields)
   return realFields.some(row => (Array.isArray(row) ? row.some(col => col.visible) : row.visible)) ? (
-    <div
-      className={cn(
-        classes.fieldGroup,
-        expandHorizontally ? classes.fieldGroupExpand : classes.fieldGroupCompact,
-        className
-      )}
-    >
+    <div className={cn(classes.fieldGroup, expandHorizontally ? 'w-full' : '', className)}>
       {realFields.map((row, index) =>
         Array.isArray(row) ? (
           <WithVisibility
