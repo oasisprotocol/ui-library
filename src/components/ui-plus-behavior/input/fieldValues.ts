@@ -1,12 +1,7 @@
 import { FieldArrayConfiguration, FieldMapConfiguration } from './validation.ts'
 import { decapitalizeFirstLetter, getAsArray } from './util'
 
-/**
- * Go through a group of fields, and do full validation.
- *
- * Returns true if there was an error.
- */
-export const getFieldArrayValues = (fields: Readonly<FieldArrayConfiguration>) => {
+const getFieldArrayValues = (fields: Readonly<FieldArrayConfiguration>) => {
   // Get a flattened list of fields
   const allFields = fields.flatMap(config => getAsArray(config))
 
@@ -19,7 +14,7 @@ export const getFieldArrayValues = (fields: Readonly<FieldArrayConfiguration>) =
   return results
 }
 
-export function getFormMapValues<DataForm extends FieldMapConfiguration>(fields: DataForm) {
+function getFieldMapValues<DataForm extends FieldMapConfiguration>(fields: DataForm): { [Key in keyof DataForm]: DataForm[Key]['value'] } {
   const results: Record<string, unknown> = {}
   Object.keys(fields).forEach(key => {
     const field = fields[key]
@@ -28,4 +23,12 @@ export function getFormMapValues<DataForm extends FieldMapConfiguration>(fields:
     results[key] = value
   })
   return results as { [Key in keyof DataForm]: DataForm[Key]['value'] }
+}
+
+export function getFieldValues(fields: Readonly<FieldArrayConfiguration>) : Record<string, unknown>
+
+export function getFieldValues<DataForm extends FieldMapConfiguration>(fields: DataForm): { [Key in keyof DataForm]: DataForm[Key]['value'] }
+
+export function getFieldValues<DataForm extends FieldMapConfiguration>(fields: DataForm | Readonly<FieldArrayConfiguration>) {
+  return Array.isArray(fields) ?  getFieldArrayValues(fields) : getFieldMapValues(fields as DataForm)
 }

@@ -14,7 +14,7 @@ import {
 } from '../../components/ui-plus-behavior/input'
 import { validateFields } from '../../components/ui-plus-behavior/input/validation.ts'
 import { useState } from 'react'
-import { getFormMapValues } from '../../components/ui-plus-behavior/input/fieldValues.ts'
+import { getFieldValues } from '../../components/ui-plus-behavior/input/fieldValues.ts'
 
 const meta: Meta<typeof InputFieldGroup> = {
   title: 'ui-plus-behavior/validate() and <InputFieldGroup>',
@@ -117,12 +117,13 @@ export const Default: Story = {
 
 export const MinimalForm: Story = {
   render: function Example() {
+    const [values, setValues] = useState<Record<string, unknown>>()
     const form = [
       useLabel('Please tell us about your preferences!'),
       [
         // We can place the fields side by side
         // if we wrap them in an array
-        useTextField('Animal', 'What is your favorite animal?'),
+        useTextField('Animal', 'What is your favorite animal?', true),
         useTextField('Color', 'What is your favorite color?'),
       ],
       [
@@ -132,9 +133,38 @@ export const MinimalForm: Story = {
       ],
     ]
 
+    const apply = useAction({
+      name: 'apply',
+      action: async () => {
+        if (await validateFields(form)) return
+        const values = getFieldValues(form)
+        switch (values.sex) {
+          case 'male':
+            // console.log("It's a boy")
+            break
+          case 'female':
+            // console.log("It's a girl")
+            break
+          // case 'other':
+          //   console.log("It's complicated")
+          // break
+        }
+        setValues(values)
+
+      },
+    })
+
+
+
     return (
       <div className={'w-[600px]'}>
         <InputFieldGroup fields={form} />
+        <ActionButton {...apply} />
+        {values && (
+          <>
+            <b>Values:</b> <pre>{JSON.stringify(values, null, '  ')}</pre>
+          </>
+        )}
       </div>
     )
   },
@@ -166,7 +196,7 @@ export const TypeSafeForm: Story = {
       name: 'apply',
       action: async () => {
         if (await validateFields(form)) return
-        const values = getFormMapValues(form)
+        const values = getFieldValues(form)
         switch (values.sex) {
           case 'male':
             // console.log("It's a boy")
