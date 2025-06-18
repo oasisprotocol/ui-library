@@ -97,25 +97,25 @@ Currently, the following data types are supported:
 
 There are multiple ways for building form layouts:
 
-  - Individual fields
-    - Define the fields individually,
-    - Collect them in an array,
-    - Pass the array to `<InputFieldGroup>` for rendering.
-    - Pass the array to a `validate()` function for triggering validation on all fields.
-    - Pass the array to `getFieldValues()` function for getting a map of the values,
-      where the keys of the map will the names for the field provided as part of the
-      field definition. There is TypeScript-level type safety here, but you can
-      also access the value at the individual fields, which is type safe. 
-  - Defining fields in an array
-    - You can also define the fields directly inside an array, without storing them individually
-    - Then you can do rendering, validation, value extraction the same way as above.
-    - The benefit of this method is that this results in an even more terse code,
-      at the cost of type safety
-  - Defining fields in a map
-    - You can also define fields in a map `{ admin: useBooleanField(...) }`.
-    - Rendering, validation and value extraction works the same as above.
-    - When using `getFieldValues()`, the keys of the returned data will be the same
-      keys you used in the initial map of fields, and they will have the appropriate type. 
+- [Individual fields](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-validate-and-inputfieldgroup--docs#default-1)
+  - Define the fields individually,
+  - Collect them in an array,
+  - Pass the array to `<InputFieldGroup>` for rendering.
+  - Pass the array to a `validate()` function for triggering validation on all fields.
+  - Pass the array to `getFieldValues()` function for getting a map of the values,
+    where the keys of the map will the names for the field provided as part of the
+    field definition. There is TypeScript-level type safety here, but you can
+    also access the value at the individual fields, which is type safe.
+- [Defining fields in an array](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-validate-and-inputfieldgroup--docs#default-1)
+  - You can also define the fields directly inside an array, without storing them individually
+  - Then you can do rendering, validation, value extraction the same way as above.
+  - The benefit of this method is that this results in an even more terse code,
+    at the cost of type safety
+- [Defining fields in a map](https://pr-40.oasis-ui.pages.dev/?path=/docs/ui-plus-behavior-validate-and-inputfieldgroup--docs#type-safe-form)
+  - You can also define fields in a map `{ admin: useBooleanField(...) }`.
+  - Rendering, validation and value extraction works the same as above.
+  - When using `getFieldValues()`, the keys of the returned data will be the same
+    keys you used in the initial map of fields, and they will have the appropriate type. 
   
 All methods will result in identical behavior for common actions (validation etc.)
 
