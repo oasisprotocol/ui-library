@@ -115,7 +115,7 @@ export const Default: Story = {
   },
 }
 
-export const MinimalForm: Story = {
+export const MinimalArrayForm: Story = {
   render: function Example() {
     const [values, setValues] = useState<Record<string, unknown>>()
     const form = [
@@ -150,11 +150,8 @@ export const MinimalForm: Story = {
           // break
         }
         setValues(values)
-
       },
     })
-
-
 
     return (
       <div className={'w-[600px]'}>
