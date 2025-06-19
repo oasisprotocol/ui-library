@@ -3,7 +3,7 @@ import { ActionControls } from './useAction'
 import { WithVisibility } from './WithVisibility'
 import { WithValidation } from './WithValidation'
 
-import { MaybeWithTooltip } from '../tooltip'
+import { WithTooltip } from '../tooltip'
 import { Button } from '../../ui/button.tsx'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
 import { Info, LoaderCircle } from 'lucide-react'
@@ -57,7 +57,7 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
     <>
       <WithVisibility field={props}>
         <WithValidation field={props} messages={allMessages.root}>
-          <MaybeWithTooltip
+          <WithTooltip
             overlay={whyDisabled ?? description}
             side={'top'}
             className={expandHorizontally ? 'w-full' : undefined}
@@ -74,7 +74,7 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
               <MarkdownBlock code={label} mainTag={'span'} />
               {description && <Info />}
             </Button>
-          </MaybeWithTooltip>
+          </WithTooltip>
         </WithValidation>
       </WithVisibility>
       <Dialog

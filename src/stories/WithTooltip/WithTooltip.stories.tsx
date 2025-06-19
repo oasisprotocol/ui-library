@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '../../components'
 import { expect, within } from 'storybook/test'
-import { MaybeWithTooltip } from '../../components'
+import { WithTooltip } from '../../components'
 
-const meta: Meta<typeof MaybeWithTooltip> = {
-  title: 'ui-plus-behavior/MaybeWithTooltip',
-  component: MaybeWithTooltip,
+const meta: Meta<typeof WithTooltip> = {
+  title: 'ui-plus-behavior/WithTooltip',
+  component: WithTooltip,
   parameters: {
     docs: {
       description: {
@@ -65,25 +65,25 @@ export const Variants: Story = {
     children: (
       <div className="flex flex-col items-center gap-4">
         <div className="flex justify-center gap-4">
-          <MaybeWithTooltip side={'top'} overlay={'Tooltip on **Top**'}>
+          <WithTooltip side={'top'} overlay={'Tooltip on **Top**'}>
             <Button variant="outline">Top</Button>
-          </MaybeWithTooltip>
+          </WithTooltip>
         </div>
 
         <div className="flex justify-between gap-16">
-          <MaybeWithTooltip side={'left'} overlay={'Tooltip on **Left**'}>
+          <WithTooltip side={'left'} overlay={'Tooltip on **Left**'}>
             <Button variant="outline">Left</Button>
-          </MaybeWithTooltip>
+          </WithTooltip>
 
-          <MaybeWithTooltip side={'right'} overlay={'Tooltip on **Right**'}>
+          <WithTooltip side={'right'} overlay={'Tooltip on **Right**'}>
             <Button variant="outline">Right</Button>
-          </MaybeWithTooltip>
+          </WithTooltip>
         </div>
 
         <div className="flex justify-center gap-4">
-          <MaybeWithTooltip side={'bottom'} overlay={'Tooltip on **Bottom**'}>
+          <WithTooltip side={'bottom'} overlay={'Tooltip on **Bottom**'}>
             <Button variant="outline">Bottom</Button>
-          </MaybeWithTooltip>
+          </WithTooltip>
         </div>
       </div>
     ),

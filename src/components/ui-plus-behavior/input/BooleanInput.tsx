@@ -3,7 +3,7 @@ import { BooleanFieldControls } from './useBoolField'
 
 import { WithVisibility } from './WithVisibility'
 import { WithValidation } from './WithValidation'
-import { MaybeWithTooltip } from '../tooltip'
+import { WithTooltip } from '../tooltip'
 import { cn } from '../../../lib'
 import { Checkbox } from '../../ui/checkbox'
 import { Label } from '../../ui/label'
@@ -25,7 +25,7 @@ export const BooleanInput: FC<BooleanFieldControls> = props => {
   return (
     <WithVisibility field={props}>
       <WithValidation field={props} messages={allMessages.root}>
-        <MaybeWithTooltip overlay={whyDisabled ?? description}>
+        <WithTooltip overlay={whyDisabled ?? description}>
           <div
             className={cn(
               'flex items-center space-x-2'
@@ -45,7 +45,7 @@ export const BooleanInput: FC<BooleanFieldControls> = props => {
               </>
             )}
           </div>
-        </MaybeWithTooltip>
+        </WithTooltip>
       </WithValidation>
     </WithVisibility>
   )

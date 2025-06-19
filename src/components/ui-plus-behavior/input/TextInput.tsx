@@ -4,7 +4,7 @@ import { TextFieldControls } from './useTextField'
 import { WithValidation } from './WithValidation'
 import { WithLabelAndDescription } from './WithLabelAndDescription'
 import { WithVisibility } from './WithVisibility'
-import { MaybeWithTooltip } from '../tooltip'
+import { WithTooltip } from '../tooltip'
 import { Input } from '../../ui/input'
 import { checkMessagesForProblems } from './util'
 
@@ -48,7 +48,7 @@ export const TextInput: FC<TextFieldControls> = props => {
           messages={allMessages.root}
           // fieldClasses={[classes.textValue]}
         >
-          <MaybeWithTooltip overlay={whyDisabled}>
+          <WithTooltip overlay={whyDisabled}>
             <Input
               aria-invalid={hasError}
               name={name}
@@ -61,7 +61,7 @@ export const TextInput: FC<TextFieldControls> = props => {
               autoFocus={autoFocus}
               onKeyDown={handleKeyPress}
             />
-          </MaybeWithTooltip>
+          </WithTooltip>
         </WithValidation>
       </WithLabelAndDescription>
     </WithVisibility>
