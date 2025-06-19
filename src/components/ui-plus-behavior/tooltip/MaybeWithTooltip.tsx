@@ -20,7 +20,7 @@ export const MaybeWithTooltip: FC<TooltipProps> = props => {
     <Tooltip open={open} delayDuration={delayDuration}>
       <TooltipTrigger className={className}>{props.children}</TooltipTrigger>
       <TooltipContent side={side}>
-        <MarkdownBlock code={overlay} />
+        <MarkdownBlock code={overlay} mainTag={'span'} />
       </TooltipContent>
     </Tooltip>
   ) : (
