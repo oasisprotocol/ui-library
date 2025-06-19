@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '../../components'
-import { expect, within } from 'storybook/test'
+import { expect, within, userEvent, screen } from 'storybook/test'
 import { WithTooltip } from '../../components'
 
 const meta: Meta<typeof WithTooltip> = {
@@ -16,21 +16,6 @@ const meta: Meta<typeof WithTooltip> = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  argTypes: {
-    open: {
-      control: 'boolean',
-    },
-    side: {
-      control: 'select',
-      options: ['top', 'bottom', 'left', 'right'],
-    },
-    delayDuration: {
-      control: 'number',
-    },
-    overlay: {
-      control: 'text',
-    },
-  },
 }
 
 export default meta
@@ -45,6 +30,14 @@ export const Default: Story = {
     const canvas = within(canvasElement)
     const button = canvas.getAllByRole('button', { name: 'Hover me' })[0]
     await expect(button).toBeInTheDocument()
+
+    // There should be no tooltip shown
+    // await expect(screen.getByRole('tooltip')).toThrow() // TODO this exception escapes somehow
+
+    // Hovering should bring up a tooltip
+    await userEvent.hover(button, { delay: 250 })
+    const tooltip = screen.getByRole('tooltip')
+    await expect(tooltip).toContainHTML('<em>Tooltip</em> <strong>content</strong>')
   },
 }
 
@@ -55,8 +48,12 @@ export const NoTooltip: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('button', { name: 'Hover me' })[0]
+    const button = canvas.getAllByRole('button', { name: 'No use hovering me' })[0]
     await expect(button).toBeInTheDocument()
+
+    await userEvent.hover(button, { delay: 250 })
+    // There should be no tooltip shown
+    // await expect(screen.getByRole('tooltip')).toThrow() // TODO this exception escapes somehow
   },
 }
 
