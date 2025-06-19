@@ -6,7 +6,7 @@ import { WithValidation } from './WithValidation'
 import { MaybeWithTooltip } from '../tooltip'
 import { Button } from '../../ui/button.tsx'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
-import { LoaderCircle } from 'lucide-react'
+import { Info, LoaderCircle } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -71,7 +71,8 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
               disabled={!enabled || isPending}
             >
               {isPending && <LoaderCircle size="1em" className="rotating" />}
-              <MarkdownBlock code={label} />
+              <MarkdownBlock code={label} mainTag={'span'} />
+              {description && <Info />}
             </Button>
           </MaybeWithTooltip>
         </WithValidation>
@@ -92,11 +93,11 @@ export const ActionButton: FC<ActionControls<unknown>> = props => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={onConfirmationDenied}>
-              <MarkdownBlock code={confirmationNeeded?.cancelLabel} />
+            <Button variant="outline" onClick={onConfirmationDenied} testId={'cancel'}>
+              <MarkdownBlock code={confirmationNeeded?.cancelLabel} mainTag={'span'} />
             </Button>
-            <Button onClick={onConfirmationProvided} variant={confirmationNeeded?.variant}>
-              <MarkdownBlock code={confirmationNeeded?.okLabel} />
+            <Button onClick={onConfirmationProvided} variant={confirmationNeeded?.variant} testId={'confirm'}>
+              <MarkdownBlock code={confirmationNeeded?.okLabel} mainTag={'span'} />
             </Button>
           </DialogFooter>
         </DialogContent>

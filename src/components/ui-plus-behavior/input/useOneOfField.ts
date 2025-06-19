@@ -7,7 +7,7 @@ import {
   useInputField,
   ValidatorBundle,
 } from './useInputField'
-import { andDecisions, capitalizeFirstLetter, Decision, deny, expandCoupledData, getVerdict } from './util'
+import { andDecisions, camelToTitleCase, Decision, deny, expandCoupledData, getVerdict } from './util'
 import { MarkdownCode } from '../../ui/markdown.tsx'
 
 export interface HasToString {
@@ -40,12 +40,12 @@ function expandChoice<DataType extends HasToString>(choice: DataType | Choice<Da
     const fullChoice = choice as Choice<DataType>
     return {
       ...fullChoice,
-      label: fullChoice.label ?? capitalizeFirstLetter(fullChoice.value.toString().trim()),
+      label: fullChoice.label ?? camelToTitleCase(fullChoice.value.toString().trim()),
     }
   } else {
     return {
       value: choice as DataType,
-      label: capitalizeFirstLetter((choice as DataType).toString().trim()),
+      label: camelToTitleCase((choice as DataType).toString().trim()),
     }
   }
 }

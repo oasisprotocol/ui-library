@@ -4,11 +4,11 @@ import { FieldLike } from './validation'
 import { MarkdownCode } from '../../ui/markdown'
 import { ExecutionContext } from './ExecutionContext'
 import { Button } from '../../ui/button.tsx'
-import { capitalizeFirstLetter } from './util'
+import { camelToTitleCase } from './util'
 
-type FullConfirmationRequest = {
+export type FullConfirmationRequest = {
   title: MarkdownCode
-  description: MarkdownCode | undefined
+  description: MarkdownCode
   okLabel: MarkdownCode
   cancelLabel: MarkdownCode
 } & Partial<Pick<Parameters<typeof Button>[0], 'variant'>>
@@ -69,7 +69,7 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
   const getFullConfirmationRequest = (): FullConfirmationRequest | undefined => {
     if (confirmationNeeded === undefined || confirmationNeeded === false) return undefined
     const defaultRequest: FullConfirmationRequest = {
-      title: label ?? capitalizeFirstLetter(name),
+      title: label ?? camelToTitleCase(name),
       description: 'Are you sure?',
       okLabel: 'Continue',
       cancelLabel: 'Cancel',
@@ -155,9 +155,7 @@ export function useAction<ReturnType>(props: ActionProps<ReturnType>): ActionCon
     color,
     variant,
     size,
-    label: isPending
-      ? (pendingLabel ?? label ?? capitalizeFirstLetter(name))
-      : (label ?? capitalizeFirstLetter(name)),
+    label: isPending ? (pendingLabel ?? label ?? camelToTitleCase(name)) : (label ?? camelToTitleCase(name)),
     isPending,
     validationPending: isPending,
     validationStatusMessage: statusMessage,

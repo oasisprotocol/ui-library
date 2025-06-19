@@ -26,6 +26,7 @@ export const FieldAndValidationMessage: FC<
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, delay: 0 }}
+            role={'status-message'}
           >
             <MarkdownBlock code={validationStatusMessage} />
           </MotionDiv>

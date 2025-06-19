@@ -33,6 +33,7 @@ export const FieldMessageDisplay: FC<{
       animate={{ opacity: 1, height: 'auto', x: 0 }}
       exit={{ opacity: 0, height: 0 }}
       transition={{ duration: 0.2, ease: 'easeInOut' }}
+      role={`field-${message.type}`}
     >
       <MarkdownBlock code={message.text} mainTag={'span'} />
     </MotionDiv>

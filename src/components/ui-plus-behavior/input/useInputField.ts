@@ -14,7 +14,7 @@ import {
   ValidatorFunction,
   wrapValidatorOutput,
   checkMessagesForProblems,
-  capitalizeFirstLetter,
+  camelToTitleCase,
   MessageMaybeAtLocation,
 } from './util'
 import { MarkdownCode } from '../../ui/markdown'
@@ -28,9 +28,9 @@ export type ValidatorBundle<DataType> = SingleOrArray<undefined | ValidatorFunct
  */
 export type InputFieldProps<DataType> = {
   /**
-   * The name of this field.
+   * The name of this field. Use camelCase.
    *
-   * Only used for debugging.
+   * User for automatically generated labels, and also for debugging.
    */
   name: string
 
@@ -565,7 +565,7 @@ export function useInputFieldInternal<DataType>(
     type,
     name,
     description,
-    label: label ?? capitalizeFirstLetter(name),
+    label: label ?? camelToTitleCase(name),
     compact,
     placeholder,
     value,
