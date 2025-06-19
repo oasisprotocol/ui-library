@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, within } from 'storybook/test'
-import { BooleanInput, deny, InputFieldGroup, useBooleanField } from '../../components/ui-plus-behavior/input'
+import { expect, userEvent, within } from 'storybook/test'
+import { BooleanInput, deny, useBooleanField } from '../../components/ui-plus-behavior/input'
+import { FC } from 'react'
 
-const meta: Meta<typeof BooleanInput> = {
+import { screen } from 'storybook/test'
+
+const BooleanInputTest: FC<Parameters<typeof useBooleanField>[0]> = props => {
+  const controls = useBooleanField(props)
+  return <BooleanInput {...controls} />
+}
+
+const meta: Meta<typeof BooleanInputTest> = {
   title: 'ui-plus-behavior/useBooleanField() and <BooleanInput>',
-  component: BooleanInput,
+  component: BooleanInputTest,
   parameters: {
     docs: {
       description: {
@@ -20,92 +28,150 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: function Example() {
-    // Configuration for the tested component
-    const visible = useBooleanField({
-      name: 'visible',
-      initialValue: true,
-    })
-    const enabled = useBooleanField({
-      name: 'enabled',
-      initialValue: true,
-    })
-    const hasDescription = useBooleanField({
-      name: 'hasDescription',
-      label: 'Has description',
-      initialValue: false,
-    })
-
-    // Model for the boolean input
-    const field = useBooleanField({
-      name: 'test bool input',
-
-      // Applying the configuration from above
-      description: hasDescription.value ? 'Just some **stuff** we want to check' : undefined,
-      visible: visible.value,
-      enabled: enabled.value ? true : deny('Currently disabled, see checkbox above'),
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <h2>Configuration</h2>
-        <br />
-        <InputFieldGroup fields={[visible, enabled, hasDescription]} />
-        <h2>Test component</h2>
-        <br />
-        <BooleanInput {...field} /> {/* This is our component */}
-      </div>
-    )
+  args: {
+    name: 'testBooleanInput',
   },
+
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('button', { name: 'Test input' })[0]
+
+    // Checkbox is rendered, with label and button
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    const button = canvas.getByLabelText('Test boolean input')
     await expect(button).toBeInTheDocument()
+
+    // Checkbox is not checked by default
+    await expect(button).not.toBeChecked()
+
+    // We can check and uncheck it by clicking on the button
+    await userEvent.click(button, { delay: 100 })
+    await expect(button).toBeChecked()
+    await userEvent.click(button, { delay: 100 })
+    await expect(button).not.toBeChecked()
+
+    // We can also check and uncheck it by clicking on the label
+    await userEvent.click(label!, { delay: 100 })
+    await expect(button).toBeChecked()
+    await userEvent.click(label!, { delay: 100 })
+    await expect(button).not.toBeChecked()
   },
 }
 
-export const SwitchWidget: Story = {
-  render: function Example() {
-    // Configuration for the tested component
-    const visible = useBooleanField({
-      name: 'visible',
-      initialValue: true,
-    })
-    const enabled = useBooleanField({
-      name: 'enabled',
-      initialValue: true,
-    })
-
-    const hasDescription = useBooleanField({
-      name: 'has description',
-      initialValue: false,
-    })
-
-    // Model for the boolean input
-    const field = useBooleanField({
-      name: 'test bool input',
-
-      // Applying the configuration from above
-      preferredWidget: 'switch',
-      description: hasDescription.value ? 'Just some stuff we want to check' : undefined,
-      visible: visible.value,
-      enabled: enabled.value ? true : deny('Currently disabled, see checkbox above'),
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <h2>Configuration</h2>
-        <br />
-        <InputFieldGroup fields={[visible, enabled, hasDescription]} />
-        <h2>Test component</h2>
-        <br />
-        <BooleanInput {...field} /> {/* This is our component */}
-      </div>
-    )
+export const OnByDefault: Story = {
+  args: {
+    name: 'testBooleanInput',
+    initialValue: true,
   },
+
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('button', { name: 'Test input' })[0]
+
+    // Checkbox is rendered, with label and button
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    const button = canvas.getByLabelText('Test boolean input')
     await expect(button).toBeInTheDocument()
+
+    // Checkbox is checked by default
+    await expect(button).toBeChecked()
   },
+}
+
+export const WithDescription: Story = {
+  args: {
+    name: 'testBooleanInput',
+    description: 'For testing, you know',
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Checkbox is rendered, with label and button
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    const button = canvas.getByLabelText('Test boolean input')
+    await expect(button).toBeInTheDocument()
+
+    // Should show an info icon
+    const infoIcon = canvasElement.querySelector('.lucide-info')
+    await expect(infoIcon).toBeInTheDocument()
+
+    // Hovering should bring up the tooltip, with the formatted markdown
+    await userEvent.hover(label!, { delay: 500 })
+    const tooltip = screen.getByRole('tooltip')
+    await expect(tooltip).toHaveTextContent('For testing, you know')
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    name: 'testBooleanInput',
+    enabled: deny("You can't check this for reasons"),
+  },
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Checkbox is rendered, with label and button
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    const button = canvas.getByLabelText('Test boolean input')
+    await expect(button).toBeInTheDocument()
+
+    // Should show an info icon
+    const infoIcon = canvasElement.querySelector('.lucide-info')
+    await expect(infoIcon).toBeInTheDocument()
+
+    // Hovering should bring up the tooltip, with the formatted markdown
+    await userEvent.hover(label!, { delay: 250 })
+    const tooltip = screen.getByRole('tooltip')
+    await expect(tooltip).toHaveTextContent("You can't check this for reasons")
+
+    // Clicking won't check it
+    await expect(button).not.toBeChecked()
+    await userEvent.click(button, { delay: 250 })
+    await expect(button).not.toBeChecked()
+    await userEvent.click(label!, { delay: 250 })
+    await expect(button).not.toBeChecked()
+  },
+}
+
+export const DefaultSwitch: Story = {
+  args: {
+    name: 'testBooleanInput',
+    preferredWidget: 'switch',
+  },
+
+  play: Default.play,
+}
+
+export const OnByDefaultSwitch: Story = {
+  args: {
+    name: 'testBooleanInput',
+    initialValue: true,
+    preferredWidget: 'switch',
+  },
+
+  play: OnByDefault.play,
+}
+
+export const SwitchWithDescription: Story = {
+  args: {
+    name: 'testBooleanInput',
+    description: 'For testing, you know',
+    preferredWidget: 'switch',
+  },
+
+  play: WithDescription.play,
+}
+
+export const DisabledSwitch: Story = {
+  args: {
+    name: 'testBooleanInput',
+    enabled: deny("You can't check this for reasons"),
+    preferredWidget: 'switch',
+  },
+
+  play: Disabled.play,
 }
