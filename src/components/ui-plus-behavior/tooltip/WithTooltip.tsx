@@ -11,7 +11,7 @@ type TooltipProps = Pick<Parameters<typeof TooltipContent>[0], 'side'> &
     className?: string
   }
 
-export const MaybeWithTooltip: FC<TooltipProps> = props => {
+export const WithTooltip: FC<TooltipProps> = props => {
   const { overlay, className } = props
   const { open, delayDuration } = props // props for Tooltip
   const { side } = props /// Props for TooltipContent

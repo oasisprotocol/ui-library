@@ -4,7 +4,7 @@ import { DateFieldControls } from './useDateField'
 import { WithVisibility } from './WithVisibility'
 import { WithLabelAndDescription } from './WithLabelAndDescription'
 import { WithValidation } from './WithValidation'
-import { MaybeWithTooltip } from '../tooltip'
+import { WithTooltip } from '../tooltip'
 import { Input } from '../../ui/input.tsx'
 import { checkMessagesForProblems } from './util'
 
@@ -31,7 +31,7 @@ export const DateInput: FC<DateFieldControls> = props => {
     <WithVisibility field={props}>
       <WithLabelAndDescription field={props}>
         <WithValidation field={props} messages={allMessages.root}>
-          <MaybeWithTooltip overlay={whyDisabled}>
+          <WithTooltip overlay={whyDisabled}>
             <Input
               aria-invalid={hasError}
               name={name}
@@ -40,7 +40,7 @@ export const DateInput: FC<DateFieldControls> = props => {
               onChange={handleChange}
               disabled={!enabled}
             />
-          </MaybeWithTooltip>
+          </WithTooltip>
         </WithValidation>
       </WithLabelAndDescription>
     </WithVisibility>

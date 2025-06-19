@@ -1,1 +1,1 @@
-export * from './MaybeWithTooltip'
+export * from './WithTooltip.tsx'
