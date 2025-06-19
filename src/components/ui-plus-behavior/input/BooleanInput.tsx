@@ -17,7 +17,7 @@ export const BooleanInput: FC<BooleanFieldControls> = props => {
 
   const renderedLabel = (
     <Label htmlFor={name} className={enabled ? undefined : 'text-muted-foreground'}>
-      <MarkdownBlock code={label} />
+      <MarkdownBlock code={label} mainTag={'span'} />
       {(description || !enabled) && <Info size="1em" />}
     </Label>
   )
