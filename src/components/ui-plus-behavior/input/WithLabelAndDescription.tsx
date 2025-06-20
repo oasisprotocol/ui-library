@@ -6,11 +6,13 @@ import { Label } from '../../ui/label'
 import { cn } from '../../../lib'
 
 export const WithLabelAndDescription: FC<
-  PropsWithChildren<{ field: Pick<InputFieldControls<unknown>, 'label' | 'description' | 'compact'> }>
-> = ({ field: { label, description, compact }, children }) =>
+  PropsWithChildren<{
+    field: Pick<InputFieldControls<unknown>, 'id' | 'label' | 'description' | 'compact'>
+  }>
+> = ({ field: { id, label, description, compact }, children }) =>
   compact ? (
     description ? (
-      <Label className={cn('w-full', classes.fieldLabelTag)}>
+      <Label htmlFor={id} className={cn('w-full', classes.fieldLabelTag)}>
         <MarkdownBlock code={description} className={'text-muted-foreground text-sm'} />
         {children}
       </Label>
@@ -20,7 +22,7 @@ export const WithLabelAndDescription: FC<
   ) : !!label || !!description ? (
     <div className="grid w-full max-w-sm items-center gap-1.5">
       {!!label && (
-        <Label>
+        <Label htmlFor={id}>
           <MarkdownBlock code={label} />
         </Label>
       )}

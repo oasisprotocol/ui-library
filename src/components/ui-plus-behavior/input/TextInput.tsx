@@ -10,6 +10,7 @@ import { checkMessagesForProblems } from './util'
 
 export const TextInput: FC<TextFieldControls> = props => {
   const {
+    id,
     name,
     value,
     placeholder,
@@ -50,6 +51,7 @@ export const TextInput: FC<TextFieldControls> = props => {
         >
           <WithTooltip overlay={whyDisabled}>
             <Input
+              id={id}
               aria-invalid={hasError}
               name={name}
               placeholder={placeholder}
