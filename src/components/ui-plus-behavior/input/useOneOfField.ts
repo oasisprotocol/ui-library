@@ -33,7 +33,7 @@ type OneOfFieldProps<DataType = string> = Omit<
   disableIfOnlyOneVisibleChoice?: boolean
 }
 
-type NonNullableOneOfFieldProps<DataType> = OneOfFieldProps<DataType> & {}
+export type NonNullableOneOfFieldProps<DataType> = OneOfFieldProps<DataType> & {}
 
 function expandChoice<DataType extends HasToString>(choice: DataType | Choice<DataType>): Choice<DataType> {
   if (typeof choice === 'object') {
@@ -107,7 +107,7 @@ export function useNonNullableOneOfField<DataType extends HasToString>(
   }
 }
 
-type NullableOneOfFieldProps<DataType extends HasToString> = OneOfFieldProps<DataType | undefined> & {
+export type NullableOneOfFieldProps<DataType extends HasToString> = OneOfFieldProps<DataType | undefined> & {
   placeholder: string | boolean
   required?: boolean
   canSelectPlaceholder?: boolean
@@ -120,7 +120,7 @@ type InternalDataType<DataType> = DataType | typeof PLEASE_SELECT
 /**
  * Hook for defining a nullable OneOf field
  */
-function useNullableOneOfField<DataType extends HasToString>(
+export function useNullableOneOfField<DataType extends HasToString>(
   props: NullableOneOfFieldProps<DataType>,
   typeTools: DataTypeTools<DataType> = simpleTypeTools
 ): OneOfFieldControls<DataType | undefined> {
@@ -181,15 +181,15 @@ function useNullableOneOfField<DataType extends HasToString>(
   }
 }
 
-// Signature for the non-nullable use case
-export function useOneOfField<DataType extends HasToString>(
-  props: NonNullableOneOfFieldProps<DataType>
-): OneOfFieldControls<DataType>
-
 // Signature for the nullable use case
 export function useOneOfField<DataType extends HasToString>(
   props: NullableOneOfFieldProps<DataType>
 ): OneOfFieldControls<DataType | undefined>
+
+// Signature for the non-nullable use case
+export function useOneOfField<DataType extends HasToString>(
+  props: NonNullableOneOfFieldProps<DataType>
+): OneOfFieldControls<DataType>
 
 export function useOneOfField<DataType extends HasToString>(
   name: string,
