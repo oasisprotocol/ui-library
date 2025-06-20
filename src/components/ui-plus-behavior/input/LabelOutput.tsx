@@ -1,10 +1,10 @@
 import { LabelControls } from './useLabel.ts'
 import { FC } from 'react'
-import classes from './index.module.css'
 
 import { WithVisibility } from './WithVisibility.tsx'
 import { WithLabelAndDescription } from './WithLabelAndDescription.tsx'
 import { WithValidation } from './WithValidation.tsx'
+import { Label } from '../../ui/label.tsx'
 
 export const LabelOutput: FC<LabelControls<unknown>> = props => {
   const { allMessages, classnames, renderedContent } = props
@@ -12,12 +12,8 @@ export const LabelOutput: FC<LabelControls<unknown>> = props => {
   return (
     <WithVisibility field={props}>
       <WithLabelAndDescription field={props}>
-        <WithValidation
-          field={props}
-          messages={allMessages.root}
-          fieldClasses={[classes.label, ...classnames]}
-        >
-          {renderedContent}
+        <WithValidation field={props} messages={allMessages.root} fieldClasses={classnames}>
+          <Label>{renderedContent}</Label>
         </WithValidation>
       </WithLabelAndDescription>
     </WithVisibility>

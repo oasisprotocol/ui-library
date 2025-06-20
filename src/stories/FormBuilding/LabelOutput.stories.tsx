@@ -1,10 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, within } from 'storybook/test'
-import { LabelOutput, useLabel } from '../../components/ui-plus-behavior/input'
+import { expect } from 'storybook/test'
+import { LabelOutput, LabelProps, useLabel } from '../../components/ui-plus-behavior/input'
+import { FC } from 'react'
 
-const meta: Meta<typeof LabelOutput> = {
+const TestLabel: FC<LabelProps> = props => {
+  const controls = useLabel(props)
+  return <LabelOutput {...controls} />
+}
+
+const meta: Meta<typeof TestLabel> = {
   title: 'ui-plus-behavior/useLabel() and <LabelOutput>',
-  component: LabelOutput,
+  component: TestLabel,
   parameters: {
     docs: {
       description: {
@@ -21,88 +27,85 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: function Example() {
-    const field = useLabel({
-      name: 'testLabel',
-      value: 'Test label (with **formatted** content)',
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <LabelOutput {...field} /> {/* This is our component */}
-      </div>
-    )
+  args: {
+    name: 'testLabel',
+    value: 'Test label (with _formatted_ content)',
   },
+
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    await expect(label).toContainHTML('Test label (with <em>formatted</em> content')
   },
 }
 
 export const WithDescription: Story = {
-  render: function Example() {
-    const field = useLabel({
-      name: 'testLabel',
-      value: 'Test label (which can be _formatted_)',
-      description: 'Description of the field (_also formatted_)',
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <LabelOutput {...field} /> {/* This is our component */}
-      </div>
-    )
+  args: {
+    name: 'testLabel',
+    value: Default.args!.value,
+    description: 'Description (_also formatted_)',
   },
+
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
+    // We should see the label normally
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    await expect(label).toContainHTML('Test label (with <em>formatted</em> content')
+
+    // Also check the description
+    const desc = canvasElement.querySelector('[data-slot="description"]')
+    await expect(desc).toContainHTML('Description (<em>also formatted</em>)')
   },
 }
 
 export const WithError: Story = {
-  render: function Example() {
-    const field = useLabel({
-      name: 'testLabel',
-      value: 'Test label (which can be _formatted_)',
-
-      validateOnChange: true,
-      validators: () => 'There is a problem',
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <LabelOutput {...field} /> {/* This is our component */}
-      </div>
-    )
+  args: {
+    name: 'testLabel',
+    value: 'Test label (which can be _formatted_)',
+    validateOnChange: true,
+    validators: () => 'There is a problem',
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
+  play: async ({ canvas }) => {
+    // Warning message will be visible
+    const error = canvas.getByRole('field-error')
+    await expect(error).toHaveTextContent('There is a problem')
   },
 }
 
 export const WithWarning: Story = {
-  render: function Example() {
-    const field = useLabel({
-      name: 'testLabel',
-      value: 'Test label (which can be _formatted_)',
+  args: {
+    name: 'testLabel',
+    value: 'Test label (which can be _formatted_)',
 
-      validateOnChange: true,
-      validators: () => ({ type: 'warning', text: 'There might be a problem' }),
-    })
-
-    return (
-      <div className={'w-[400px]'}>
-        <LabelOutput {...field} /> {/* This is our component */}
-      </div>
-    )
+    validateOnChange: true,
+    validators: () => ({ type: 'warning', text: 'There might be a problem' }),
   },
+  play: async ({ canvas }) => {
+    // Warning message will be visible
+    const error = canvas.getByRole('field-warning')
+    await expect(error).toHaveTextContent('There might be a problem')
+  },
+}
+
+export const WithCustomRenderer: Story = {
+  args: {
+    name: 'textLabel',
+    value: 'apple',
+    renderer: value =>
+      value === 'apple' ? (
+        <span>
+          Yes, we <em>do</em> like apple pie.
+        </span>
+      ) : (
+        <span>
+          <strong>Well I wanted an apple.</strong> I don't know about this.
+        </span>
+      ),
+  },
+
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
+    const label = canvasElement.querySelector('[data-slot="label"]')
+    await expect(label).toBeInTheDocument()
+    await expect(label).toContainHTML('Yes, we <em>do</em> like apple')
   },
 }
