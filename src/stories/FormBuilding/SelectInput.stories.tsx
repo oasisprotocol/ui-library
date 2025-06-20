@@ -139,8 +139,7 @@ export const WithError: Story = {
   args: {
     name: 'testSelect',
     choices: ['one', 'two', 'three'] as const,
-    // TODO: because of using a component instead of a hook, strict type safety is lost,
-    //  and we can't infer the proper enum type
+    // Fot better type safety, see the test cases below
     validators: c => (c !== 'two' ? "Let's odd numbers!" : undefined),
     validateOnChange: true,
   },
@@ -176,7 +175,7 @@ export const WithUnselectablePlaceholder: Story = {
 
 export const WithTypeSafety: Story = {
   render: () => (
-    // TO achieve type safety we need to use the hook and the UI component separately,
+    // TO achieve stricter type safety, we need to use the hook and the UI component separately,
     // So we will do that here, unlike in the rest of this file
     <SelectInput
       {...useOneOfField({
@@ -185,8 +184,7 @@ export const WithTypeSafety: Story = {
         // placeholder: true,
         choices: ['one', 'two', 'three'] as const,
         validators: value => {
-          // TypeScript inferred type:
-          // (value: 'one' | 'two' | 'three')
+          // Inferred type: (value: 'one' | 'two' | 'three')
           switch (value) {
             case 'two':
               return 'Oh no, not two!'
@@ -207,7 +205,7 @@ export const WithTypeSafety: Story = {
 
 export const WithPlaceholderAndTypeSafety: Story = {
   render: () => (
-    // TO achieve type safety we need to use the hook and the UI component separately,
+    // TO achieve stricter type safety, we need to use the hook and the UI component separately,
     // So we will do that here, unlike in the rest of this file
     <SelectInput
       {...useOneOfField({
@@ -216,8 +214,7 @@ export const WithPlaceholderAndTypeSafety: Story = {
         placeholder: true,
         choices: ['one', 'two', 'three'] as const,
         validators: value => {
-          // TypeScript inferred type:
-          // (value: 'one' | 'two' | 'three' | undefined)
+          // Inferred type: (value: 'one' | 'two' | 'three' | undefined)
           switch (value) {
             case 'two':
               return 'Oh no, not two!'
