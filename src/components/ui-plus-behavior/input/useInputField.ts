@@ -176,6 +176,7 @@ export type InputFieldControls<DataType> = Pick<
   InputFieldProps<DataType>,
   'label' | 'compact' | 'description' | 'placeholder' | 'name'
 > & {
+  id: string
   type: string
   visible: boolean
   enabled: boolean
@@ -304,13 +305,13 @@ export function useInputFieldInternal<DataType>(
     showValidationSuccess = false,
     onValueChange,
   } = props
-  const debugId = useId()
+  const id = useId()
   const debugLog = useCallback(
     (message: unknown, ...more: unknown[]) => {
       if (!VALIDATION_DEBUG_MODE) return
-      console.log(`[${debugId}] "${name}"`, message, ...more)
+      console.log(`[${id}] "${name}"`, message, ...more)
     },
-    [debugId, name]
+    [id, name]
   )
 
   const [required, requiredMessage] = expandCoupledData(props.required, [false, 'This field is required'])
@@ -562,6 +563,7 @@ export function useInputFieldInternal<DataType>(
   const reset = () => setValue(initialValue)
 
   return {
+    id,
     type,
     name,
     description,

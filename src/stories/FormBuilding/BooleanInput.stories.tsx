@@ -39,6 +39,12 @@ export const Default: Story = {
     const button = canvas.getByLabelText('Test boolean input')
     await expect(button).toBeInTheDocument()
 
+    // We should be able to find the button based on the label
+    // await expect(canvas.getByLabelText('Test boolean input', { selector: 'input' })).toBe(button)
+    // Unfortunately, this doesn't work, because button is a non-labelable component per specification/
+    // Still shadcn (radix ui) insists on using it this way. Clicking works, but accessibility doesn't
+    // I have also added aria-labelledby to mitigate, but it's still not enough for this test case to work.
+
     // Checkbox is not checked by default
     await expect(button).not.toBeChecked()
 

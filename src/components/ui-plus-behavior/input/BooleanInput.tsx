@@ -12,15 +12,10 @@ import { Switch } from '../../ui/switch.tsx'
 import { MarkdownBlock } from '../../ui/markdown.tsx'
 
 export const BooleanInput: FC<BooleanFieldControls> = props => {
-  const { name, description, label, value, setValue, allMessages, enabled, whyDisabled, preferredWidget } =
+  const { id, description, label, value, setValue, allMessages, enabled, whyDisabled, preferredWidget } =
     props
 
-  const renderedLabel = (
-    <Label htmlFor={name} className={enabled ? undefined : 'text-muted-foreground'}>
-      <MarkdownBlock code={label} mainTag={'span'} />
-      {(description || !enabled) && <Info size="1em" />}
-    </Label>
-  )
+  const labelId = `${id}-label`
 
   return (
     <WithVisibility field={props}>
@@ -34,14 +29,37 @@ export const BooleanInput: FC<BooleanFieldControls> = props => {
           >
             {preferredWidget === 'checkbox' && (
               <>
-                <Checkbox id={name} checked={value} onCheckedChange={setValue} disabled={!enabled} />
-                {renderedLabel}
+                <Checkbox
+                  id={id}
+                  aria-labelledby={labelId}
+                  aria-label={label?.toString()}
+                  checked={value}
+                  onCheckedChange={setValue}
+                  disabled={!enabled}
+                />
+                <Label htmlFor={id} id={labelId} className={enabled ? undefined : 'text-muted-foreground'}>
+                  <MarkdownBlock code={label} mainTag={'span'} />
+                  {(description || !enabled) && <Info size="1em" />}
+                </Label>
               </>
             )}
             {preferredWidget === 'switch' && (
               <>
-                {renderedLabel}
-                <Switch id={name} checked={value} onCheckedChange={setValue} disabled={!enabled} />
+                <Label
+                  htmlFor={id}
+                  id={`${id}-label`}
+                  className={enabled ? undefined : 'text-muted-foreground'}
+                >
+                  <MarkdownBlock code={label} mainTag={'span'} />
+                  {(description || !enabled) && <Info size="1em" />}
+                </Label>
+                <Switch
+                  id={id}
+                  aria-labelledby={labelId}
+                  checked={value}
+                  onCheckedChange={setValue}
+                  disabled={!enabled}
+                />
               </>
             )}
           </div>
