@@ -138,7 +138,7 @@ export const WithCustomizedConfirmationQuestion: Story = {
     // When clicked, dialog is shown
     await userEvent.click(button, { delay: 500 })
 
-    let dialog = screen.getByRole('dialog')
+    const dialog = screen.getByRole('dialog')
     await expect(dialog).toBeVisible()
 
     await expect(dialog).toContainHTML(args.confirmationNeeded as string)
@@ -165,7 +165,7 @@ export const WithCustomizedConfirmationDialog: Story = {
 
     // When clicked, dialog is shown
     await userEvent.click(button, { delay: 500 })
-    let dialog = screen.getByRole('dialog')
+    const dialog = screen.getByRole('dialog')
     await expect(dialog).toBeVisible()
 
     // The title, description and button labels are customized
