@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 import { LabelOutput, LabelProps, useLabel } from '../../components/ui-plus-behavior/input'
 import { FC } from 'react'
 
@@ -66,9 +66,11 @@ export const WithError: Story = {
     validators: () => 'There is a problem',
   },
   play: async ({ canvas }) => {
-    // Warning message will be visible
-    const error = canvas.getByRole('field-error')
-    await expect(error).toHaveTextContent('There is a problem')
+    // Wait for error message to appear
+    await waitFor(async () => {
+      const error = canvas.getByRole('field-error')
+      await expect(error).toHaveTextContent('There is a problem')
+    })
   },
 }
 
@@ -81,9 +83,11 @@ export const WithWarning: Story = {
     validators: () => ({ type: 'warning', text: 'There might be a problem' }),
   },
   play: async ({ canvas }) => {
-    // Warning message will be visible
-    const error = canvas.getByRole('field-warning')
-    await expect(error).toHaveTextContent('There might be a problem')
+    // Wait for warning message to appear
+    await waitFor(async () => {
+      const error = canvas.getByRole('field-warning')
+      await expect(error).toHaveTextContent('There might be a problem')
+    })
   },
 }
 
