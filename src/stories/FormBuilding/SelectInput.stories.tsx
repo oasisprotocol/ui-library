@@ -214,6 +214,7 @@ export const WithPlaceholderAndTypeSafety: Story = {
         choices: ['one', 'two', 'three'] as const,
         validators: value => {
           // Inferred type: (value: 'one' | 'two' | 'three' | undefined)
+          // The undefined option is included, because placeholder is enabled.
           switch (value) {
             case 'two':
               return 'Oh no, not two!'
