@@ -3,7 +3,7 @@ import { CoupledData, expandCoupledData, getAsArray, getNumberMessage, NumberMes
 import { useCallback } from 'react'
 import { MarkdownCode } from '../../ui/markdown.tsx'
 
-type TextFieldProps = Omit<InputFieldProps<string>, 'initialValue'> & {
+export type TextFieldProps = Omit<InputFieldProps<string>, 'initialValue'> & {
   initialValue?: string
 
   /**
