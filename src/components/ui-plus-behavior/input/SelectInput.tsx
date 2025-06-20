@@ -42,6 +42,7 @@ export const SelectInput: FC<Omit<OneOfFieldControls, 'value' | 'cleanValue' | '
                     .filter(c => !c.hidden)
                     .map(choice => {
                       const disabled = !getVerdict(choice.enabled, true)
+                      const whyDisabled = getReasonForDenial(choice.enabled)
                       return (
                         <WithTooltip
                           overlay={(getReasonForDenial(choice.enabled) as string) ?? choice.description}
@@ -49,7 +50,7 @@ export const SelectInput: FC<Omit<OneOfFieldControls, 'value' | 'cleanValue' | '
                         >
                           <SelectItem value={choice.value} disabled={disabled} className={'w-full'}>
                             <MarkdownBlock code={choice.label} className={choice.className} />
-                            {isOpen && (disabled || choice.description) ? <Info size={'1em'} /> : ''}
+                            {isOpen && (whyDisabled || choice.description) ? <Info size={'1em'} /> : ''}
                           </SelectItem>
                         </WithTooltip>
                       )

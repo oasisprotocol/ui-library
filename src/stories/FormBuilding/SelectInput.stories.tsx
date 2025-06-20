@@ -175,13 +175,12 @@ export const WithUnselectablePlaceholder: Story = {
 
 export const WithTypeSafety: Story = {
   render: () => (
-    // TO achieve stricter type safety, we need to use the hook and the UI component separately,
+    // To achieve stricter type safety, we need to use the hook and the UI component separately,
     // So we will do that here, unlike in the rest of this file
     <SelectInput
       {...useOneOfField({
         name: 'testSelect',
         description: 'Look at the source code of this one',
-        // placeholder: true,
         choices: ['one', 'two', 'three'] as const,
         validators: value => {
           // Inferred type: (value: 'one' | 'two' | 'three')
@@ -205,7 +204,7 @@ export const WithTypeSafety: Story = {
 
 export const WithPlaceholderAndTypeSafety: Story = {
   render: () => (
-    // TO achieve stricter type safety, we need to use the hook and the UI component separately,
+    // To achieve stricter type safety, we need to use the hook and the UI component separately,
     // So we will do that here, unlike in the rest of this file
     <SelectInput
       {...useOneOfField({
