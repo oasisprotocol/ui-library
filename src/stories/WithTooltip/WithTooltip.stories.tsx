@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '../../components'
-import { expect, within, userEvent, screen } from 'storybook/test'
+import { expect, userEvent, screen } from 'storybook/test'
 import { WithTooltip } from '../../components'
 
 const meta: Meta<typeof WithTooltip> = {
@@ -26,8 +26,7 @@ export const Default: Story = {
     overlay: '_Tooltip_ **content**',
     children: <Button variant="outline">Hover me</Button>,
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'Hover me' })[0]
     await expect(button).toBeInTheDocument()
 
@@ -46,8 +45,7 @@ export const NoTooltip: Story = {
     overlay: '',
     children: <Button variant="outline">No use hovering me</Button>,
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'No use hovering me' })[0]
     await expect(button).toBeInTheDocument()
 

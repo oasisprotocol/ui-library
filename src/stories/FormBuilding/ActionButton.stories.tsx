@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, fn, userEvent, within } from 'storybook/test'
+import { expect, fn, userEvent } from 'storybook/test'
 import {
   ActionButton,
   ActionProps,
@@ -40,8 +40,7 @@ export const Default: Story = {
     name: 'testAction',
   },
 
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ args, canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'Test action' })[0]
     await expect(button).toBeInTheDocument()
     await userEvent.click(button)
@@ -57,8 +56,7 @@ export const CustomizedButton: Story = {
     size: 'lg',
   },
 
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'Customized action button' })[0]
     await expect(button).toContainHTML('<strong>action button</strong>')
   },
@@ -76,8 +74,7 @@ export const WithDescription: Story = {
       },
     },
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ canvas, canvasElement }) => {
     const button = canvas.getAllByRole('button', { name: 'Action with description' })[0]
     await expect(button).toBeInTheDocument()
 
@@ -97,8 +94,7 @@ export const WithConfirmation: Story = {
     confirmationNeeded: true,
   },
 
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ args, canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'Do something wild' })[0]
     await expect(button).toBeInTheDocument()
 
@@ -135,8 +131,7 @@ export const WithCustomizedConfirmationQuestion: Story = {
     confirmationNeeded: 'Have you considered the consequences?',
   },
 
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement)
+  play: async ({ args, canvas }) => {
     const button = canvas.getAllByRole('button', { name: 'Do something wild' })[0]
     await expect(button).toBeInTheDocument()
 
@@ -162,9 +157,8 @@ export const WithCustomizedConfirmationDialog: Story = {
     },
   },
 
-  play: async ({ args, canvasElement }) => {
+  play: async ({ args, canvas }) => {
     const request = args.confirmationNeeded as FullConfirmationRequest
-    const canvas = within(canvasElement)
 
     const button = canvas.getAllByRole('button', { name: 'Do something wild' })[0]
     await expect(button).toBeInTheDocument()
@@ -198,9 +192,7 @@ export const Disabled: Story = {
     label: 'Open the bay doors',
     enabled: deny(EXCUSE),
   },
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement)
-
+  play: async ({ args, canvas }) => {
     // We get a button
     const button = canvas.getAllByRole('button', { name: args.label!.toString() })[0]
     await expect(button).toBeInTheDocument()
@@ -223,9 +215,8 @@ export const LongAction: Story = {
     pendingLabel: 'Calculating',
     action: fn(async () => await sleep(1000)),
   },
-  play: async ({ args, canvasElement }) => {
+  play: async ({ args, canvas, canvasElement }) => {
     // We get a button
-    const canvas = within(canvasElement)
     const button = canvas.getByRole('button')
     await expect(button).toBeInTheDocument()
 
@@ -262,9 +253,8 @@ export const WithExecutionStatus: Story = {
     }),
   },
 
-  play: async ({ canvasElement }) => {
+  play: async ({ canvas }) => {
     // We get a button
-    const canvas = within(canvasElement)
     const button = canvas.getByRole('button')
     await expect(button).toBeInTheDocument()
 
@@ -296,9 +286,8 @@ export const WithWarning: Story = {
     pendingLabel: 'Doing it',
     action: fn(({ warn }) => warn(WARNING)),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvas }) => {
     // We get a button
-    const canvas = within(canvasElement)
     const button = canvas.getByRole('button')
     await expect(button).toBeInTheDocument()
 
@@ -321,9 +310,8 @@ export const WithError: Story = {
       throw new Error(FAILURE)
     }),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvas }) => {
     // We get a button
-    const canvas = within(canvasElement)
     const button = canvas.getByRole('button')
     await expect(button).toBeInTheDocument()
 
@@ -351,9 +339,8 @@ export const WithLogMessages: Story = {
       await sleep(500)
     },
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvas }) => {
     // We get a button
-    const canvas = within(canvasElement)
     const button = canvas.getByRole('button')
     await expect(button).toBeInTheDocument()
 

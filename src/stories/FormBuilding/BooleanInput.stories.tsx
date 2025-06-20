@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent, within } from 'storybook/test'
+import { expect, userEvent } from 'storybook/test'
 import { BooleanInput, deny, useBooleanField } from '../../components/ui-plus-behavior/input'
 import { FC } from 'react'
 
@@ -32,9 +32,7 @@ export const Default: Story = {
     name: 'testBooleanInput',
   },
 
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
+  play: async ({ canvas, canvasElement }) => {
     // Checkbox is rendered, with label and button
     const label = canvasElement.querySelector('[data-slot="label"]')
     await expect(label).toBeInTheDocument()
@@ -64,9 +62,7 @@ export const OnByDefault: Story = {
     initialValue: true,
   },
 
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
+  play: async ({ canvas, canvasElement }) => {
     // Checkbox is rendered, with label and button
     const label = canvasElement.querySelector('[data-slot="label"]')
     await expect(label).toBeInTheDocument()
@@ -84,9 +80,7 @@ export const WithDescription: Story = {
     description: 'For testing, you know',
   },
 
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
+  play: async ({ canvas, canvasElement }) => {
     // Checkbox is rendered, with label and button
     const label = canvasElement.querySelector('[data-slot="label"]')
     await expect(label).toBeInTheDocument()
@@ -110,9 +104,7 @@ export const Disabled: Story = {
     enabled: deny("You can't check this for reasons"),
   },
 
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
+  play: async ({ canvas, canvasElement }) => {
     // Checkbox is rendered, with label and button
     const label = canvasElement.querySelector('[data-slot="label"]')
     await expect(label).toBeInTheDocument()
