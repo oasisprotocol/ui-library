@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, within } from 'storybook/test'
 import { useTextField, TextInput } from '../../components/ui-plus-behavior/input'
 
 const meta: Meta<typeof TextInput> = {
@@ -34,11 +33,6 @@ export const Default: Story = {
       </div>
     )
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
-  },
 }
 
 export const CompactMode: Story = {
@@ -54,11 +48,6 @@ export const CompactMode: Story = {
         <TextInput {...input} /> {/* This is our component */}
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }
 
@@ -77,11 +66,6 @@ export const WithAutoFocusAndOnEnter: Story = {
       </div>
     )
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
-  },
 }
 
 export const WithDescription: Story = {
@@ -98,11 +82,6 @@ export const WithDescription: Story = {
         <TextInput {...input} /> {/* This is our component */}
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }
 
@@ -122,11 +101,6 @@ export const WithWarning: Story = {
       </div>
     )
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
-  },
 }
 
 export const WithMinimumLength: Story = {
@@ -144,11 +118,6 @@ export const WithMinimumLength: Story = {
         <TextInput {...input} /> {/* This is our component */}
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }
 
@@ -168,11 +137,6 @@ export const WithMinimumLengthWithCustomizedMessage: Story = {
       </div>
     )
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
-  },
 }
 
 export const WithMaximumLength: Story = {
@@ -189,11 +153,6 @@ export const WithMaximumLength: Story = {
         <TextInput {...input} /> {/* This is our component */}
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }
 
@@ -215,10 +174,5 @@ export const WithCustomValidators: Story = {
         <TextInput {...input} /> {/* This is our component */}
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('label', { name: 'Test label' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }

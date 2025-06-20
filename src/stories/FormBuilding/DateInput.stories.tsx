@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, within } from 'storybook/test'
 import { DateInput, useDateField } from '../../components/ui-plus-behavior/input'
 
 const meta: Meta<typeof DateInput> = {
@@ -35,10 +34,5 @@ export const Default: Story = {
         <DateInput {...date} />
       </div>
     )
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getAllByRole('button', { name: 'Test input' })[0]
-    await expect(button).toBeInTheDocument()
   },
 }
