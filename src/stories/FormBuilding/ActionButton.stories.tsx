@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, fn, userEvent } from 'storybook/test'
+import { expect, fn, userEvent, waitFor } from 'storybook/test'
 import {
   ActionButton,
   ActionProps,
@@ -230,15 +230,14 @@ export const LongAction: Story = {
     // label will be replaced with pending label
     await expect(button).toHaveTextContent(args.pendingLabel!.toString())
 
-    // Wait for the action to finish
-    await sleep(1100)
+    // Wait for the action to finish, and spinner to disappear
+    await waitFor(() => {
+      spinner = canvasElement.querySelector('.lucide-loader-circle')
+      expect(spinner).toBeNull()
+    })
 
     // label will be restored to original content
     await expect(button).toHaveTextContent(camelToTitleCase(args.name))
-
-    // Spinner will be gone
-    spinner = canvasElement.querySelector('.lucide-loader-circle')
-    await expect(spinner).toBeNull()
   },
 }
 
@@ -264,16 +263,10 @@ export const WithExecutionStatus: Story = {
     await expect(status).toHaveTextContent('Phase one')
 
     // Wait for phase 1 to finish
-    await sleep(550)
+    await waitFor(() => expect(status).toHaveTextContent('Phase two'))
 
-    // Second phase message is visible
-    await expect(status).toHaveTextContent('Phase two')
-
-    // Wait for phase 2 to finish
-    await sleep(550)
-
-    // Status message is no longer shown
-    await expect(status).not.toBeInTheDocument()
+    // Wait for phase 2 to finish, and the message to disappear
+    await waitFor(() => expect(status).not.toBeInTheDocument())
   },
 }
 
@@ -318,12 +311,11 @@ export const WithError: Story = {
     // Clicking will execute the action
     await userEvent.click(button)
 
-    // Wait for it to finish
-    await sleep(550)
-
-    // Warning message will be visible
-    const error = canvas.getByRole('field-error')
-    await expect(error).toHaveTextContent(FAILURE)
+    // Wait for error message to appear
+    await waitFor(async () => {
+      const error = canvas.getByRole('field-error')
+      await expect(error).toHaveTextContent(FAILURE)
+    })
   },
 }
 
@@ -347,11 +339,11 @@ export const WithLogMessages: Story = {
     // Clicking will execute the action
     await userEvent.click(button)
 
-    await sleep(1600)
-
-    // Warning message will be visible
-    const messages = canvas.getAllByRole('field-info')
-    await expect(messages[0]).toHaveTextContent('Output from the action')
-    await expect(messages[1]).toHaveTextContent('More output from the action')
+    // Wait for log messages to appear
+    await waitFor(async () => {
+      const messages = canvas.getAllByRole('field-info')
+      await expect(messages[0]).toHaveTextContent('Output from the action')
+      await expect(messages[1]).toHaveTextContent('More output from the action')
+    })
   },
 }
