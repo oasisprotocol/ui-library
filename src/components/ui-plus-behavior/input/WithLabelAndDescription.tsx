@@ -19,10 +19,16 @@ export const WithLabelAndDescription: FC<
     )
   ) : !!label || !!description ? (
     <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label>
-        <MarkdownBlock code={label} />
-      </Label>
-      <MarkdownBlock code={description} className={'text-muted-foreground text-sm'} />
+      {!!label && (
+        <Label>
+          <MarkdownBlock code={label} />
+        </Label>
+      )}
+      {!!description && (
+        <div className={'text-muted-foreground text-sm'} data-slot={'description'}>
+          <MarkdownBlock code={description} mainTag={'span'} />
+        </div>
+      )}
       {children}
     </div>
   ) : (
