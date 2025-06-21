@@ -44,7 +44,7 @@ export type DateFieldControls = Omit<InputFieldControls<Date>, 'placeholder'> & 
 }
 
 export function useDateField(props: DateFieldProps): DateFieldControls {
-  const { initialValue = new Date(), validatorsGenerator, validators, type = 'datetime-local' } = props
+  const { initialValue = new Date(), validators, type = 'datetime-local' } = props
 
   const [minDate, tooEarlyMessage] = expandCoupledData(props.minDate, [
     undefined,
@@ -61,20 +61,21 @@ export function useDateField(props: DateFieldProps): DateFieldControls {
     {
       ...props,
       initialValue,
-      validators: undefined,
-      validatorsGenerator: value => [
-        // Check minimum date
-        minDate
-          ? () => (value.getTime() < minDate.getTime() ? getDateMessage(tooEarlyMessage, minDate) : undefined)
-          : undefined,
+      validators: [
+        // Check minimum date if configured
+        value =>
+          !!minDate && value.getTime() < minDate.getTime()
+            ? getDateMessage(tooEarlyMessage, minDate)
+            : undefined,
 
-        // Check maximum date
-        maxDate
-          ? () => (value.getTime() > maxDate.getTime() ? getDateMessage(tooLateMessage, maxDate) : undefined)
-          : undefined,
+        // Check maximum date if configured
+        value =>
+          !!maxDate && value.getTime() > maxDate.getTime()
+            ? getDateMessage(tooLateMessage, maxDate)
+            : undefined,
 
         // Any custom validators
-        ...getAsArray(validatorsGenerator ? validatorsGenerator(value) : validators),
+        ...getAsArray(validators),
       ],
     },
     {

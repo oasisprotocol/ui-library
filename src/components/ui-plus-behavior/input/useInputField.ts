@@ -16,6 +16,7 @@ import {
   checkMessagesForProblems,
   camelToTitleCase,
   MessageMaybeAtLocation,
+  SimpleValidatorOutput,
 } from './util'
 import { MarkdownCode } from '../../ui/markdown'
 
@@ -63,8 +64,6 @@ export type InputFieldProps<DataType> = {
    * Optionally, you can also specify the corresponding error message.
    */
   required?: CoupledData
-
-  validatorsGenerator?: (values: DataType) => ValidatorBundle<DataType>
 
   /**
    * Validators to apply to values
@@ -296,7 +295,6 @@ export function useInputFieldInternal<DataType>(
     initialValue,
     cleanUp,
     validators = noValidators,
-    validatorsGenerator,
     containerClassName,
     expandHorizontally = true,
     validateOnChange = false,
@@ -457,14 +455,11 @@ export function useInputFieldInternal<DataType>(
         },
       }
 
-      // Identify the user-configured validators to use
-      const realValidators = getAsArray(
-        validatorsGenerator ? validatorsGenerator(cleanValue) : validators
-      ).filter((v): v is ValidatorFunction<DataType> => !!v)
+      const validatorsToUse = [...getAsArray(validators)]
 
-      // Go through all the validators
-      for (const validator of realValidators) {
-        // Do we have anything to worry about from this validator?
+      for (let i = 0; i < validatorsToUse.length; i++) {
+        const validator = validatorsToUse[i]
+        if (!validator) continue
         try {
           const validatorReport =
             hasError ||
@@ -473,7 +468,17 @@ export function useInputFieldInternal<DataType>(
               ? [] // If we already have an error, don't even bother with any more validators
               : await validator(cleanValue, { ...validatorControls, isStillFresh }, params.reason) // Execute the current validators
 
-          getAsArray(validatorReport) // Maybe we have a single report, maybe an array. Receive it as an array.
+          // Maybe we have a single report, maybe an array. Receive it as an array.
+          const reports = getAsArray(validatorReport)
+
+          // Handle the recursive reports
+          reports
+            .filter((report): report is ValidatorFunction<DataType> => typeof report === 'function')
+            .forEach(validator => validatorsToUse.push(validator))
+
+          // Handle the simple reports
+          reports
+            .filter((report): report is SimpleValidatorOutput => typeof report !== 'function')
             .map(report => wrapValidatorOutput(report, 'root', 'error')) // Wrap single strings to proper reports
             .forEach(message => {
               // Go through all the reports
@@ -516,7 +521,6 @@ export function useInputFieldInternal<DataType>(
       requiredMessage,
       validateEmptyOnChange,
       validators,
-      validatorsGenerator,
       visible,
     ]
   )

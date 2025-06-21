@@ -128,7 +128,6 @@ export function useNullableOneOfField<DataType extends HasToString>(
     placeholder,
     canSelectPlaceholder = true,
     validators,
-    validatorsGenerator,
     onValueChange,
     choices: realChoices,
     ...rest
@@ -162,9 +161,6 @@ export function useNullableOneOfField<DataType extends HasToString>(
       },
       required: expandCoupledData(props.required, [false, 'Please select an option!']),
       validators: validators as ValidatorBundle<InternalDataType<DataType>>,
-      validatorsGenerator: validatorsGenerator as (
-        values: InternalDataType<DataType>
-      ) => ValidatorBundle<InternalDataType<DataType>>,
     },
     {
       isEmpty: v => v === PLEASE_SELECT || isEmpty(v as DataType),

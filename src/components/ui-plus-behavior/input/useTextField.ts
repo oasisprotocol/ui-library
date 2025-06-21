@@ -63,7 +63,7 @@ export function useTextField(
   const props = (
     typeof rawProps === 'string' ? { name: rawProps, description, required } : rawProps
   ) as TextFieldProps
-  const { initialValue = '', validatorsGenerator, validators, autoFocus = false, onEnter, hideInput } = props
+  const { initialValue = '', validators, autoFocus = false, onEnter, hideInput } = props
 
   const [minLength, tooShortMessage] = expandCoupledData(props.minLength, [
     1,
@@ -80,27 +80,21 @@ export function useTextField(
     {
       ...props,
       initialValue,
-      validators: undefined,
       cleanUp: props.cleanUp ?? ((s: string) => s.trim()),
-      validatorsGenerator: value => [
-        // Check minimum length
-        minLength
-          ? () =>
-              value !== '' && value.length < minLength!
-                ? `tooShort: ${getNumberMessage(tooShortMessage, minLength)} (Currently: ${value.length})`
-                : undefined
-          : undefined,
+      validators: [
+        // Check minimum length, if configured
+        value =>
+          !!minLength && value !== '' && value.length < minLength!
+            ? `tooShort: ${getNumberMessage(tooShortMessage, minLength)} (Currently: ${value.length})`
+            : undefined,
 
-        // Check maximum length
-        maxLength
-          ? () =>
-              value !== '' && value.length > maxLength!
-                ? `tooLong: ${getNumberMessage(tooLongMessage, maxLength)} (Currently: ${value.length})`
-                : undefined
-          : undefined,
+        // Check maximum length, if configured
+        value =>
+          !!maxLength && value !== '' && value.length > maxLength!
+            ? `tooLong: ${getNumberMessage(tooLongMessage, maxLength)} (Currently: ${value.length})`
+            : undefined,
 
-        // Any custom validators
-        ...getAsArray(validatorsGenerator ? validatorsGenerator(value) : validators),
+        ...getAsArray(validators),
       ],
     },
     {

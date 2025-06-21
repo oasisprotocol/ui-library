@@ -1,5 +1,5 @@
 import { InputFieldControls, ValidationReason } from './useInputField'
-import { AsyncValidatorFunction, getAsArray, SingleOrArray, sleep } from './util'
+import { AsyncSimpleValidatorFunction, getAsArray, SingleOrArray, sleep } from './util'
 import { LabelProps } from './useLabel'
 
 export type FieldLike<DataType> = Readonly<
@@ -61,7 +61,7 @@ export const doFieldsHaveAnError = (fields: FieldArrayConfiguration): boolean =>
     .filter(field => field.visible)
     .some(field => field.hasProblems)
 
-const mockValidator: AsyncValidatorFunction<unknown> = async (_value, controls) => {
+const mockValidator: AsyncSimpleValidatorFunction<unknown> = async (_value, controls) => {
   const { isStillFresh } = controls
   if (isStillFresh && !isStillFresh()) return undefined
   await sleep(500)

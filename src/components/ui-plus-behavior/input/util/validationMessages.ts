@@ -21,13 +21,18 @@ export type MessageAtLocation = FieldMessage & { location: string }
 /**
  * Validators can return their findings on various detail levels
  */
-export type ValidatorOutput = MessageMaybeAtLocation | MarkdownCode | undefined
+export type SimpleValidatorOutput = MessageMaybeAtLocation | MarkdownCode | undefined
+
+/**
+ * Validators can return their findings on various detail levels
+ */
+export type RecursiveValidatorOutput<DataType> = ValidatorFunction<DataType>
 
 /**
  * Flush out validator messages with all details
  */
 export const wrapValidatorOutput = (
-  output: ValidatorOutput,
+  output: SimpleValidatorOutput,
   defaultLocation: string,
   defaultLevel: FieldMessageType
 ): MessageAtLocation | undefined => {
@@ -95,11 +100,11 @@ export const getDateMessage = (template: DateMessageTemplate, date: Date): strin
  * It should return undefined if everything is fine,
  * or return the found issues.
  */
-export type SyncValidatorFunction<DataType> = (
+export type SyncSimpleValidatorFunction<DataType> = (
   value: DataType,
   controls: ValidatorControls,
   reason: string
-) => SingleOrArray<ValidatorOutput>
+) => SingleOrArray<SimpleValidatorOutput>
 
 /**
  * An asynchronous validator function
@@ -107,10 +112,44 @@ export type SyncValidatorFunction<DataType> = (
  * It should return undefined if everything is fine,
  * or return the found issues.
  */
-export type AsyncValidatorFunction<DataType> = (
+export type AsyncSimpleValidatorFunction<DataType> = (
   value: DataType,
   controls: ValidatorControls,
   reason: string
-) => Promise<SingleOrArray<ValidatorOutput>>
+) => Promise<SingleOrArray<SimpleValidatorOutput>>
 
-export type ValidatorFunction<DataType> = SyncValidatorFunction<DataType> | AsyncValidatorFunction<DataType>
+export type SimpleValidatorFunction<DataType> =
+  | SyncSimpleValidatorFunction<DataType>
+  | AsyncSimpleValidatorFunction<DataType>
+
+/**
+ * A synchronous validator function
+ *
+ * It should return undefined if everything is fine,
+ * or return the found issues.
+ */
+export type SyncRecursiveValidatorFunction<DataType> = (
+  value: DataType,
+  controls: ValidatorControls,
+  reason: string
+) => SingleOrArray<RecursiveValidatorOutput<DataType>>
+
+/**
+ * An asynchronous validator function
+ *
+ * It should return undefined if everything is fine,
+ * or return the found issues.
+ */
+export type AsyncRecursiveValidatorFunction<DataType> = (
+  value: DataType,
+  controls: ValidatorControls,
+  reason: string
+) => Promise<SingleOrArray<RecursiveValidatorOutput<DataType>>>
+
+export type RecursiveValidatorFunction<DataType> =
+  | SyncRecursiveValidatorFunction<DataType>
+  | AsyncRecursiveValidatorFunction<DataType>
+
+export type ValidatorFunction<DataType> =
+  | SimpleValidatorFunction<DataType>
+  | RecursiveValidatorFunction<DataType>
