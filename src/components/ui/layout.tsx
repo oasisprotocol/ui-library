@@ -4,7 +4,7 @@ import { useIsMobile } from '../../hooks'
 import { Separator } from './separator'
 
 const Header: FC<PropsWithChildren> = ({ children }) => (
-  <header className="mt-12 md:mt-0 sticky md:static z-50 top-0">
+  <header className="mt-0 sticky md:static z-50 top-0">
     <nav className="md:h-16 px-3 md:px-6 py-2.5 bg-background border-b border-border shadow-sm flex items-center">
       <div className="w-full max-w-[96rem] mx-auto flex">{children}</div>
     </nav>
