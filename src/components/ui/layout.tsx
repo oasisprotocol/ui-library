@@ -2,6 +2,7 @@ import { FC, PropsWithChildren, ReactNode } from 'react'
 import { SidebarProvider, SidebarTrigger } from './sidebar'
 import { useIsMobile } from '../../hooks'
 import { Separator } from './separator'
+import { cn } from '../../lib/utils'
 
 const Header: FC<PropsWithChildren> = ({ children }) => (
   <header className="mt-0 sticky md:static z-50 top-0">
@@ -44,6 +45,7 @@ interface LayoutProps {
   headerBreadcrumbsContent?: ReactNode
   footerContent?: ReactNode
   sidebar?: ReactNode
+  className?: string
 }
 
 export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
@@ -52,11 +54,12 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   headerBreadcrumbsContent,
   footerContent,
   sidebar,
+  className,
 }) => {
   const isMobile = useIsMobile()
 
   const layoutContent = (
-    <div className="w-full max-w-[96rem] mx-auto flex flex-col min-h-[800px] md:max-h-dvh">
+    <div className={cn('w-full max-w-[96rem] mx-auto flex flex-col min-h-[800px] md:max-h-dvh', className)}>
       {headerContent && <Header>{headerContent}</Header>}
 
       {isMobile && (
