@@ -11,7 +11,11 @@ const TooltipContentNoArrow = ({
   ...props
 }: React.ComponentProps<typeof TooltipContent>) => {
   return (
-    <TooltipContent className="[&>span]:hidden" sideOffset={sideOffset} {...props}>
+    <TooltipContent
+      className="[&>span]:hidden text-pretty bg-base-popover border text-popover-foreground shadow-[0px_2px_4px_-1px_rgba(0,0,0,0.06)] shadow-md"
+      sideOffset={sideOffset}
+      {...props}
+    >
       {children}
     </TooltipContent>
   )
