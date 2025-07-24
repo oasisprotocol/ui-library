@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../../components/ui/tooltip.tsx'
+import { Tooltip } from '../../components/tooltip'
 import { Button } from '../../components/ui/button.tsx'
 import { expect, within } from 'storybook/test'
 
@@ -21,8 +21,14 @@ const meta: Meta<typeof Tooltip> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    defaultOpen: {
-      control: 'boolean',
+    title: {
+      control: 'text',
+      description: 'The content of the tooltip',
+    },
+    side: {
+      control: { type: 'radio' },
+      options: ['top', 'right', 'bottom', 'left'],
+      description: 'The preferred side of the trigger to render against',
     },
     open: {
       control: 'boolean',
@@ -38,70 +44,12 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    children: (
-      <>
-        <TooltipTrigger>
-          <Button variant="outline">Hover me</Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Tooltip content</p>
-        </TooltipContent>
-      </>
-    ),
+    title: 'Tooltip content',
+    children: <Button variant="outline">Hover me</Button>,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     const button = canvas.getAllByRole('button', { name: 'Hover me' })[0]
     await expect(button).toBeInTheDocument()
-  },
-}
-
-export const Variants: Story = {
-  args: {
-    children: (
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex justify-center gap-4">
-          <Tooltip>
-            <TooltipTrigger>
-              <Button variant="outline">Top</Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              <p>Tooltip on top</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-
-        <div className="flex justify-between gap-16">
-          <Tooltip>
-            <TooltipTrigger>
-              <Button variant="outline">Left</Button>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <p>Tooltip on left</p>
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger>
-              <Button variant="outline">Right</Button>
-            </TooltipTrigger>
-            <TooltipContent side="right">
-              <p>Tooltip on right</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-
-        <div className="flex justify-center gap-4">
-          <Tooltip>
-            <TooltipTrigger>
-              <Button variant="outline">Bottom</Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>Tooltip on bottom</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      </div>
-    ),
   },
 }
