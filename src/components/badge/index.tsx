@@ -48,5 +48,10 @@ type BadgeProps = Omit<React.ComponentProps<typeof BaseBadge>, 'variant'> & {
 }
 
 export const Badge = ({ variant, ...props }: BadgeProps) => {
-  return <BaseBadge className={cn(customBadgeVariants({ variant }))} {...props} />
+  return (
+    <BaseBadge
+      className={cn(customBadgeVariants({ variant }), 'px-2.5 py-0.5 rounded-full text-xs')}
+      {...props}
+    />
+  )
 }
