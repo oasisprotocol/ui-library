@@ -1,13 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  PaginationEllipsis,
-} from '../../components/ui/pagination.tsx'
+import { Pagination } from '../../components/pagination'
 import { expect, within } from 'storybook/test'
 
 const meta = {
@@ -25,6 +17,24 @@ const meta = {
       url: 'https://www.figma.com/design/dSsI9L6NSpNCorbSdiYd1k/Oasis-Design-System---shadcn-ui---Default---December-2024?node-id=65-516&p=f&t=LMIwZIurfLRROj6v-0',
     },
   },
+  argTypes: {
+    totalCount: {
+      description:
+        'The total number of records that match the query, i.e. the number of records the query would return with limit=infinity.',
+      control: 'number',
+    },
+    isTotalCountClipped: {
+      description: 'Whether total_count is clipped for performance reasons.',
+      control: 'number',
+    },
+    onPageChange: {
+      description: 'Optional callback function that is called when a page is selected.',
+    },
+    renderItem: {
+      description:
+        'Custom render function for pagination items. Used for router integration and translations.',
+    },
+  },
   tags: ['autodocs'],
 }
 
@@ -32,32 +42,14 @@ export default meta
 type Story = StoryObj<typeof Pagination>
 
 export const Default: Story = {
-  render: () => (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href="#" />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">15</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  ),
+  args: {
+    totalCount: 99,
+    selectedPage: 2,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: false,
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     const pagination = canvas.getByRole('navigation')
