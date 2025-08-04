@@ -12,6 +12,7 @@ import {
 import { Button } from '../../components/ui/button.tsx'
 import { expect, userEvent, within } from 'storybook/test'
 import { useState } from 'react'
+import { ImagePreviewDialog } from '../../components/dialog'
 
 const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
@@ -117,6 +118,24 @@ export const AlertDialog: Story = {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    )
+  },
+}
+
+export const ImagePreview: Story = {
+  render: function ImagePreviewDialogExample() {
+    const [open, setOpen] = useState(false)
+
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Open Image Preview</Button>
+        <ImagePreviewDialog
+          src="https://explorer.dev.oasis.io/Oasis%20Explorer%20-%20OpenGraph%20Banner.png"
+          title="Oasis Network"
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      </>
     )
   },
 }
