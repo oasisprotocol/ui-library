@@ -46,7 +46,11 @@ export const Badge = ({ variant, className, asChild = false, ...props }: BadgePr
     <BaseBadge
       asChild={asChild}
       variant={isCustomVariant ? undefined : variant}
-      className={cn(isCustomVariant && customBadgeVariants({ variant }), className)}
+      className={cn(
+        isCustomVariant && customBadgeVariants({ variant }),
+        'rounded-full px-2.5 py-0.5 text-xs',
+        className
+      )}
       {...props}
     />
   )
