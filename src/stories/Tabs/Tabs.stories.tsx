@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs.tsx'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/tabs'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Tabs> = {
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    defaultValue: 'account',
+    defaultValue: 'transactions',
     children: (
       <>
         <TabsList>

@@ -2,8 +2,9 @@
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
-
 :root {
+  --default-font-family: 'Inter', sans-serif;
+
   color-scheme: light;
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 6% 10%);
@@ -141,7 +142,7 @@
   }
 
   button:not([disabled]),
-  [role="button"]:not([disabled]) {
+  [role='button']:not([disabled]) {
     cursor: pointer;
   }
 }
