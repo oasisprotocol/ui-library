@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils'
 const Header: FC<PropsWithChildren> = ({ children }) => (
   <header className="mt-0 sticky md:static z-50 top-0">
     <nav className="md:h-16 px-3 md:px-6 py-2.5 bg-background border-b border-border shadow-sm flex items-center">
-      <div className="w-full max-w-[96rem] mx-auto flex">{children}</div>
+      <div className="w-full flex">{children}</div>
     </nav>
   </header>
 )
@@ -59,7 +59,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   const isMobile = useIsMobile()
 
   const layoutContent = (
-    <div className={cn('w-full max-w-[96rem] mx-auto flex flex-col min-h-[800px] md:max-h-dvh', className)}>
+    <div className={cn('w-full flex flex-col min-h-screen', className)}>
       {headerContent && <Header>{headerContent}</Header>}
 
       {isMobile && (
