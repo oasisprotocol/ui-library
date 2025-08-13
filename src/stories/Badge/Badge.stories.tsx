@@ -40,10 +40,10 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
+        Yes
         <CircleCheckIcon />
-        Verified
       </>
     ),
-    variant: 'default',
+    variant: 'success',
   },
 }
