@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils'
 const Header: FC<PropsWithChildren> = ({ children }) => (
   <header className="mt-0 sticky md:static z-50 top-0">
     <nav className="md:h-16 px-3 md:px-6 py-2.5 bg-background border-b border-border shadow-sm flex items-center">
-      <div className="w-full max-w-[96rem] mx-auto flex">{children}</div>
+      <div className="w-full flex">{children}</div>
     </nav>
   </header>
 )
@@ -59,7 +59,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   const isMobile = useIsMobile()
 
   const layoutContent = (
-    <div className={cn('w-full max-w-[96rem] mx-auto flex flex-col min-h-[800px] md:max-h-dvh', className)}>
+    <div className={cn('w-full flex flex-col min-h-screen', className)}>
       {headerContent && <Header>{headerContent}</Header>}
 
       {isMobile && (
@@ -67,19 +67,19 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
           {headerBreadcrumbsContent && (
             <HeaderBreadcrumbs hasSidebar={!!sidebar}>{headerBreadcrumbsContent}</HeaderBreadcrumbs>
           )}
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 min-h-0">{children}</main>
         </>
       )}
 
       {!isMobile && (
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden min-h-0">
           <div className="flex h-full">
             {sidebar && sidebar}
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 min-h-0">
               {headerBreadcrumbsContent && (
                 <HeaderBreadcrumbs hasSidebar={!!sidebar}>{headerBreadcrumbsContent}</HeaderBreadcrumbs>
               )}
-              <main className="flex-1 overflow-y-auto">{children}</main>
+              <main className="flex-1 overflow-y-auto min-h-0">{children}</main>
             </div>
           </div>
         </div>
