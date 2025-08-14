@@ -59,7 +59,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   const isMobile = useIsMobile()
 
   const layoutContent = (
-    <div className={cn('w-full flex flex-col min-h-screen', className)}>
+    <div className={cn('w-full flex flex-col min-h-[max(100vh,800px)]', className)}>
       {headerContent && <Header>{headerContent}</Header>}
 
       {isMobile && (
@@ -79,7 +79,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
               {headerBreadcrumbsContent && (
                 <HeaderBreadcrumbs hasSidebar={!!sidebar}>{headerBreadcrumbsContent}</HeaderBreadcrumbs>
               )}
-              <main className="flex-1 overflow-y-auto min-h-0">{children}</main>
+              <main className="flex-1 max-w-[96rem] mx-auto overflow-y-auto min-h-0">{children}</main>
             </div>
           </div>
         </div>
