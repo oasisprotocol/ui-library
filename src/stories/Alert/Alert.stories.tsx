@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert.tsx'
-import { InfoIcon } from 'lucide-react'
+import { Alert } from '../../components/alert'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Alert> = {
@@ -19,23 +18,33 @@ const meta: Meta<typeof Alert> = {
     },
   },
   tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['info', 'error', 'warning', 'error-filled', 'warning-filled'],
+      description: 'The variant of the alert',
+      table: {
+        defaultValue: { summary: 'info' },
+      },
+    },
+    sticky: {
+      control: 'boolean',
+      description: 'Makes the alert stick to the top of its container',
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
+  },
 }
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Info: Story = {
   args: {
-    children: (
-      <>
-        <InfoIcon />
-        <AlertTitle>Information</AlertTitle>
-        <AlertDescription>
-          Alert description provides additional information about the alert.
-        </AlertDescription>
-      </>
-    ),
-    variant: 'default',
+    children: <>Alert description provides additional information about the alert.</>,
+    variant: 'info',
+    title: '',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
