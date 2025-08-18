@@ -21,7 +21,7 @@ const meta: Meta<typeof Alert> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['info', 'error', 'warning', 'error-filled', 'warning-filled'],
+      options: ['info', 'success', 'success-filled', 'warning', 'warning-filled', 'error', 'error-filled'],
       description: 'The variant of the alert',
       table: {
         defaultValue: { summary: 'info' },

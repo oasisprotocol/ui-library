@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { CircleAlert, Info, TriangleAlert } from 'lucide-react'
+import { CircleAlert, CircleCheck, Info, TriangleAlert } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/utils'
 import { Alert as BaseAlert, AlertDescription, AlertTitle } from '../ui/alert'
@@ -13,6 +13,8 @@ const alertVariants = cva('p-2 md:p-4 gap-1 rounded-lg border', {
       'error-filled': 'bg-destructive/10 border-destructive dark:border-[#7F2424] text-destructive',
       'warning-filled':
         'bg-yellow-50 border-warning/50 text-warning dark:bg-yellow-900/10 dark:border-yellow-900/50 dark:text-yellow-500',
+      success: 'bg-background border-success text-success',
+      'success-filled': 'bg-success/10 border-success text-success',
     },
   },
   defaultVariants: {
@@ -30,9 +32,11 @@ type AlertProps = {
 export const Alert: FC<AlertProps> = ({ className, title, variant = 'info', sticky = false, children }) => {
   const iconMap = {
     info: Info,
+    success: CircleCheck,
+    'success-filled': CircleCheck,
     error: CircleAlert,
-    warning: TriangleAlert,
     'error-filled': CircleAlert,
+    warning: TriangleAlert,
     'warning-filled': TriangleAlert,
   }
   const Icon = iconMap[variant || 'info']
