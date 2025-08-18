@@ -79,7 +79,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
               {headerBreadcrumbsContent && (
                 <HeaderBreadcrumbs hasSidebar={!!sidebar}>{headerBreadcrumbsContent}</HeaderBreadcrumbs>
               )}
-              <main className="flex-1 max-w-[96rem] mx-auto overflow-y-auto min-h-0">{children}</main>
+              <main className="flex-1 w-full max-w-[96rem] mx-auto overflow-y-auto min-h-0">{children}</main>
             </div>
           </div>
         </div>
