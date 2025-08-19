@@ -5,7 +5,20 @@ import {
   TabsTrigger as BaseTabsTrigger,
   TabsContent as BaseTabsContent,
 } from '../ui/tabs'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/utils'
+
+const tabsListVariants = cva('p-1 radius-md', {
+  variants: {
+    variant: {
+      default: 'h-10 bg-muted',
+      layout: 'w-full h-12 rounded-b-none bg-border',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
 type TabsProps = React.ComponentProps<typeof BaseTabs>
 
@@ -15,10 +28,10 @@ export const Tabs = ({ className, children, ...props }: TabsProps) => (
   </BaseTabs>
 )
 
-type TabsListProps = React.ComponentProps<typeof BaseTabsList>
+type TabsListProps = React.ComponentProps<typeof BaseTabsList> & VariantProps<typeof tabsListVariants>
 
-export const TabsList = ({ className, children, ...props }: TabsListProps) => (
-  <BaseTabsList className={cn('p-1 h-10 bg-muted radius-lg', className)} {...props}>
+export const TabsList = ({ className, children, variant, ...props }: TabsListProps) => (
+  <BaseTabsList className={cn(tabsListVariants({ variant }), className)} {...props}>
     {children}
   </BaseTabsList>
 )
