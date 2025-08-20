@@ -41,21 +41,18 @@ export const Default: Story = {
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
           <TabsTrigger value="events">Events</TabsTrigger>
           <TabsTrigger value="transfers">Transfers</TabsTrigger>
+          <TabsTrigger value="disabled" disabled>
+            Disabled
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="transactions">
-          <div className="p-4 border rounded-lg">
-            <p className="text-sm text-muted-foreground mt-2">TabsContent 1</p>
-          </div>
+          <p className="p-4 text-sm text-muted-foreground mt-2">TabsContent 1</p>
         </TabsContent>
         <TabsContent value="events">
-          <div className="p-4 border rounded-lg">
-            <p className="text-sm text-muted-foreground mt-2">TabsContent 2</p>
-          </div>
+          <p className="p-4 text-sm text-muted-foreground mt-2">TabsContent 2</p>
         </TabsContent>
         <TabsContent value="transfers">
-          <div className="p-4 border rounded-lg">
-            <p className="text-sm text-muted-foreground mt-2">TabsContent 3</p>
-          </div>
+          <p className="p-4 text-sm text-muted-foreground mt-2">TabsContent 3</p>
         </TabsContent>
       </>
     ),
@@ -67,28 +64,25 @@ export const Default: Story = {
   },
 }
 
-export const Disabled: Story = {
-  args: {
-    defaultValue: 'account',
-    children: (
-      <>
-        <TabsList>
+export const LayoutVariant: Story = {
+  render: () => (
+    <div className="space-y-8 w-[600px]">
+      <Tabs defaultValue="transactions">
+        <TabsList variant="layout">
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
-          <TabsTrigger value="events" disabled>
-            Events
-          </TabsTrigger>
+          <TabsTrigger value="events">Events</TabsTrigger>
         </TabsList>
         <TabsContent value="transactions">
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border rounded-b-md">
             <p className="text-sm text-muted-foreground mt-2">TabsContent 1</p>
           </div>
         </TabsContent>
         <TabsContent value="events">
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border rounded-b-md">
             <p className="text-sm text-muted-foreground mt-2">TabsContent 2</p>
           </div>
         </TabsContent>
-      </>
-    ),
-  },
+      </Tabs>
+    </div>
+  ),
 }
