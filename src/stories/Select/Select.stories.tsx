@@ -18,6 +18,7 @@ const options = [
   { value: 'rofl_register', label: 'ROFL Register' },
   { value: 'rofl_remove', label: 'ROFL Remove' },
   { value: 'rofl_update', label: 'ROFL Update' },
+  { value: '', label: 'Unknown' },
 ]
 
 export const Default: Story = {
