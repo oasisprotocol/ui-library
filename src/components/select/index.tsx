@@ -57,7 +57,7 @@ export const Select = <T extends string = string>({
         defaultValue={normalizeValue(defaultValue)}
         disabled={disabled}
       >
-        <SelectTrigger className="text-foreground font-medium data-[size=default]:h-10 w-full bg-background focus-visible:ring-ring/20">
+        <SelectTrigger className="[&_svg:not([class*='text-'])]:text-foreground [&_svg]:opacity-100 text-foreground font-medium data-[size=default]:h-10 w-full bg-background focus-visible:ring-ring/20">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
