@@ -122,6 +122,34 @@ export const AlertDialog: Story = {
   },
 }
 
+export const LongDialog: Story = {
+  render: function LongDialogExample() {
+    return (
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="outline">Open Long Dialog</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Sample Dialog</DialogTitle>
+            <DialogDescription>
+              {Array.from({length: 100}).map((_v, i) =>
+                <p key={i}>Sample description text goes here.</p>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose>
+              <Button variant="outline">Close</Button>
+            </DialogClose>
+            <Button type="submit">Ok</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    )
+  },
+}
+
 export const ImagePreview: Story = {
   render: function ImagePreviewDialogExample() {
     const [open, setOpen] = useState(false)
