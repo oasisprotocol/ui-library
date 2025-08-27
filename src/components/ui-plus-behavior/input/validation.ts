@@ -1,0 +1,75 @@
+import { InputFieldControls, ValidationReason } from './useInputField'
+import { AsyncSimpleValidatorFunction, getAsArray, SingleOrArray, sleep } from './util'
+import { LabelProps } from './useLabel'
+
+export type FieldLike<DataType> = Readonly<
+  Pick<
+    Readonly<InputFieldControls<DataType>>,
+    'name' | 'type' | 'visible' | 'validate' | 'hasProblems' | 'value'
+  >
+>
+
+export type FieldArrayConfiguration = SingleOrArray<FieldLike<unknown>>[]
+
+// export interface TypeAndValue<DataType> {
+//   type: string
+//   value: DataType
+// }
+
+export type FieldMapConfiguration = { [name: string]: FieldLike<unknown> }
+
+/**
+ * Go through a group of fields, and do full validation.
+ *
+ * Returns true if there was an error.
+ */
+export const validateFields = async (
+  fields: FieldArrayConfiguration | FieldMapConfiguration,
+  /**
+   * Why are we doing this?
+   *
+   * Behavior will be different depending on the reason.
+   * For example, we will clean values on form submission, but not when validating on change.
+   */
+  reason: ValidationReason = 'submit',
+
+  /**
+   * Tester for value freshness.
+   *
+   * Validation will be interrupted if the returned value changes to false.
+   */
+  isStillFresh?: () => boolean
+): Promise<boolean> => {
+  // Get a flattened list of fields
+  const allFields = Array.isArray(fields)
+    ? fields.flatMap(config => getAsArray(config))
+    : Object.values(fields)
+  let hasError = false
+  for (const field of allFields) {
+    const isFieldProblematic = await field.validate({ reason, isStillFresh })
+    hasError = hasError || isFieldProblematic
+  }
+  return hasError
+}
+
+/**
+ * Check whether any of these fields has an error
+ */
+export const doFieldsHaveAnError = (fields: FieldArrayConfiguration): boolean =>
+  fields
+    .flatMap(config => getAsArray(config))
+    .filter(field => field.visible)
+    .some(field => field.hasProblems)
+
+const mockValidator: AsyncSimpleValidatorFunction<unknown> = async (_value, controls) => {
+  const { isStillFresh } = controls
+  if (isStillFresh && !isStillFresh()) return undefined
+  await sleep(500)
+  return undefined
+}
+
+export const addMockValidation: Partial<LabelProps> = {
+  showValidationSuccess: true,
+  validators: mockValidator,
+  validateOnChange: true,
+}
