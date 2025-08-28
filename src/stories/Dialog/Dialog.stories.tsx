@@ -133,9 +133,9 @@ export const LongDialog: Story = {
           <DialogHeader>
             <DialogTitle>Sample Dialog</DialogTitle>
             <DialogDescription>
-              {Array.from({length: 100}).map((_v, i) =>
+              {Array.from({ length: 100 }).map((_v, i) => (
                 <p key={i}>Sample description text goes here.</p>
-              )}
+              ))}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
