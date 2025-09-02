@@ -7,10 +7,10 @@ export const typographyVariants = cva('', {
   variants: {
     variant: {
       h1: 'text-3xl font-semibold text-foreground',
-      h2: 'text-2xl font-semibold text-foreground',
-      h3: 'text-xl font-semibold text-foreground',
-      h4: 'text-lg font-semibold  text-foreground',
-      p: 'leading-7',
+      h2: 'text-2xl leading-8 font-semibold text-foreground',
+      h3: 'text-xl leading-7 font-semibold text-foreground',
+      h4: 'text-sm leading-5 font-semibold text-foreground',
+      p: 'text-sm leading-5 text-foreground',
       blockquote: 'mt-6 border-l-2 pl-6 italic',
       lead: 'text-xl text-muted-foreground',
       large: 'text-lg font-semibold',
