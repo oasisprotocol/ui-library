@@ -13,8 +13,9 @@ export const typographyVariants = cva('', {
       p: 'text-sm leading-5 text-foreground',
       blockquote: 'mt-6 border-l-2 pl-6 italic',
       lead: 'text-xl text-muted-foreground',
-      large: 'text-lg font-semibold',
-      small: 'text-sm font-medium leading-none',
+      large: 'text-lg leading-none',
+      small: 'text-sm leading-none',
+      xsmall: 'text-xs leading-none',
     },
     textColor: {
       muted: 'text-muted-foreground',
