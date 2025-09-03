@@ -21,7 +21,7 @@ const meta: Meta<typeof Typography> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['h1', 'h2', 'h3', 'h4', 'p', 'blockquote', 'lead', 'large', 'small'],
+      options: ['h1', 'h2', 'h3', 'h4', 'p', 'blockquote', 'lead', 'large', 'small', 'xsmall'],
     },
     textColor: {
       control: 'select',
