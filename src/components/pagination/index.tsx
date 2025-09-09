@@ -443,5 +443,5 @@ function PaginationNext({ className, linkComponent, ...props }: React.ComponentP
     </PaginationLink>
   )
 }
-export { Pagination }
+export { Pagination, PaginationLink, PaginationNext, PaginationPrevious }
 export type { PaginationItemProps }
