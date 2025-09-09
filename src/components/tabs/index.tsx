@@ -8,17 +8,20 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/utils'
 
-const tabsListVariants = cva('p-1 radius-md', {
-  variants: {
-    variant: {
-      default: 'h-10 bg-muted',
-      layout: 'w-full h-12 rounded-b-none bg-border',
+const tabsListVariants = cva(
+  'p-1 radius-md justify-start whitespace-nowrap overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+  {
+    variants: {
+      variant: {
+        default: 'h-10 bg-muted',
+        layout: 'w-full h-12 rounded-b-none bg-border',
+      },
     },
-  },
-  defaultVariants: {
-    variant: 'default',
-  },
-})
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+)
 
 type TabsProps = React.ComponentProps<typeof BaseTabs>
 
