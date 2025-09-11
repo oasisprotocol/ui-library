@@ -303,6 +303,10 @@ function Pagination({
       }
     }
 
+    if (isTotalCountClipped) {
+      items.push(<PaginationEllipsis key="ellipsis-right-total-count-clipped" />)
+    }
+
     const nextItem: PaginationItemProps = {
       type: 'next',
       page: selectedPage < count ? selectedPage + 1 : undefined,

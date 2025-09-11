@@ -25,7 +25,7 @@ const meta = {
     },
     isTotalCountClipped: {
       description: 'Whether total_count is clipped for performance reasons.',
-      control: 'number',
+      control: 'boolean',
     },
     onPageChange: {
       description: 'Optional callback function that is called when a page is selected.',
