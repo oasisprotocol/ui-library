@@ -2,8 +2,16 @@ import * as React from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 import { cn } from '../../lib/utils'
-import { PaginationContent, PaginationEllipsis, PaginationItem } from '../ui/pagination'
+import {
+  PaginationContent,
+  PaginationEllipsis as BasePaginationEllipsis,
+  PaginationItem,
+} from '../ui/pagination'
 import { buttonVariants } from '../ui/button'
+
+const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<typeof BasePaginationEllipsis>) => {
+  return <BasePaginationEllipsis className={cn('max-md:size-5', className)} {...props} />
+}
 
 type PaginationActionType = 'first' | 'last' | 'page' | 'next' | 'prev'
 
@@ -401,7 +409,7 @@ function PaginationLink<C extends React.ElementType = 'a'>({
       data-active={selected}
       data-disabled={disabled}
       className={cn(
-        'cursor-pointer',
+        'max-md:size-8',
         buttonVariants({
           variant: selected ? 'outline' : 'ghost',
           size: 'icon',
