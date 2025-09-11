@@ -25,7 +25,7 @@ const meta = {
     },
     isTotalCountClipped: {
       description: 'Whether total_count is clipped for performance reasons.',
-      control: 'number',
+      control: 'boolean',
     },
     onPageChange: {
       description: 'Optional callback function that is called when a page is selected.',
@@ -56,5 +56,60 @@ export const Default: Story = {
     await expect(pagination).toBeInTheDocument()
     const activePage = canvas.getByText('2')
     await expect(activePage).toHaveAttribute('aria-current', 'page')
+  },
+}
+
+export const OnePage: Story = {
+  args: {
+    totalCount: 6,
+    selectedPage: 1,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: false,
+  },
+}
+
+export const TwoPages: Story = {
+  args: {
+    totalCount: 12,
+    selectedPage: 1,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: false,
+  },
+}
+
+export const FirstOfMany: Story = {
+  args: {
+    totalCount: 614,
+    selectedPage: 1,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: false,
+  },
+}
+
+export const FirstWithClippedTotal: Story = {
+  args: {
+    totalCount: 1000,
+    selectedPage: 1,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: true,
+  },
+}
+
+export const WithClippedTotalWithinRange: Story = {
+  args: {
+    totalCount: 1000,
+    selectedPage: 10,
+    rowsPerPage: 10,
+    showFirstPageButton: true,
+    showLastPageButton: true,
+    isTotalCountClipped: true,
   },
 }
