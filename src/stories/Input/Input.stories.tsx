@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Input } from '../../components/ui/input.tsx'
 import { Label } from '../../components/ui/label.tsx'
 import { expect, within, userEvent } from 'storybook/test'
-import { SearchIcon } from 'lucide-react'
+import { SearchIcon, X as CloseIcon } from 'lucide-react'
 import { SearchInput as SearchInputCmp } from '../../components/input'
 import { useState } from 'react'
 
@@ -48,11 +48,24 @@ export const Default: Story = {
   },
 }
 
-export const WithIcon: Story = {
+export const WithManualIcon: Story = {
   render: () => (
     <div className="relative w-[300px]">
       <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input type="search" placeholder="Search..." className="pl-8" />
+    </div>
+  ),
+}
+
+export const WithStartAndEndDecoration: Story = {
+  render: () => (
+    <div className="w-[300px]">
+      <Input
+        type="search"
+        placeholder="Search..."
+        startDecoration={<SearchIcon className="h-4 w-4 text-muted-foreground" />}
+        endDecoration={<CloseIcon className="h-4 w-4 text-muted-foreground" />}
+      />
     </div>
   ),
 }
