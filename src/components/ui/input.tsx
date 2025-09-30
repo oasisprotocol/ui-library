@@ -1,9 +1,58 @@
 import * as React from 'react'
 
 import { cn } from '../../lib/utils'
+import { useEffect, useRef, useState } from 'react'
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
-  return (
+interface OwnProps {
+  // Something that needs to appear before the start, outside the field
+  beforeStartDecoration?: React.ReactNode
+
+  // Something that needs to appear at the start, inside the field
+  startDecoration?: React.ReactNode
+
+  // Something that needs to appear at the end, inside the field
+  endDecoration?: React.ReactNode
+
+  // Something that needs to appear after the end, outside the field
+  afterEndDecoration?: React.ReactNode
+}
+
+function Input({
+  className,
+  type,
+  beforeStartDecoration,
+  startDecoration,
+  endDecoration,
+  afterEndDecoration,
+  ...props
+}: React.ComponentProps<'input'> & OwnProps) {
+  const startDecorationRef = useRef<HTMLSpanElement>(null)
+  const [startDecorationWidth, setStartDecorationWidth] = useState<number>(0)
+  const endDecorationRef = useRef<HTMLSpanElement>(null)
+  const [endDecorationWidth, setEndDecorationWidth] = useState<number>(0)
+
+  useEffect(() => {
+    if (!!startDecoration && !!startDecorationRef.current) {
+      const rect = startDecorationRef.current.getBoundingClientRect()
+      setStartDecorationWidth(rect.width)
+    } else {
+      setStartDecorationWidth(0)
+    }
+  }, [startDecoration, startDecorationRef.current])
+
+  useEffect(() => {
+    if (!!endDecoration && !!endDecorationRef.current) {
+      const rect = endDecorationRef.current.getBoundingClientRect()
+      setEndDecorationWidth(rect.width)
+    } else {
+      setEndDecorationWidth(0)
+    }
+  }, [endDecoration, endDecorationRef.current]) // Re-run if content changes
+
+  const startStyle = !!startDecorationWidth ? { paddingLeft: `${16 + startDecorationWidth}px` } : {}
+  const endStyle = !!endDecorationWidth ? { paddingRight: `${16 + endDecorationWidth}px` } : {}
+
+  const input = (
     <input
       type={type}
       data-slot="input"
@@ -13,8 +62,31 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
         className
       )}
+      style={{ ...startStyle, ...endStyle }}
       {...props}
     />
+  )
+
+  // const hasInsideDecorations = !!startDecoration || !!endDecoration
+  // const hasOutsideDecorations = !!beforeStartDecoration || !!afterEndDecoration
+  return (
+    <>
+      {beforeStartDecoration}
+      <div className={'relative'}>
+        {!!startDecoration && (
+          <span className={'absolute left-2.5 top-2.5'} ref={startDecorationRef}>
+            {startDecoration}
+          </span>
+        )}
+        {input}
+        {!!endDecoration && (
+          <span className={'absolute right-2.5 top-2.5'} ref={endDecorationRef}>
+            {endDecoration}
+          </span>
+        )}
+      </div>
+      {afterEndDecoration}
+    </>
   )
 }
 
