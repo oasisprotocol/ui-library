@@ -60,7 +60,7 @@ export const Select = <T extends string = string>({
         <SelectTrigger className="[&_svg:not([class*='text-'])]:text-foreground [&_svg]:opacity-100 text-foreground font-medium data-[size=default]:h-10 w-full bg-background focus-visible:ring-ring/20">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="z-[99999999]">
           {options.map(option => {
             const itemValue = option.value === '' ? EMPTY_VALUE_PLACEHOLDER : String(option.value)
             return (
