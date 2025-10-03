@@ -22,7 +22,7 @@ type TableCellProps = React.ComponentProps<typeof BaseTableCell>
 export const TableCell = ({ className, children, ...props }: TableCellProps) => (
   <BaseTableCell
     className={cn(
-      'p-4 self-stretch justify-center text-foreground text-sm font-medium leading-none',
+      'p-4 self-stretch justify-center text-foreground text-sm font-normal leading-none',
       className
     )}
     {...props}
