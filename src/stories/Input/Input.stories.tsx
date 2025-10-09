@@ -3,6 +3,8 @@ import { Input } from '../../components/ui/input.tsx'
 import { Label } from '../../components/ui/label.tsx'
 import { expect, within, userEvent } from 'storybook/test'
 import { SearchIcon } from 'lucide-react'
+import { SearchInput as SearchInputCmp } from '../../components/input'
+import { useState } from 'react'
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
@@ -63,4 +65,17 @@ export const Invalid: Story = {
       <p className="text-sm text-destructive">This field is required</p>
     </div>
   ),
+}
+
+export const SearchInput: Story = {
+  render: function SearchInputExample() {
+    const [value, setValue] = useState('')
+    const hint = value && value.length < 3 ? 'Try searching for "Oasis"' : ''
+
+    return (
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <SearchInputCmp placeholder="Search..." hint={hint} value={value} onChange={setValue} />
+      </div>
+    )
+  },
 }
