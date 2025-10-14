@@ -11,6 +11,7 @@ type SearchInputProps = {
   placeholder?: string
   onChange: (value: string) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  size?: 'default' | 'lg'
   value: string
   hint?: string
 }
@@ -22,6 +23,7 @@ export const SearchInput: FC<SearchInputProps> = ({
   onChange,
   onKeyDown,
   placeholder,
+  size,
   value,
 }) => {
   const [showHint, setShowHint] = useState(false)
@@ -48,7 +50,7 @@ export const SearchInput: FC<SearchInputProps> = ({
             aria-label="Search"
             autoComplete="off"
             autoFocus={autoFocus}
-            className="pl-10 pr-10"
+            className={cn('pl-10 pr-10', size === 'lg' ? 'h-10' : 'h-9')}
             onChange={event => onChange(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder={placeholder ?? 'Search'}
