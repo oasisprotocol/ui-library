@@ -50,7 +50,7 @@ export const SearchInput: FC<SearchInputProps> = ({
             aria-label="Search"
             autoComplete="off"
             autoFocus={autoFocus}
-            className={cn('pl-10 pr-10 bg-background', size === 'lg' ? 'h-10' : 'h-9')}
+            className={cn('text-sm pl-10 pr-10 bg-background', size === 'lg' ? 'h-10' : 'h-9')}
             onChange={event => onChange(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder={placeholder ?? 'Search'}
