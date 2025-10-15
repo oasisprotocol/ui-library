@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, ReactNode, FocusEvent, KeyboardEvent } from 'react'
 import { Search, X, TriangleAlert } from 'lucide-react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -10,9 +10,13 @@ type SearchInputProps = {
   className?: string
   placeholder?: string
   onChange: (value: string) => void
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void
+  size?: 'default' | 'lg'
   value: string
-  hint?: string
+  hint?: ReactNode
+  warning?: ReactNode
 }
 
 export const SearchInput: FC<SearchInputProps> = ({
@@ -21,13 +25,17 @@ export const SearchInput: FC<SearchInputProps> = ({
   hint,
   onChange,
   onKeyDown,
+  onFocus,
+  onBlur,
   placeholder,
+  size,
   value,
+  warning,
 }) => {
   const [showHint, setShowHint] = useState(false)
 
   useEffect(() => {
-    if (hint) {
+    if (hint || warning) {
       const timer = setTimeout(() => {
         setShowHint(true)
       }, 1000)
@@ -36,7 +44,7 @@ export const SearchInput: FC<SearchInputProps> = ({
     } else {
       setShowHint(false)
     }
-  }, [hint])
+  }, [hint, warning])
 
   return (
     <Popover open={showHint}>
@@ -48,9 +56,11 @@ export const SearchInput: FC<SearchInputProps> = ({
             aria-label="Search"
             autoComplete="off"
             autoFocus={autoFocus}
-            className="pl-10 pr-10"
+            className={cn('text-sm pl-10 pr-10 bg-background', size === 'lg' ? 'h-10' : 'h-9')}
             onChange={event => onChange(event.target.value)}
             onKeyDown={onKeyDown}
+            onFocus={onFocus}
+            onBlur={onBlur}
             placeholder={placeholder ?? 'Search'}
             spellCheck={false}
             type="text"
@@ -73,13 +83,20 @@ export const SearchInput: FC<SearchInputProps> = ({
       </PopoverTrigger>
       <PopoverContent
         style={{ width: 'var(--radix-popover-trigger-width)' }}
-        className="p-2 flex gap-2 text-warning text-xs items-center"
+        className="p-2 text-xs items-center"
         side="bottom"
         align="start"
         onOpenAutoFocus={e => e.preventDefault()}
       >
-        <TriangleAlert className="h-5 w-5 min-w-5" />
-        {hint}
+        <div className="flex flex-col gap-2">
+          {warning && (
+            <div className="flex gap-2 text-warning">
+              <TriangleAlert className="h-5 w-5 min-w-5" />
+              {warning}
+            </div>
+          )}
+          {hint && <div className="text-muted-foreground">{hint}</div>}
+        </div>
       </PopoverContent>
     </Popover>
   )
