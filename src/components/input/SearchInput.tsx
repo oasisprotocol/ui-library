@@ -11,6 +11,8 @@ type SearchInputProps = {
   placeholder?: string
   onChange: (value: string) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
   size?: 'default' | 'lg'
   value: string
   hint?: string
@@ -22,6 +24,8 @@ export const SearchInput: FC<SearchInputProps> = ({
   hint,
   onChange,
   onKeyDown,
+  onFocus,
+  onBlur,
   placeholder,
   size,
   value,
@@ -53,6 +57,8 @@ export const SearchInput: FC<SearchInputProps> = ({
             className={cn('text-sm pl-10 pr-10 bg-background', size === 'lg' ? 'h-10' : 'h-9')}
             onChange={event => onChange(event.target.value)}
             onKeyDown={onKeyDown}
+            onFocus={onFocus}
+            onBlur={onBlur}
             placeholder={placeholder ?? 'Search'}
             spellCheck={false}
             type="text"
