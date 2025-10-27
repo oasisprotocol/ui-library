@@ -4,7 +4,7 @@ import { Card as BaseCard, CardTitle as BaseCardTitle, CardContent as BaseCardCo
 import { cn } from '../../lib/utils'
 export { CardFooter, CardHeader, CardAction, CardDescription } from '../ui/card'
 
-const cardVariants = cva('rounded-sm', {
+const cardVariants = cva('rounded-md shadow-none', {
   variants: {
     variant: {
       default: '',
