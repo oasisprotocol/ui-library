@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../components/ui/card.tsx'
+} from '../../components/cards'
 import { Button } from '../../components/ui/button.tsx'
 import { expect, within } from 'storybook/test'
 
@@ -65,7 +65,7 @@ export const WithAction: Story = {
             </Button>
           </CardAction>
         </CardHeader>
-        <CardContent>View your notifications here.</CardContent>
+        <CardContent>View and interact with your notifications here.</CardContent>
         <CardFooter>
           <Button variant="outline" className="w-full">
             View all
