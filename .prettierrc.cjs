@@ -1,6 +1,6 @@
 // @ts-check
 
-/** @type { import("prettier").ConfigType } */
+/** @type { import("prettier").Config } */
 module.exports = {
   printWidth: 110,
   tabWidth: 2,
