@@ -23,7 +23,7 @@ const TooltipContentNoArrow = ({
       sideOffset={sideOffset}
       {...props}
     >
-      {children}
+      <div className="inline-block">{children}</div>
     </TooltipContent>
   )
 }
