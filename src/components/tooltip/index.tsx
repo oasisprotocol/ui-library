@@ -5,6 +5,7 @@ import { cn } from '../../lib/utils'
 type TooltipProps = React.ComponentProps<typeof BaseTooltip> & {
   className?: string
   title: React.ReactNode
+  disabled?: boolean
 } & Pick<React.ComponentProps<typeof TooltipContent>, 'side' | 'sideOffset' | 'align'>
 
 const TooltipContentNoArrow = ({
@@ -27,7 +28,20 @@ const TooltipContentNoArrow = ({
   )
 }
 
-export const Tooltip = ({ className, title, children, side, sideOffset, align, ...props }: TooltipProps) => {
+export const Tooltip = ({
+  className,
+  title,
+  children,
+  side,
+  sideOffset,
+  align,
+  disabled = false,
+  ...props
+}: TooltipProps) => {
+  if (disabled) {
+    return <>{children}</>
+  }
+
   return (
     <BaseTooltip {...props}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
