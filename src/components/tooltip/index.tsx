@@ -35,7 +35,7 @@ export const Tooltip = ({
   side,
   sideOffset,
   align,
-  disabled = false,
+  disabled = !title,
   ...props
 }: TooltipProps) => {
   if (disabled) {
