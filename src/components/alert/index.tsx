@@ -53,7 +53,7 @@ export const Alert: FC<AlertProps> = ({ className, title, variant = 'info', stic
     >
       <Icon
         className={cn('w-4 h-4 min-w-4 min-h-4', {
-          'mt-0.5': title,
+          'mt-0.5': !!title,
           '-mt-1': !title && sticky,
         })}
       />
