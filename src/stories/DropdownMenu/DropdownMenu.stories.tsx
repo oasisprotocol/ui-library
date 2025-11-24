@@ -14,8 +14,8 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from '../../components/ui/dropdown-menu.tsx'
-import { Button } from '../../components/ui/button.tsx'
+} from '../../components'
+import { Button } from '../../components'
 import { expect, within, userEvent } from 'storybook/test'
 
 const meta: Meta<typeof DropdownMenu> = {

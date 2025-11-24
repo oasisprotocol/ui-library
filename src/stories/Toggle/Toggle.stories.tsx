@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Toggle } from '../../components/ui/toggle.tsx'
+import { Toggle } from '../../components'
 import { BoldIcon } from 'lucide-react'
 import { expect, within, userEvent } from 'storybook/test'
 

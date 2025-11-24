@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Input } from '../../components/ui/input.tsx'
-import { Label } from '../../components/ui/label.tsx'
+import { Input } from '../../components'
+import { Label } from '../../components'
 import { expect, within, userEvent } from 'storybook/test'
 import { SearchIcon } from 'lucide-react'
 import { SearchInput as SearchInputCmp } from '../../components/input'

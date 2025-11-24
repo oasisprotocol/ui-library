@@ -1,10 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '../../components/ui/accordion.tsx'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components'
 import { expect } from 'storybook/test'
 
 const meta = {
