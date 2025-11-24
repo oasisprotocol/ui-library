@@ -7,7 +7,7 @@ import {
   MenubarShortcut,
   MenubarTrigger,
   MenubarCheckboxItem,
-} from '../../components/ui/menubar.tsx'
+} from '../../components'
 import { expect, within, userEvent } from 'storybook/test'
 
 const meta: Meta<typeof Menubar> = {

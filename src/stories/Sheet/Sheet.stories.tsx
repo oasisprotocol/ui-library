@@ -7,10 +7,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../../components/ui/sheet.tsx'
-import { Button } from '../../components/ui/button.tsx'
-import { Input } from '../../components/ui/input.tsx'
-import { Label } from '../../components/ui/label.tsx'
+} from '../../components'
+import { Button } from '../../components'
+import { Input } from '../../components'
+import { Label } from '../../components'
 
 type SheetStoryProps = React.ComponentProps<typeof Sheet> & {
   side?: 'left' | 'right' | 'top' | 'bottom'
