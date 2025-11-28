@@ -1,9 +1,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import '@fontsource-variable/inter';
 
 @custom-variant dark (&:is(.dark *));
 :root {
-  --default-font-family: 'Inter', sans-serif;
+  --default-font-family: 'Inter Variable', sans-serif;
 
   color-scheme: light;
   --background: hsl(0 0% 100%);
