@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Label } from '../../components/ui/label.tsx'
-import { Input } from '../../components/ui/input.tsx'
+import { Label } from '../../components'
+import { Input } from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Label> = {

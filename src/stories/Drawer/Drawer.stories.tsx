@@ -8,8 +8,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '../../components/ui/drawer.tsx'
-import { Button } from '../../components/ui/button.tsx'
+} from '../../components'
+import { Button } from '../../components'
 import { expect, userEvent, within } from 'storybook/test'
 
 const meta = {

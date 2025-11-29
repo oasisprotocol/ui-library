@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { Calendar } from '../../components/ui/calendar.tsx'
+import { Calendar } from '../../components'
 import { expect, within } from 'storybook/test'
 
 export type CalendarProps = React.ComponentProps<typeof Calendar>

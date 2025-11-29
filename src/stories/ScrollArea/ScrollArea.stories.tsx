@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { ScrollArea } from '../../components/ui/scroll-area.tsx'
+import { ScrollArea } from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta = {

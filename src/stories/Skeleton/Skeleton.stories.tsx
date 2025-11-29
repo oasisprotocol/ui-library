@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Skeleton } from '../../components/ui/skeleton.tsx'
+import { Skeleton } from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Skeleton> = {
