@@ -2,6 +2,20 @@
 @import 'tw-animate-css';
 @import '@fontsource-variable/inter';
 
+/**
+ * Fixes display of "x" next to numbers, e.g. "rofl1qze0hqur8xf2…wu23×0zp" "×" https://rsms.me/inter/#features
+ * Simple `font-variant-ligatures: no-contextual;` would worsen ":" and "=" vertical alignment.
+ */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range: U+0078; /* x */
+}
+
 @custom-variant dark (&:is(.dark *));
 :root {
   --default-font-family: 'Inter Variable', sans-serif;
@@ -140,8 +154,6 @@
 
   body {
     @apply bg-background text-foreground;
-    /* Fixes display of "x" next to numbers, e.g. "rofl1qze0hqur8xf2…wu23×0zp" "×" https://rsms.me/inter/#features */
-    font-feature-settings: 'calt' 0;
   }
 
   button:not([disabled]),
