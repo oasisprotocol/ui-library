@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '../../components/ui/breadcrumb.tsx'
+} from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Breadcrumb> = {

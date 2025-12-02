@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite'
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../components/ui/input-otp.tsx'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../components'
 
 const meta = {
   title: 'Components/InputOTP',

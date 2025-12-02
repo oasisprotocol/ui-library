@@ -1,12 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '../../components/ui/carousel.tsx'
-import { Card, CardContent } from '../../components/ui/card.tsx'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../components'
+import { Card, CardContent } from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Carousel> = {

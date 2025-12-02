@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../components/cards'
-import { Button } from '../../components/ui/button.tsx'
+} from '../../components'
+import { Button } from '../../components'
 import { expect, within } from 'storybook/test'
 
 const meta: Meta<typeof Card> = {
