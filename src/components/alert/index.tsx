@@ -7,7 +7,7 @@ import { Alert as BaseAlert, AlertDescription, AlertTitle } from '../ui/alert'
 const alertVariants = cva('p-2 md:p-4 gap-1 rounded-lg border', {
   variants: {
     variant: {
-      info: 'bg-background border-border',
+      info: 'bg-background border-border border-border',
       error: 'bg-background border-destructive dark:border-[#7F2424] text-destructive',
       warning: 'bg-background border-warning/50 text-warning',
       'error-filled': 'bg-destructive/10 border-destructive dark:border-[#7F2424] text-destructive',
