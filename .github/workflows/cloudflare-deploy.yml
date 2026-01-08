@@ -15,8 +15,8 @@ jobs:
   cloudflare-pages:
     # This name appears in GitHub's Checks API.
     name: cloudflare-deploy
-    # Do not trigger job for dependency update bot.
-    if: github.actor != 'renovate[bot]'
+    # Do not trigger job for dependency update bots.
+    if: github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
