@@ -26,10 +26,23 @@ function Input({
   afterEndDecoration,
   ...props
 }: React.ComponentProps<'input'> & OwnProps) {
+  const beforeStartDecorationRef = useRef<HTMLSpanElement>(null)
+  const [beforeStartDecorationWidth, setBeforeStartDecorationWidth] = useState<number>(0)
   const startDecorationRef = useRef<HTMLSpanElement>(null)
   const [startDecorationWidth, setStartDecorationWidth] = useState<number>(0)
   const endDecorationRef = useRef<HTMLSpanElement>(null)
   const [endDecorationWidth, setEndDecorationWidth] = useState<number>(0)
+  const afterEndDecorationRef = useRef<HTMLSpanElement>(null)
+  const [afterEndDecorationWidth, setAfterEndDecorationWidth] = useState<number>(0)
+
+  useEffect(() => {
+    if (!!beforeStartDecoration && !!beforeStartDecorationRef.current) {
+      const rect = beforeStartDecorationRef.current.getBoundingClientRect()
+      setBeforeStartDecorationWidth(rect.width)
+    } else {
+      setBeforeStartDecorationWidth(0)
+    }
+  }, [beforeStartDecoration, beforeStartDecorationRef.current])
 
   useEffect(() => {
     if (!!startDecoration && !!startDecorationRef.current) {
@@ -49,17 +62,47 @@ function Input({
     }
   }, [endDecoration, endDecorationRef.current]) // Re-run if content changes
 
-  const startStyle = !!startDecorationWidth ? { paddingLeft: `${16 + startDecorationWidth}px` } : {}
-  const endStyle = !!endDecorationWidth ? { paddingRight: `${16 + endDecorationWidth}px` } : {}
+  useEffect(() => {
+    if (!!afterEndDecoration && !!afterEndDecorationRef.current) {
+      const rect = afterEndDecorationRef.current.getBoundingClientRect()
+      setAfterEndDecorationWidth(rect.width)
+    } else {
+      setAfterEndDecorationWidth(0)
+    }
+  }, [afterEndDecoration, afterEndDecorationRef.current]) // Re-run if content changes
 
-  // const hasInsideDecorations = !!startDecoration || !!endDecoration
-  // const hasOutsideDecorations = !!beforeStartDecoration || !!afterEndDecoration
+  const startDecoratorStyle = beforeStartDecorationWidth
+    ? { paddingLeft: `${8 + beforeStartDecorationWidth}px` }
+    : {}
+
+  const startStyle =
+    !!startDecorationWidth || beforeStartDecorationWidth
+      ? { paddingLeft: `${16 + beforeStartDecorationWidth + startDecorationWidth}px` }
+      : {}
+
+  const endStyle =
+    !!endDecorationWidth || !afterEndDecorationWidth
+      ? { paddingRight: `${16 + endDecorationWidth + afterEndDecorationWidth}px` }
+      : {}
+
+  const endDecoratorStyle = afterEndDecorationWidth
+    ? { paddingRight: `${8 + afterEndDecorationWidth}px` }
+    : {}
+
   return (
     <>
-      {beforeStartDecoration}
       <div className={'relative'}>
+        {!!beforeStartDecoration && (
+          <span
+            className={'absolute left-2.5 top-2.5 pr-2.5'}
+            style={{ borderRight: '2px solid black' }}
+            ref={beforeStartDecorationRef}
+          >
+            {beforeStartDecoration}
+          </span>
+        )}
         {!!startDecoration && (
-          <span className={'absolute left-2.5 top-2.5'} ref={startDecorationRef}>
+          <span className={'absolute left-2.5 top-2.5'} style={startDecoratorStyle} ref={startDecorationRef}>
             {startDecoration}
           </span>
         )}
@@ -76,12 +119,20 @@ function Input({
           {...props}
         />
         {!!endDecoration && (
-          <span className={'absolute right-2.5 top-2.5'} ref={endDecorationRef}>
+          <span className={'absolute right-2.5 top-2.5'} style={endDecoratorStyle} ref={endDecorationRef}>
             {endDecoration}
           </span>
         )}
+        {!!afterEndDecoration && (
+          <span
+            className={'absolute right-2.5 top-2.5 pl-2.5'}
+            style={{ borderLeft: '2px solid black' }}
+            ref={afterEndDecorationRef}
+          >
+            {afterEndDecoration}
+          </span>
+        )}
       </div>
-      {afterEndDecoration}
     </>
   )
 }

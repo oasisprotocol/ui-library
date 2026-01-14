@@ -57,13 +57,39 @@ export const WithManualIcon: Story = {
   ),
 }
 
-export const WithStartAndEndDecoration: Story = {
+export const WithInternalStartAndEndDecoration: Story = {
   render: () => (
     <div className="w-[300px]">
       <Input
         placeholder="Search..."
         startDecoration={<SettingsIcon className="h-4 w-4 text-muted-foreground" />}
         endDecoration={<LaunchIcon className="h-4 w-4 text-muted-foreground" />}
+      />
+    </div>
+  ),
+}
+
+export const WithExternalStartAndEndDecoration: Story = {
+  render: () => (
+    <div className="w-[300px]">
+      <Input
+        placeholder="Search..."
+        beforeStartDecoration={<SettingsIcon className="h-4 w-4 text-muted-foreground" />}
+        afterEndDecoration={<LaunchIcon className="h-4 w-4 text-muted-foreground" />}
+      />
+    </div>
+  ),
+}
+
+export const WithDoubleStartAndEndDecoration: Story = {
+  render: () => (
+    <div className="w-[300px]">
+      <Input
+        placeholder="Search..."
+        beforeStartDecoration={<SettingsIcon className="h-4 w-4 text-muted-foreground" />}
+        startDecoration={<SettingsIcon className="h-4 w-4" />}
+        endDecoration={<LaunchIcon className="h-4 w-4" />}
+        afterEndDecoration={<LaunchIcon className="h-4 w-4 text-muted-foreground" />}
       />
     </div>
   ),
