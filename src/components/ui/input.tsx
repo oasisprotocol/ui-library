@@ -42,7 +42,7 @@ function Input({
     } else {
       setBeforeStartDecorationWidth(0)
     }
-  }, [beforeStartDecoration, beforeStartDecorationRef.current])
+  }, [beforeStartDecoration])
 
   useEffect(() => {
     if (!!startDecoration && !!startDecorationRef.current) {
@@ -51,7 +51,7 @@ function Input({
     } else {
       setStartDecorationWidth(0)
     }
-  }, [startDecoration, startDecorationRef.current])
+  }, [startDecoration])
 
   useEffect(() => {
     if (!!endDecoration && !!endDecorationRef.current) {
@@ -60,7 +60,7 @@ function Input({
     } else {
       setEndDecorationWidth(0)
     }
-  }, [endDecoration, endDecorationRef.current]) // Re-run if content changes
+  }, [endDecoration])
 
   useEffect(() => {
     if (!!afterEndDecoration && !!afterEndDecorationRef.current) {
@@ -69,7 +69,7 @@ function Input({
     } else {
       setAfterEndDecorationWidth(0)
     }
-  }, [afterEndDecoration, afterEndDecorationRef.current]) // Re-run if content changes
+  }, [afterEndDecoration])
 
   const startDecoratorStyle = beforeStartDecorationWidth
     ? { paddingLeft: `${8 + beforeStartDecorationWidth}px` }
