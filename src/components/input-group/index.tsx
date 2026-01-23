@@ -1,1 +1,1 @@
-export * from '../ui/input-otp'
+export * from '../ui/input-group'
