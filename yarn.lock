@@ -3153,19 +3153,19 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
-"@vitest/browser@^3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@vitest/browser/-/browser-3.1.3.tgz#985f12382bc4aeddbffa4209850ab5cbaaa43e60"
-  integrity sha512-Dgyez9LbHJHl9ObZPo5mu4zohWLo7SMv8zRWclMF+dxhQjmOtEP0raEX13ac5ygcvihNoQPBZXdya5LMSbcCDQ==
+"@vitest/browser@^3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@vitest/browser/-/browser-3.2.5.tgz#e49cbf823c8eb4f4cdd46642f21d5216d428d679"
+  integrity sha512-+nja5Xt7FIbHqO/HstCUN5Y77qlRice9IV29jphviusIJA7hKgePSAP7iSz6XSolKFKh5/hEyMfz3fVDgwym+A==
   dependencies:
     "@testing-library/dom" "^10.4.0"
     "@testing-library/user-event" "^14.6.1"
-    "@vitest/mocker" "3.1.3"
-    "@vitest/utils" "3.1.3"
+    "@vitest/mocker" "3.2.5"
+    "@vitest/utils" "3.2.5"
     magic-string "^0.30.17"
     sirv "^3.0.1"
     tinyrainbow "^2.0.0"
-    ws "^8.18.1"
+    ws "^8.18.2"
 
 "@vitest/coverage-v8@^3.1.3":
   version "3.1.3"
@@ -3224,6 +3224,15 @@
     estree-walker "^3.0.3"
     magic-string "^0.30.17"
 
+"@vitest/mocker@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@vitest/mocker/-/mocker-3.2.5.tgz#2f5d64456c41ac3494ead2a61a7936ce96382643"
+  integrity sha512-pSn90JZwcoavFhHqH7zyHdsvtPHgdVjAipgvU1go35ALm3j3hSQwlS51RkSTdFb+IEIiZAC5QZr9vmjicpG2Ig==
+  dependencies:
+    "@vitest/spy" "3.2.5"
+    estree-walker "^3.0.3"
+    magic-string "^0.30.17"
+
 "@vitest/pretty-format@3.1.3", "@vitest/pretty-format@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-3.1.3.tgz#760b9eab5f253d7d2e7dcd28ef34570f584023d4"
@@ -3235,6 +3244,13 @@
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-3.2.4.tgz#3c102f79e82b204a26c7a5921bf47d534919d3b4"
   integrity sha512-IVNZik8IVRJRTr9fxlitMKeJeXFFFN0JaB9PHPGQ8NKQbGpfjlTx9zO4RefN8gp7eqjNy8nyK3NZmBzOPeIxtA==
+  dependencies:
+    tinyrainbow "^2.0.0"
+
+"@vitest/pretty-format@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-3.2.5.tgz#33c51108e618536f3d0e33c7d96d416e339e8975"
+  integrity sha512-lgiuL0rvqzUHGcfaETD0OeLLhOyXEYypWX408BHVmi2m+fBQyeb8Rm106mcYSfF89U6CP3UycLJ4Y3S5cGnhKg==
   dependencies:
     tinyrainbow "^2.0.0"
 
@@ -3269,6 +3285,13 @@
   dependencies:
     tinyspy "^4.0.3"
 
+"@vitest/spy@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@vitest/spy/-/spy-3.2.5.tgz#7c0c119784ba24c69ba715e56fa02fcddc1fa0ed"
+  integrity sha512-DtLO2Cx9IZpjfnOf6pjZ/48boCwVFd5TQZXkXEN6iUoghtljx7ZOBptnnNrjQXN5oXXhmPS4v2kIYo9nY29aGA==
+  dependencies:
+    tinyspy "^4.0.3"
+
 "@vitest/utils@3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@vitest/utils/-/utils-3.1.3.tgz#4f31bdfd646cd82d30bfa730d7410cb59d529669"
@@ -3284,6 +3307,15 @@
   integrity sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==
   dependencies:
     "@vitest/pretty-format" "3.2.4"
+    loupe "^3.1.4"
+    tinyrainbow "^2.0.0"
+
+"@vitest/utils@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@vitest/utils/-/utils-3.2.5.tgz#7b24a8c5b06b683f33235fedb266db78190fd236"
+  integrity sha512-54Z5mdFlTYRl5DH4NTe+eFR8S5mOPZu4Gew0KzGUtPKiSsUfD1xlfpnOTHkKocSb/En6E/lpyTo+aI7n9tAYGg==
+  dependencies:
+    "@vitest/pretty-format" "3.2.5"
     loupe "^3.1.4"
     tinyrainbow "^2.0.0"
 
@@ -8949,10 +8981,10 @@ write-file-atomic@^5.0.1:
     imurmurhash "^0.1.4"
     signal-exit "^4.0.1"
 
-ws@^8.18.0, ws@^8.18.1:
-  version "8.18.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.2.tgz#42738b2be57ced85f46154320aabb51ab003705a"
-  integrity sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==
+ws@^8.18.0, ws@^8.18.2:
+  version "8.21.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.21.0.tgz#012e413fc07429945121b0c153158c4343086951"
+  integrity sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==
 
 wsl-utils@^0.1.0:
   version "0.1.0"
